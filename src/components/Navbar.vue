@@ -1,67 +1,53 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark transparent fixed-top">
       <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
       <div class="container">
         <div class="logo-area">
           <a class="navbar-brand" href="#">
-            <img src="../assets/logo.png" alt />
+            <img src="../assets/logo.svg" alt />
           </a>
         </div>
-      </div>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >Dropdown</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ml-lg-3">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">首頁</router-link>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">書籍</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">音樂</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">交流會</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav mr-auto tmp">
+            <form class="form-inline my-2 my-lg-0">
+              <input
+                class="form-control mr-sm-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </ul>
+        </div>
       </div>
     </nav>
   </div>
@@ -98,21 +84,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.marquee {
-  background: #333;
-  color: #fff;
-  padding: 2px 5%;
-  display: flex;
-  marquee {
-  }
-  span {
-    display: inline-block;
-    padding: 0px 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-}
 .logo-area {
   width: 92px;
   position: relative;
@@ -121,7 +92,7 @@ export default {
     height: 5vw;
     min-height: 59px;
     background-color: transparent;
-    // background-image: url("../assets/logo-s.png");
+    background-image: url("../assets/logo.svg");
     background-size: contain;
     background-repeat: no-repeat;
     width: 100%;
@@ -133,12 +104,12 @@ export default {
 
   @media (min-width: 991px) {
     .navbar-brand {
-      background: #fcf3d7;
+      // background: #fcf3d7;
       background-image: none;
       position: absolute;
       border-radius: 0 0 10px 10px;
-      // top: -30px;
-      // padding: 20px;
+      top: -30px;
+      padding: 20px;
       height: auto;
       img {
         display: block;
@@ -170,7 +141,7 @@ export default {
     outline: none;
   }
 }
-.account-nav {
+.tmp {
   display: flex;
   justify-content: center;
   margin-bottom: 0;
@@ -198,14 +169,15 @@ export default {
   }
 }
 .fixed-top {
-  top: 25px;
+  top: 0px;
   transition: top 0.1s ease-in-out;
 }
 .scrolled {
-  top: 0 !important;
+  background-color: #fff;
+  // background-image: url("../assets/img/paper_bg.jpg");
   @media (min-width: 992px) {
     .logo-area {
-      width: 59px;
+      width: 72px;
       .navbar-brand {
         padding: 10px;
       }

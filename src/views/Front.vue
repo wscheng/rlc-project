@@ -18,3 +18,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+/* .front {
+  background: #fcf3d7;
+} */
+</style>>
