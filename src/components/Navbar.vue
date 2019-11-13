@@ -33,7 +33,7 @@
               <a class="nav-link" href="#">音樂</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">交流會</a>
+              <a class="nav-link" href="#">活動</a>
             </li>
           </ul>
           <ul class="navbar-nav mr-auto tmp">
@@ -46,7 +46,45 @@
               />
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <i class="fas fa-shopping-cart"></i>
           </ul>
+        </div>
+      </div>
+
+      <div class="dropdown ml-auto">
+        <button class="btn btn-sm btn-cart" data-toggle="dropdown" data-flip="false">
+          <font-awesome-icon
+            :icon="['fas', 'shopping-cart']"
+            size="2x"
+            :style="{ color: '#565656' }"
+          />
+          <i class="fas fa-shopping-cart text-dark fa-2x"></i>
+          <span class="badge badge-pill badge-danger">1</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <div
+          class="dropdown-menu dropdown-menu-right p-3"
+          style="min-width: 300px"
+          data-offset="400"
+        >
+          <h6>已選擇商品</h6>
+          <table class="table table-sm">
+            <tbody>
+              <tr>
+                <td class="align-middle text-center">
+                  <a href="#" class="text-muted">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  </a>
+                </td>
+                <td class="align-middle">title</td>
+                <td class="align-middle">1 unit</td>
+                <td class="align-middle text-right"></td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-primary btn-block">
+            <i class="fa fa-cart-plus" aria-hidden="true"></i> 結帳去
+          </button>
         </div>
       </div>
     </nav>
@@ -174,6 +212,8 @@ export default {
 }
 .scrolled {
   background-color: #fff;
+  box-shadow: 0 1px 13px 2px rgba(0, 0, 0, 0.11);
+
   // background-image: url("../assets/img/paper_bg.jpg");
   @media (min-width: 992px) {
     .logo-area {
@@ -183,5 +223,17 @@ export default {
       }
     }
   }
+}
+
+.btn-cart {
+  background-color: transparent;
+  position: relative;
+}
+
+// cart badge position
+.btn-cart .badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
 }
 </style>

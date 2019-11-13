@@ -8,16 +8,16 @@
 </template>
 
 <style lang="scss" scoped>
-$pink: #ff6670;
-$red: #fe878f;
+$blackboard: #565656;
+$oxblood: #76323f;
 $yellow: #ffe26d;
 $blue: #50c3de;
 .footer {
-  background-color: $red;
+  background-color: $oxblood;
   padding: 30px 0;
   color: #fff;
   font-size: 16px;
-  border-top: 6px solid $yellow;
+  //   border-top: 6px solid $blackboard;
   text-align: center;
   a {
     font-size: 36px;
