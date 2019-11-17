@@ -15,13 +15,9 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  beforeCreate: function() {
+    document.body.classList.add("body-front");
   }
 };
 </script>
-
-
-<style scoped>
-/* .front {
-  background: #fcf3d7;
-} */
-</style>>

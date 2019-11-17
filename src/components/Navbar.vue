@@ -1,12 +1,11 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark transparent fixed-top">
-      <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
         <div class="logo-area">
-          <a class="navbar-brand" href="#">
+          <router-link class="navbar-brand" to="/">
             <img src="../assets/logo.svg" alt />
-          </a>
+          </router-link>
         </div>
 
         <button
@@ -27,7 +26,7 @@
               <router-link class="nav-link" to="/">首頁</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">書籍</a>
+              <router-link class="nav-link" to="/books">書籍</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">音樂</a>
@@ -71,6 +70,7 @@
           <table class="table table-sm">
             <tbody>
               <tr>
+                <!-- <div v-for="cart in carts" :key="cart.product_id">{{cart.product.title}}</div> -->
                 <td class="align-middle text-center">
                   <a href="#" class="text-muted">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -102,6 +102,7 @@ export default {
   //   }
   // },
   created() {
+    // this.$store.dispatch("getCarts");
     //選單效果
     $(window).on("scroll", function() {
       var scrollValue = $(window).scrollTop();
@@ -159,13 +160,19 @@ export default {
 .navbar-nav {
   font-size: 16px;
   .nav-link {
-    color: #fff;
+    // TODO make the better hover animation effect and color
+    color: #565656;
     transition: all 0.2s;
+    transition: 0.3s ease-in-out;
     padding: 8px 15px;
     text-align: center;
+    &:hover {
+      color: black;
+    }
     &.router-link-exact-active {
-      color: #555;
+      color: black;
       font-weight: bold;
+      border-bottom: 1px solid black;
     }
     @media (max-width: 992px) {
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
@@ -174,7 +181,7 @@ export default {
 }
 .navbar-dark .navbar-toggler {
   border: none;
-  color: #fff;
+  color: black;
   &:focus {
     outline: none;
   }
@@ -207,8 +214,8 @@ export default {
   }
 }
 .fixed-top {
-  top: 0px;
-  transition: top 0.1s ease-in-out;
+  // top: 0px;
+  // transition: top 0.1s ease-in-out;
 }
 .scrolled {
   background-color: #fff;

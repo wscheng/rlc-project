@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Front from "../views/Front.vue";
 import Home from "../views/Home.vue";
+import Books from "../views/Books.vue";
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,10 @@ const routes = [
     path: "/",
     // name: "Front",
     component: Front,
-    children: [{ path: "/", name: "Home", component: Home }]
+    children: [
+      { path: "/", name: "Home", component: Home },
+      { path: "/books", name: "Books", component: Books }
+    ]
   }
   // {
   //   path: "/about",
