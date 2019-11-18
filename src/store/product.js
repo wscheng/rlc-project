@@ -45,8 +45,8 @@ export default {
         } else {
           console.error("cant get products");
         }
+        context.commit("setLoading", false, { root: true });
       });
-      context.commit("setLoading", false, { root: true });
     }
   }
 };

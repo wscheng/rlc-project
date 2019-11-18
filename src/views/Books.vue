@@ -1,7 +1,5 @@
 <template>
   <div class="books" style="background-color: #f1ede9;">
-    <loading :active.sync="isLoading"></loading>
-
     <div class="page-banner">
       <h1>書籍 | Books</h1>
     </div>
