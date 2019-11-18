@@ -225,14 +225,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getProducts"]),
+    ...mapActions("productModule", ["getProducts"]),
     changeCategory(category) {
       this.currentCategory = category;
       this.getProducts(this.currentCategory.id);
     }
   },
   computed: {
-    ...mapState(["isLoading", "products"])
+    ...mapState("productModule", ["products"])
   },
   created() {
     this.getProducts(this.currentCategory.id);
