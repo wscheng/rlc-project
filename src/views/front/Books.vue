@@ -184,7 +184,10 @@
                   v-for="item in products"
                   :key="item.id"
                 >
-                  <router-link class="card-link" to="/book/{}}">
+                  <router-link
+                    class="card-link"
+                    :to="{ name: 'Book', params: { productId: item.id } }"
+                  >
                     <div class="card border-0 shadow-sm mb-5">
                       <div
                         class="book-cover"
@@ -456,7 +459,7 @@ export default {
   }
 }
 .page-banner {
-  background-image: url("../assets/img/banner1.jpg");
+  background-image: url("../../assets/img/banner1.jpg");
   height: 30vw;
 }
 .menu-area {

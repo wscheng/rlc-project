@@ -14,7 +14,9 @@
                   <div class="col">
                     <h1>書店</h1>
                     <h2>靜態的門扉</h2>
-                    <p>在現在紛擾的生活中，當無人共處時，書本在這裡裡與你相伴。詞藻、哲理、遇見他人的世界</p>
+                    <p>
+                      在現在紛擾的生活中，當無人共處時，書本在這裡裡與你相伴。詞藻、哲理、遇見他人的世界
+                    </p>
                     <button>找書</button>
                   </div>
                 </div>
@@ -84,9 +86,8 @@
     <br />
     <br />
     <br />
-    <br />This is test home content
-    <br />This is test home content
-    <br />This is test home content
+    <br />This is test home content <br />This is test home content <br />This
+    is test home content
     <br />
   </div>
 </template>
@@ -107,7 +108,6 @@ export default {
     async _initSwiper() {
       let Swiper = await swiperAsync; //非同步載入的
       /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
-      console.warn("XXXX", Swiper);
       // const container = this.$refs.swiper; //ref='swiper'
       const config = {
         //swiper的引數配置
@@ -149,7 +149,10 @@ export default {
 </script>
 
 <style scoped>
-@import "../../node_modules/swiper/css/swiper.min.css";
+/*  if we don't use ./, ../ or @ in import path, this means node_modules/
+thus, @import "../../../node_modules/swiper/css/swiper.min.css";  can be
+shorten to @import "swiper/css/swiper.min.css"; */
+@import "../../../node_modules/swiper/css/swiper.min.css";
 .inner {
   flex: 1 1 auto;
 }
@@ -190,7 +193,8 @@ export default {
 .banner1 {
   height: 620px;
   /* min-height: 350px; */
-  background-image: url("../assets/img/banner1.jpg");
+  /* TODO check if there is better way to shorten the ../../ path */
+  background-image: url("../../assets/img/banner1.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -199,7 +203,7 @@ export default {
   height: 620px;
   /* height: 35vw;
   min-height: 350px; */
-  background-image: url("../assets/img/banner2.jpg");
+  background-image: url("../../assets/img/banner2.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -208,7 +212,7 @@ export default {
   height: 620px;
   /* height: 35vw;
   min-height: 350px; */
-  background-image: url("../assets/img/banner3.jpg");
+  background-image: url("../../assets/img/banner3.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -250,7 +254,7 @@ export default {
   margin-right: 50px;
 }
 .swiper-button-prev:after {
-  content: url("../assets/img/prev.png");
+  content: url("../../assets/img/prev.png");
   margin-left: 30px;
   opacity: 75%;
 }
@@ -259,7 +263,7 @@ export default {
 }
 
 .swiper-button-next:after {
-  content: url("../assets/img/next.png");
+  content: url("../../assets/img/next.png");
   margin-right: 30px;
   opacity: 75%;
 }
