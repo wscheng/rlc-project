@@ -15,7 +15,8 @@ import {
   faDollarSign,
   faArrowCircleUp,
   faList,
-  faThLarge
+  faThLarge,
+  faHeart
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -27,7 +28,8 @@ library.add(
   faDollarSign,
   faArrowCircleUp,
   faList,
-  faThLarge
+  faThLarge,
+  faHeart
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

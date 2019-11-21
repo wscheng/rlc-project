@@ -15,8 +15,9 @@
                   <a
                     href="#"
                     @click.prevent="changeCategory(category)"
-                    :class="{active: category.id == currentCategory.id }"
-                  >{{category.title}}</a>
+                    :class="{ active: category.id == currentCategory.id }"
+                    >{{ category.title }}</a
+                  >
                 </li>
               </ul>
             </div>
@@ -32,19 +33,27 @@
                     <li class="breadcrumb-item">
                       <router-link to="/books">書籍</router-link>
                     </li>
-                    <li class="breadcrumb-item active">{{currentCategory.title}}</li>
-                    <li class="breadcrumb-item active" v-if="filterText">搜尋 {{ filterText }}</li>
+                    <li class="breadcrumb-item active">
+                      {{ currentCategory.title }}
+                    </li>
+                    <li class="breadcrumb-item active" v-if="filterText">
+                      搜尋 {{ filterText }}
+                    </li>
                   </ol>
                 </nav>
               </div>
 
-              <div class="col-lg-4 menu-optional-area">
+              <div class="col-lg-4 menu-optional-area mb-2">
                 <div
                   class="btn-toolbar justify-content-end"
                   role="toolbar"
                   aria-label="Toolbar with button groups"
                 >
-                  <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <div
+                    class="btn-group mr-2"
+                    role="group"
+                    aria-label="First group"
+                  >
                     <button
                       type="button"
                       class="btn btn-secondary dropdown-toggle"
@@ -78,13 +87,25 @@
                       </button>
                     </div>
                   </div>
-                  <div class="btn-group" role="group" aria-label="Second group">
-                    <button type="button" class="btn btn-secondary active">
+                  <div
+                    class="btn-group btn-group-toggle"
+                    role="group"
+                    data-toggle="buttons"
+                  >
+                    <label
+                      class="btn btn-secondary active"
+                      @click="changeDisplayStyle('grid')"
+                    >
+                      <input type="radio" name="options" checked />
                       <font-awesome-icon :icon="['fas', 'th-large']" />
-                    </button>
-                    <button type="button" class="btn btn-secondary">
+                    </label>
+                    <label
+                      class="btn btn-secondary"
+                      @click="changeDisplayStyle('list')"
+                    >
+                      <input type="radio" name="options" />
                       <font-awesome-icon :icon="['fas', 'list']" />
-                    </button>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -155,37 +176,153 @@
                   </div>
                 </nav>
               </div>-->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-6" v-for="item in products" :key="item.id">
-                <div class="card border-0 shadow-sm mb-5">
-                  <div class="pro-pic" :style="{backgroundImage: `url(${item.imageUrl})`}">
-                    <span class="badge badge-warning float-right ml-2">{{ item.category }}</span>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <a href="#" class="text-dark">{{ item.title }}</a>
-                    </h5>
-                    <div class="d-flex justify-content-between align-items-baseline">
-                      <div class="h5" v-if="!item.origin_price">{{ item.price | currency }} 元</div>
-                      <del class="h6" v-if="item.origin_price">原價 {{ item.origin_price | currency }}</del>
-                      <div class="h5" v-if="item.origin_price">特價 {{ item.price | currency }}</div>
+
+              <!-- GridView display -->
+              <template v-if="displayStyle == 'grid'">
+                <div
+                  class="col-xl-4 col-lg-4 col-md-4 col-6"
+                  v-for="item in products"
+                  :key="item.id"
+                >
+                  <router-link class="card-link" to="/book/{}}">
+                    <div class="card border-0 shadow-sm mb-5">
+                      <div
+                        class="book-cover"
+                        :style="{ backgroundImage: `url(${item.imageUrl})` }"
+                      >
+                        <span class="badge badge-warning float-right ml-2">{{
+                          item.category
+                        }}</span>
+                        <div class="hover-card-actions">
+                          <!-- boostrap bug: border-right border-white won't work! -->
+                          <button
+                            type="button"
+                            title="加入我的最愛"
+                            class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
+                            @click="addtoCart(item.id)"
+                            :style="{
+                              color: item.isFavorite ? 'red' : 'white'
+                            }"
+                          >
+                            <font-awesome-icon :icon="['fas', 'heart']" />
+                          </button>
+                          <button
+                            type="button"
+                            title="加入購物車"
+                            class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
+                            @click="addtoCart(item.id)"
+                          >
+                            <font-awesome-icon
+                              :icon="['fas', 'shopping-cart']"
+                              :style="{ color: 'white' }"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          <a href="#" class="text-dark">{{ item.title }}</a>
+                        </h5>
+                        <div
+                          class="d-flex justify-content-between align-items-baseline"
+                        >
+                          <div class="h5" v-if="!item.origin_price">
+                            {{ item.price | currency }} 元
+                          </div>
+                          <del class="h6" v-if="item.origin_price"
+                            >原價 {{ item.origin_price | currency }}</del
+                          >
+                          <div class="h5" v-if="item.origin_price">
+                            特價 {{ item.price | currency }}
+                          </div>
+                        </div>
+                      </div>
+                      <!-- TODO display only on mobile device(those can't hover device) -->
+                      <div class="card-footer d-flex">
+                        <router-link
+                          class="btn btn-outline-secondary btn-sm"
+                          :to="'/item/' + item.id"
+                          >查看更多</router-link
+                        >
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger btn-sm ml-auto"
+                          @click="addtoCart(item.id)"
+                        >
+                          <i
+                            class="fas fa-spinner fa-spin"
+                            v-if="item.id === status.loadingItem"
+                          ></i>
+                          加到購物車
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="card-footer d-flex">
-                    <router-link
-                      class="btn btn-outline-secondary btn-sm"
-                      :to="'/item/'+item.id"
-                    >查看更多</router-link>
-                    <button
-                      type="button"
-                      class="btn btn-outline-danger btn-sm ml-auto"
-                      @click="addtoCart(item.id)"
-                    >
-                      <i class="fas fa-spinner fa-spin" v-if="item.id === status.loadingItem"></i>
-                      加到購物車
-                    </button>
-                  </div>
+                  </router-link>
                 </div>
-              </div>
+              </template>
+              <!-- ListView display -->
+              <template v-if="displayStyle == 'list'">
+                <div class="col-12 list-group">
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">List group item heading</h5>
+                      <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">
+                      Donec id elit non mi porta gravida at eget metus. Maecenas
+                      sed diam eget risus varius blandit.
+                    </p>
+                    <small class="text-muted"
+                      >Donec id elit non mi porta.</small
+                    >
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">List group item heading</h5>
+                      <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">
+                      Donec id elit non mi porta gravida at eget metus. Maecenas
+                      sed diam eget risus varius blandit.
+                    </p>
+                    <small class="text-muted"
+                      >Donec id elit non mi porta.</small
+                    >
+                  </a>
+                  <!-- <div class="card border-0 shadow-sm mb-5">
+                    <div class="book-cover" :style="{backgroundImage: `url(${item.imageUrl})`}">
+                      <span class="badge badge-warning float-right ml-2">{{ item.category }}</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="#" class="text-dark">{{ item.title }}</a>
+                      </h5>
+                      <div class="d-flex justify-content-between align-items-baseline">
+                        <div class="h5" v-if="!item.origin_price">{{ item.price | currency }} 元</div>
+                        <del
+                          class="h6"
+                          v-if="item.origin_price"
+                        >原XXX {{ item.origin_price | currency }}</del>
+                        <div class="h5" v-if="item.origin_price">特價 {{ item.price | currency }}</div>
+                      </div>
+                    </div>
+                    <div class="card-footer d-flex">
+                      <router-link
+                        class="btn btn-outline-secondary btn-sm"
+                        :to="'/item/'+item.id"
+                      >查看更多</router-link>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm ml-auto"
+                        @click="addtoCart(item.id)"
+                      >
+                        <i class="fas fa-spinner fa-spin" v-if="item.id === status.loadingItem"></i>
+                        加到購物車
+                      </button>
+                    </div>
+                  </div>-->
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -196,7 +333,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 export default {
   data() {
     return {
@@ -217,17 +354,23 @@ export default {
       currentCategory: { title: "全部書籍", id: "book-all" },
       orderOptions: [],
       orderBy: "",
+      displayStyle: "grid",
+      filterText: "",
       status: {
         loadingItem: ""
       }
     };
   },
   methods: {
-    ...mapActions("productModule", ["getProducts"]),
+    changeDisplayStyle(displayStyle) {
+      this.displayStyle = displayStyle;
+    },
     changeCategory(category) {
       this.currentCategory = category;
       this.getProducts(this.currentCategory.id);
-    }
+    },
+    ...mapActions("productModule", ["getProducts"]),
+    ...mapActions("cartModule", ["addToCart"])
   },
   computed: {
     ...mapState("productModule", ["products"])
@@ -237,7 +380,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .content {
@@ -351,13 +493,48 @@ export default {
 .menu-optional-area {
   position: relative;
 }
-.card {
-  .pro-pic {
-    height: 150px;
-    background-size: cover;
-    background-position: center;
+a.card-link:hover {
+  .card {
+    .book-cover {
+      .hover-card-actions {
+        display: block;
+        visibility: visible;
+        height: 15%;
+        button {
+          z-index: 1;
+        }
+      }
+    }
   }
+}
+.card {
+  transition: all 1s;
+  .book-cover {
+    position: relative;
+    height: 250px;
+    background-image: url("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .hover-card-actions {
+      transition: all 0.3s;
+      width: 100%;
+      height: 0%;
+      bottom: 0;
+      visibility: hidden;
+      position: absolute;
+      background-color: rgba(19, 19, 19, 0.64);
+      button {
+        width: 50%;
+        height: 100%;
+      }
+    }
+  }
+
   .card-body {
+    z-index: 12;
+    background-color: white;
     .card-text {
       white-space: nowrap;
       width: 100%;
