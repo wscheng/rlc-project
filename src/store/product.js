@@ -26,17 +26,17 @@ export default {
   actions: {
     //  should call getFavorites() before getProducts(), if you'd like to maintain
     //  favorite in products array
-    getProducts(context, category) {
+    getProducts(context) {
       const allProductUrl = `${Vue.prototype.$_USER_API_URL}/products/all`;
       context.commit("setLoading", true, { root: true });
       axios.get(allProductUrl).then(response => {
         if (response.data.success) {
-          let filterProducts = [];
           const favoritesMap = new Map(
             context.rootState.favoriteModule.favorites
           );
           // we should setup isFavorite, lastFavoriteEditedTime at object creation time, or
           // vue can't get the state change.
+          console.warn("getProducts", response.data.products);
           response.data.products.forEach(product => {
             if (favoritesMap.has(product.id)) {
               product.isFavorite = true;
@@ -48,29 +48,7 @@ export default {
               product.addedToFavoriteTime = 0;
             }
           });
-          console.warn("R", response.data.products[1]);
-          console.warn(category.slice(0, category.indexOf("-")));
-          if (category.endsWith("-all")) {
-            filterProducts = response.data.products.filter(product => {
-              //
-              let subCategoryStartPos = product.category.indexOf("-");
-              if (subCategoryStartPos == -1) {
-                return (
-                  product.category == category.slice(0, category.indexOf("-"))
-                );
-              } else {
-                return (
-                  product.category.slice(0, subCategoryStartPos) ==
-                  category.slice(0, category.indexOf("-"))
-                );
-              }
-            });
-          } else {
-            filterProducts = response.data.products.filter(
-              product => product.category == category
-            );
-          }
-          context.commit("setProducts", filterProducts);
+          context.commit("setProducts", response.data.products);
         } else {
           console.error("cant get products");
         }

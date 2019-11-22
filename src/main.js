@@ -45,12 +45,9 @@ Vue.prototype.$_USER_API_URL =
 
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 Vue.prototype.$readFavoritesFromLocalStorage = function() {
-  console.warn(
-    "READF",
-    JSON.parse(localStorage.getItem("favorites")),
-    JSON.parse(localStorage.getItem("favorites")).length
-  );
-  return JSON.parse(localStorage.getItem("favorites"));
+  const storedFavorite = JSON.parse(localStorage.getItem("favorites")) || [];
+  console.warn("READF", storedFavorite, storedFavorite.length);
+  return storedFavorite;
 };
 
 Vue.prototype.$setFavoritesToLocalStorage = function(favorites) {

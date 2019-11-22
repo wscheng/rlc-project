@@ -11,12 +11,12 @@
             <div class="menu">
               <h3>商品分類</h3>
               <ul>
-                <li v-for="category in categories" :key="category.id">
+                <li v-for="category in categories" :key="category">
                   <a
                     href="#"
                     @click.prevent="changeCategory(category)"
-                    :class="{ active: category.id == currentCategory.id }"
-                    >{{ category.title }}</a
+                    :class="{ active: category == currentCategory }"
+                    >{{ category }}</a
                   >
                 </li>
               </ul>
@@ -30,11 +30,11 @@
                     <li class="breadcrumb-item">
                       <router-link to="/">首頁</router-link>
                     </li>
-                    <li class="breadcrumb-item">
-                      <router-link to="/books">書籍</router-link>
+                    <li class="breadcrumb-item active">
+                      書籍
                     </li>
                     <li class="breadcrumb-item active">
-                      {{ currentCategory.title }}
+                      {{ currentCategory }}
                     </li>
                     <li class="breadcrumb-item active" v-if="filterText">
                       搜尋 {{ filterText }}
@@ -181,8 +181,8 @@
               <template v-if="displayStyle == 'grid'">
                 <div
                   class="col-xl-4 col-lg-4 col-md-4 col-6"
-                  v-for="item in products"
-                  :key="item.id"
+                  v-for="book in filteredBooks"
+                  :key="book.id"
                 >
                   <div class="hover-card-actions">
                     <!-- boostrap bug: border-right border-white won't work! -->
@@ -190,9 +190,9 @@
                       type="button"
                       title="加入我的最愛"
                       class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click="toggleFavorite(item)"
+                      @click="toggleFavorite(book)"
                       :style="{
-                        color: item.isFavorite ? 'red' : 'white'
+                        color: book.isFavorite ? 'red' : 'white'
                       }"
                     >
                       <font-awesome-icon :icon="['fas', 'heart']" />
@@ -201,7 +201,7 @@
                       type="button"
                       title="加入購物車"
                       class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click.prevent="addtoCart(item.id)"
+                      @click.prevent="addtoCart(book.id)"
                     >
                       <font-awesome-icon
                         :icon="['fas', 'shopping-cart']"
@@ -211,32 +211,32 @@
                   </div>
                   <router-link
                     class="card-link"
-                    :to="{ name: 'Book', params: { productId: item.id } }"
+                    :to="{ name: 'Book', params: { productId: book.id } }"
                   >
                     <div class="card border-0 shadow-sm mb-5">
                       <div
                         class="book-cover"
-                        :style="{ backgroundImage: `url(${item.imageUrl})` }"
+                        :style="{ backgroundImage: `url(${book.imageUrl})` }"
                       >
                         <span class="badge badge-warning float-right ml-2">{{
-                          item.category
+                          book.subcategory
                         }}</span>
                       </div>
                       <div class="card-body">
                         <h5 class="card-title">
-                          <a href="#" class="text-dark">{{ item.title }}</a>
+                          <a href="#" class="text-dark">{{ book.title }}</a>
                         </h5>
                         <div
                           class="d-flex justify-content-between align-items-baseline"
                         >
-                          <div class="h5" v-if="!item.origin_price">
-                            {{ item.price | currency }} 元
+                          <div class="h5" v-if="!book.origin_price">
+                            {{ book.price | currency }} 元
                           </div>
-                          <del class="h6" v-if="item.origin_price"
-                            >原價 {{ item.origin_price | currency }}</del
+                          <del class="h6" v-if="book.origin_price"
+                            >原價 {{ book.origin_price | currency }}</del
                           >
-                          <div class="h5" v-if="item.origin_price">
-                            特價 {{ item.price | currency }}
+                          <div class="h5" v-if="book.origin_price">
+                            特價 {{ book.price | currency }}
                           </div>
                         </div>
                       </div>
@@ -244,17 +244,17 @@
                       <div class="card-footer d-flex">
                         <router-link
                           class="btn btn-outline-secondary btn-sm"
-                          :to="'/item/' + item.id"
+                          :to="'/book/' + book.id"
                           >查看更多</router-link
                         >
                         <button
                           type="button"
                           class="btn btn-outline-danger btn-sm ml-auto"
-                          @click="addtoCart(item.id)"
+                          @click="addtoCart(book.id)"
                         >
                           <i
                             class="fas fa-spinner fa-spin"
-                            v-if="item.id === status.loadingItem"
+                            v-if="book.id === status.loadingItem"
                           ></i>
                           加到購物車
                         </button>
@@ -341,20 +341,14 @@ export default {
   data() {
     return {
       categories: [
-        { title: "全部書籍", id: "book-all" },
-        { title: "文學小說", id: "book-literalNovel" },
-        {
-          title: "心理勵志",
-          id: "book-motivational"
-        },
-        { title: "藝術設計", id: "book-artDesign" },
-        {
-          title: "電腦資訊",
-          id: "book-computerScience"
-        },
-        { title: "教科書", id: "book-textbook" }
+        "全部書籍",
+        "文學小說",
+        "心理勵志",
+        "藝術設計",
+        "電腦資訊",
+        "教科書"
       ],
-      currentCategory: { title: "全部書籍", id: "book-all" },
+      currentCategory: "全部書籍",
       orderOptions: [],
       orderBy: "",
       displayStyle: "grid",
@@ -370,18 +364,32 @@ export default {
     },
     changeCategory(category) {
       this.currentCategory = category;
-      this.getProducts(this.currentCategory.id);
     },
     ...mapActions("productModule", ["getProducts"]),
     ...mapActions("cartModule", ["addToCart"]),
     ...mapActions("favoriteModule", ["toggleFavorite", "getFavorites"])
   },
   computed: {
+    filteredBooks() {
+      const vm = this;
+      if (vm.currentCategory == "全部書籍") {
+        return vm.products.filter(product => product.category == "書籍");
+      }
+      return vm.products.filter(
+        product =>
+          product.category == "書籍" &&
+          product.subcategory == vm.currentCategory
+      );
+    },
     ...mapState("productModule", ["products"])
   },
   created() {
+    let categoryIndex = this.categories.indexOf(this.$route.query.category);
+    if (categoryIndex != -1) {
+      this.currentCategory = this.categories[categoryIndex];
+    }
     this.getFavorites();
-    this.getProducts(this.currentCategory.id);
+    this.getProducts();
   }
 };
 </script>

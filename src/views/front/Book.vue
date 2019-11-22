@@ -12,6 +12,16 @@
                 <li class="breadcrumb-item">
                   <router-link to="/books">{{ product.category }}</router-link>
                 </li>
+                <li class="breadcrumb-item">
+                  <router-link
+                    :to="{
+                      path: '/books',
+                      query: { category: product.subcategory }
+                    }"
+                    >{{ product.subcategory }}</router-link
+                  >
+                </li>
+
                 <li class="breadcrumb-item active">
                   {{ product.title }}
                 </li>
@@ -83,7 +93,6 @@ export default {
   },
   computed: {},
   created() {
-    console.warn("XXX", this.$route.params.productId);
     this.productId = this.$route.params.productId;
     this.getProduct(this.productId);
   }
