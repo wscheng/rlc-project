@@ -184,6 +184,31 @@
                   v-for="item in products"
                   :key="item.id"
                 >
+                  <div class="hover-card-actions">
+                    <!-- boostrap bug: border-right border-white won't work! -->
+                    <button
+                      type="button"
+                      title="加入我的最愛"
+                      class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
+                      @click="toggleFavorite(item)"
+                      :style="{
+                        color: item.isFavorite ? 'red' : 'white'
+                      }"
+                    >
+                      <font-awesome-icon :icon="['fas', 'heart']" />
+                    </button>
+                    <button
+                      type="button"
+                      title="加入購物車"
+                      class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
+                      @click.prevent="addtoCart(item.id)"
+                    >
+                      <font-awesome-icon
+                        :icon="['fas', 'shopping-cart']"
+                        :style="{ color: 'white' }"
+                      />
+                    </button>
+                  </div>
                   <router-link
                     class="card-link"
                     :to="{ name: 'Book', params: { productId: item.id } }"
@@ -196,31 +221,6 @@
                         <span class="badge badge-warning float-right ml-2">{{
                           item.category
                         }}</span>
-                        <div class="hover-card-actions">
-                          <!-- boostrap bug: border-right border-white won't work! -->
-                          <button
-                            type="button"
-                            title="加入我的最愛"
-                            class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
-                            @click="addtoCart(item.id)"
-                            :style="{
-                              color: item.isFavorite ? 'red' : 'white'
-                            }"
-                          >
-                            <font-awesome-icon :icon="['fas', 'heart']" />
-                          </button>
-                          <button
-                            type="button"
-                            title="加入購物車"
-                            class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                            @click="addtoCart(item.id)"
-                          >
-                            <font-awesome-icon
-                              :icon="['fas', 'shopping-cart']"
-                              :style="{ color: 'white' }"
-                            />
-                          </button>
-                        </div>
                       </div>
                       <div class="card-body">
                         <h5 class="card-title">
@@ -373,12 +373,14 @@ export default {
       this.getProducts(this.currentCategory.id);
     },
     ...mapActions("productModule", ["getProducts"]),
-    ...mapActions("cartModule", ["addToCart"])
+    ...mapActions("cartModule", ["addToCart"]),
+    ...mapActions("favoriteModule", ["toggleFavorite", "getFavorites"])
   },
   computed: {
     ...mapState("productModule", ["products"])
   },
   created() {
+    this.getFavorites();
     this.getProducts(this.currentCategory.id);
   }
 };
@@ -510,6 +512,22 @@ a.card-link:hover {
     }
   }
 }
+
+.hover-card-actions {
+  z-index: 100;
+  height: 250px;
+  transition: all 0.3s;
+  width: 100%;
+  bottom: 0;
+  visibility: visible;
+  // visibility: hidden;
+  position: absolute;
+  background-color: rgba(19, 19, 19, 0.64);
+  button {
+    width: 50%;
+    height: 50%;
+  }
+}
 .card {
   transition: all 1s;
   .book-cover {
@@ -519,20 +537,6 @@ a.card-link:hover {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-
-    .hover-card-actions {
-      transition: all 0.3s;
-      width: 100%;
-      height: 0%;
-      bottom: 0;
-      visibility: hidden;
-      position: absolute;
-      background-color: rgba(19, 19, 19, 0.64);
-      button {
-        width: 50%;
-        height: 100%;
-      }
-    }
   }
 
   .card-body {

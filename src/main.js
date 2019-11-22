@@ -43,6 +43,21 @@ Vue.prototype.$_API_SITE = "https://vue-course-api.hexschool.io";
 Vue.prototype.$_USER_API_URL =
   "https://vue-course-api.hexschool.io/api/wscheng";
 
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
+Vue.prototype.$readFavoritesFromLocalStorage = function() {
+  console.warn(
+    "READF",
+    JSON.parse(localStorage.getItem("favorites")),
+    JSON.parse(localStorage.getItem("favorites")).length
+  );
+  return JSON.parse(localStorage.getItem("favorites"));
+};
+
+Vue.prototype.$setFavoritesToLocalStorage = function(favorites) {
+  console.warn("SETF", favorites.length, favorites);
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+};
+
 new Vue({
   router,
   store,
