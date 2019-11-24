@@ -6,34 +6,106 @@ export default {
   strict: true,
   namespaced: true,
   state: {
-    carts: [],
-    carts_total_price: 0,
-    carts_findal_total_price: 0
+    cart: {}
   },
   mutations: {
-    setCarts(state, carts, total, final_total) {
-      state.carts = carts;
-      state.carts_total_price = total;
-      state.carts_findal_total_price = final_total;
+    setCart(state, cart) {
+      state.cart = cart;
     }
   },
   actions: {
-    getCarts(context) {
-      const cartUrl = `${Vue.prototype.$_USER_API_URL}/carts`;
-      context.commit("setLoading", true, { root: true });
-      axios.get(cartUrl).then(response => {
+    getCart(context) {
+      const getCartUrl = `${Vue.prototype.$_USER_API_URL}/cart`;
+      axios.get(getCartUrl).then(response => {
         if (response.data.success) {
-          context.commit(
-            "setCarts",
-            response.data.carts,
-            response.data.total,
-            response.data.final_total
-          );
+          console.warn("setCart response", response.data);
+          context.commit("setCart", response.data.data);
         } else {
-          console.error("cant get carts");
+          console.error("cant get carts", response.data.message);
+        }
+      });
+    },
+    addToCart(context, productId, qty = 1) {
+      //console.warn(addToCartUrl, { product_id: productId, qty: qty });
+      context.commit("setLoading", true, { root: true });
+      let productQtyInCart = 0;
+      let productCartId = "";
+      console.warn(
+        "PRODUCT ID",
+        productId,
+        ", cart=",
+        context.state.cart,
+        ",carts=",
+        context.state.cart.carts
+      );
+      for (let cart of context.state.cart.carts) {
+        console.warn("PRODUCT ID for", cart);
+        if (cart.product_id == productId) {
+          console.warn("PRODUCT QTY FOUND!");
+          productQtyInCart = cart.qty;
+          productCartId = cart.id;
+          break;
+        }
+      }
+      function axiosAddToCart(productId, qty = 1) {
+        const addToCartUrl = `${Vue.prototype.$_USER_API_URL}/cart`;
+        return axios.post(addToCartUrl, {
+          data: { product_id: productId, qty: qty }
+        });
+      }
+      function addToCartNoException(response) {
+        if (response.data.success) {
+          console.warn("addToCart response", response.data);
+          context.dispatch("getCart");
+          context.commit("setCart", response.data.data);
+        } else {
+          console.error("failed to add to cart", response.data.message);
+        }
+        context.commit("setLoading", false, { root: true });
+      }
+      console.warn("PRODUCT QTY", productQtyInCart);
+      if (productQtyInCart == 0) {
+        axiosAddToCart(productId, qty).then(addToCartNoException);
+      } else {
+        // remove product in cart
+        const deleteCartUrl = `${Vue.prototype.$_USER_API_URL}/cart/${productCartId}`;
+        axios
+          .delete(deleteCartUrl, { data: { product_id: productId, qty: qty } })
+          .then(response => {
+            if (response.data.success) {
+              console.warn("deleteCart response", response.data);
+              return axiosAddToCart(productId, productQtyInCart + qty);
+            } else {
+              console.error("deleteCart failed", response.data.message);
+              context.commit("setLoading", false, { root: true });
+            }
+          })
+          .then(addToCartNoException);
+      }
+    },
+    removeCart(context, cartId) {
+      const deleteCartUrl = `${Vue.prototype.$_USER_API_URL}/cart/${cartId}`;
+      context.commit("setLoading", true, { root: true });
+      axios.delete(deleteCartUrl).then(response => {
+        if (response.data.success) {
+          console.warn("deleteCart success");
+          context.dispatch("getCart");
+        } else {
+          console.error("cant delete cart", response.data.message);
         }
         context.commit("setLoading", false, { root: true });
       });
+    }
+  },
+  getters: {
+    totalQtyInCarts(state) {
+      let qty = 0;
+      if (state.cart.carts) {
+        state.cart.carts.forEach(cart => {
+          qty += cart.qty;
+        });
+      }
+      return qty;
     }
   }
 };

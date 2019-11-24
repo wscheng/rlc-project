@@ -201,7 +201,7 @@
                       type="button"
                       title="加入購物車"
                       class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click.prevent="addtoCart(book.id)"
+                      @click="addToCart(book.id)"
                     >
                       <font-awesome-icon
                         :icon="['fas', 'shopping-cart']"
@@ -250,7 +250,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-danger btn-sm ml-auto"
-                          @click="addtoCart(book.id)"
+                          @click="addToCart(book.id)"
                         >
                           <i
                             class="fas fa-spinner fa-spin"

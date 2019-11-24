@@ -16,7 +16,8 @@ import {
   faArrowCircleUp,
   faList,
   faThLarge,
-  faHeart
+  faHeart,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -29,7 +30,8 @@ library.add(
   faArrowCircleUp,
   faList,
   faThLarge,
-  faHeart
+  faHeart,
+  faTrash
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

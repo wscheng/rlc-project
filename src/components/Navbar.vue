@@ -43,7 +43,12 @@
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              <button
+                class="btn btn-outline-success my-2 my-sm-0"
+                type="submit"
+              >
+                Search
+              </button>
             </form>
             <i class="fas fa-shopping-cart"></i>
           </ul>
@@ -51,39 +56,66 @@
       </div>
 
       <div class="dropdown ml-auto">
-        <button class="btn btn-sm btn-cart" data-toggle="dropdown" data-flip="false">
+        <button
+          class="btn btn-sm btn-cart"
+          data-toggle="dropdown"
+          data-flip="false"
+        >
           <font-awesome-icon
             :icon="['fas', 'shopping-cart']"
             size="2x"
             :style="{ color: '#565656' }"
           />
           <i class="fas fa-shopping-cart text-dark fa-2x"></i>
-          <span class="badge badge-pill badge-danger">1</span>
-          <span class="sr-only">unread messages</span>
+          <span
+            class="badge badge-pill badge-danger"
+            v-if="totalQtyInCarts > 0"
+            >{{ totalQtyInCarts }}</span
+          >
         </button>
         <div
           class="dropdown-menu dropdown-menu-right p-3"
           style="min-width: 300px"
           data-offset="400"
         >
-          <h6>已選擇商品</h6>
+          <h6 class="text-center">購物車清單</h6>
           <table class="table table-sm">
-            <tbody>
+            <template v-if="totalQtyInCarts > 0">
+              <thead>
+                <th class="align-middle">商品名稱</th>
+                <th class="align-middle">數量</th>
+                <th class="align-middle text-right">金額</th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr v-for="cart in cart.carts" :key="cart.id">
+                  <td class="align-middle">{{ cart.product.title }}</td>
+                  <td class="align-middle">
+                    {{ cart.qty }} {{ cart.product.unit }}
+                  </td>
+                  <td class="align-middle text-right">
+                    {{ cart.total | currency }}
+                  </td>
+                  <td class="align-middle text-center">
+                    <a
+                      href="#"
+                      class="text-muted"
+                      @click.prevent="removeCart(cart.id)"
+                    >
+                      <font-awesome-icon :icon="['fas', 'trash']" />
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+            <template v-else>
               <tr>
-                <!-- <div v-for="cart in carts" :key="cart.product_id">{{cart.product.title}}</div> -->
-                <td class="align-middle text-center">
-                  <a href="#" class="text-muted">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                  </a>
-                </td>
-                <td class="align-middle">title</td>
-                <td class="align-middle">1 unit</td>
-                <td class="align-middle text-right"></td>
+                <td class="align-middle text-center">購物車沒有商品</td>
               </tr>
-            </tbody>
+            </template>
           </table>
-          <button class="btn btn-primary btn-block">
-            <i class="fa fa-cart-plus" aria-hidden="true"></i> 結帳去
+          <button class="btn btn-primary btn-block" v-if="totalQtyInCarts > 0">
+            結帳去
           </button>
         </div>
       </div>
@@ -91,18 +123,20 @@
   </div>
 </template>
 
-
 <script>
 import $ from "jquery";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
-  // data() {
-  //   return {
-  //     cartVal: 0,
-  //   }
-  // },
+  methods: {
+    ...mapActions("cartModule", ["getCart", "removeCart"])
+  },
+  computed: {
+    ...mapState("cartModule", ["cart"]),
+    ...mapGetters("cartModule", ["totalQtyInCarts"])
+  },
   created() {
-    // this.$store.dispatch("getCarts");
+    this.getCart();
     //選單效果
     $(window).on("scroll", function() {
       var scrollValue = $(window).scrollTop();
@@ -113,11 +147,6 @@ export default {
         $(".navbar").removeClass("scrolled");
       }
     });
-    //購物車數值
-    // const vm = this;
-    // vm.$bus.$on('get:cartval',(val) => {
-    //   vm.cartVal = val;
-    // })
   }
 };
 </script>

@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import productModule from "./product";
 import favoriteModule from "./favorite";
+import cartModule from "./cart";
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     productModule,
-    favoriteModule
+    favoriteModule,
+    cartModule
   }
 });
