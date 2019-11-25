@@ -1,7 +1,7 @@
 <template>
   <div class="front">
+    <Loading :active.sync="isLoading"></Loading>
     <Navbar />
-    <loading :active.sync="isLoading"></loading>
     <router-view></router-view>
     <Footer />
   </div>
@@ -31,3 +31,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.vld-overlay {
+  /* make loading layer higher than fixed-top of navbar,
+  z-index of fixed-top is 1030, and orginal z-index of vld-overlay
+  is 999. */
+  z-index: 2000;
+}
+</style>
