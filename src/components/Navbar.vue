@@ -88,25 +88,31 @@
                 <th></th>
               </thead>
               <tbody>
-                <tr v-for="cart in cart.carts" :key="cart.id">
-                  <td class="align-middle">{{ cart.product.title }}</td>
+                <tr v-for="cartItem in cart.carts" :key="cartItem.id">
+                  <td class="align-middle">{{ cartItem.product.title }}</td>
                   <td class="align-middle">
-                    {{ cart.qty }} {{ cart.product.unit }}
+                    {{ cartItem.qty }} {{ cartItem.product.unit }}
                   </td>
                   <td class="align-middle text-right">
-                    {{ cart.total | currency }}
+                    {{ cartItem.total | currency }}
                   </td>
                   <td class="align-middle text-center">
                     <a
                       href="#"
                       class="text-muted"
-                      @click.prevent="removeCart(cart.id)"
+                      @click.prevent="removeCart(cartItem.id)"
                     >
                       <font-awesome-icon :icon="['fas', 'trash']" />
                     </a>
                   </td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3" class="text-right">總計</td>
+                  <td class="text-right">{{ cart.total }}</td>
+                </tr>
+              </tfoot>
             </template>
             <template v-else>
               <tr>
@@ -114,9 +120,13 @@
               </tr>
             </template>
           </table>
-          <button class="btn btn-primary btn-block" v-if="totalQtyInCarts > 0">
+          <router-link
+            :to="{ name: 'Checkout', query: { step: 1 } }"
+            class="btn btn-primary btn-block"
+            v-if="totalQtyInCarts > 0"
+          >
             結帳去
-          </button>
+          </router-link>
         </div>
       </div>
     </nav>

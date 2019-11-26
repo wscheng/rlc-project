@@ -29,6 +29,7 @@ export default {
     getProducts(context) {
       const allProductUrl = `${Vue.prototype.$_USER_API_URL}/products/all`;
       context.commit("setLoading", true, { root: true });
+      // TODO implement axios error function
       axios.get(allProductUrl).then(response => {
         if (response.data.success) {
           const favoritesMap = new Map(

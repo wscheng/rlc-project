@@ -5,9 +5,11 @@ import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
 require("./assets/css/global.css");
+
 // filter
 import currencyFilter from "./filters/currency";
 import timestampFilter from "./filters/timestamp";
+
 // fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -17,10 +19,29 @@ import {
   faList,
   faThLarge,
   faHeart,
-  faTrash
+  faTrash,
+  faBook,
+  faMusic,
+  faCalendarAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+// vee-vlidate
+import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+import * as rules from "vee-validate/dist/rules";
+import zhTW from "vee-validate/dist/locale/zh_TW";
+
+// loop over all rules
+for (let rule in rules) {
+  extend(rule, {
+    ...rules[rule], // add the rule
+    message: zhTW.messages[rule] // add its message
+  });
+}
+
+Vue.component("ValidationProvider", ValidationProvider);
+Vue.component("ValidationObserver", ValidationObserver);
 
 // fontawesome
 library.add(
@@ -31,7 +52,10 @@ library.add(
   faList,
   faThLarge,
   faHeart,
-  faTrash
+  faTrash,
+  faBook,
+  faMusic,
+  faCalendarAlt
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

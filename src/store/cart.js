@@ -26,7 +26,6 @@ export default {
       });
     },
     addToCart(context, productId, qty = 1) {
-      //console.warn(addToCartUrl, { product_id: productId, qty: qty });
       context.commit("setLoading", true, { root: true });
       let productQtyInCart = 0;
       let productCartId = "";
@@ -38,13 +37,18 @@ export default {
         ",carts=",
         context.state.cart.carts
       );
+      console.warn("CARTNOW", context.state.cart.carts);
       for (let cart of context.state.cart.carts) {
-        console.warn("PRODUCT ID for", cart);
-        if (cart.product_id == productId) {
-          console.warn("PRODUCT QTY FOUND!");
-          productQtyInCart = cart.qty;
-          productCartId = cart.id;
-          break;
+        if (cart) {
+          console.warn("PRODUCT ID for", cart);
+          if (cart.product_id == productId) {
+            console.warn("PRODUCT QTY FOUND!");
+            productQtyInCart = cart.qty;
+            productCartId = cart.id;
+            break;
+          }
+        } else {
+          console.warn("PRODUCT ID undefined");
         }
       }
       function axiosAddToCart(productId, qty = 1) {
@@ -57,7 +61,6 @@ export default {
         if (response.data.success) {
           console.warn("addToCart response", response.data);
           context.dispatch("getCart");
-          context.commit("setCart", response.data.data);
         } else {
           console.error("failed to add to cart", response.data.message);
         }
@@ -95,6 +98,20 @@ export default {
         }
         context.commit("setLoading", false, { root: true });
       });
+    },
+    applyCoupon(context, couponCode) {
+      const applyCouponUrl = `${Vue.prototype.$_USER_API_URL}/coupon`;
+      context.commit("setLoading", true, { root: true });
+      axios
+        .post(applyCouponUrl, { data: { code: couponCode } })
+        .then(response => {
+          if (response.data.success) {
+            context.dispatch("getCart");
+          } else {
+            console.error("apply coupon failed", response.data.message);
+          }
+          context.commit("setLoading", false, { root: true });
+        });
     }
   },
   getters: {

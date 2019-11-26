@@ -4,6 +4,7 @@ import Front from "@/views/front/Front.vue";
 import Home from "@/views/front/Home.vue";
 import Books from "@/views/front/Books.vue";
 import Book from "@/views/front/Book.vue";
+import Checkout from "@/views/front/Checkout.vue";
 import Test from "@/views/Test.vue";
 
 Vue.use(VueRouter);
@@ -16,7 +17,8 @@ const routes = [
     children: [
       { path: "/", name: "Home", component: Home },
       { path: "/book/:productId", name: "Book", component: Book },
-      { path: "/books", name: "Books", component: Books }
+      { path: "/books", name: "Books", component: Books },
+      { path: "/checkout", name: "Checkout", component: Checkout }
     ]
   },
   { path: "/test", name: "Test", component: Test }
