@@ -25,7 +25,8 @@ export default {
         }
       });
     },
-    addToCart(context, productId, qty = 1) {
+    addToCart(context, { productId, qty = 1 }) {
+      console.warn(" QTY", qty);
       context.commit("setLoading", true, { root: true });
       let productQtyInCart = 0;
       let productCartId = "";
@@ -53,6 +54,7 @@ export default {
       }
       function axiosAddToCart(productId, qty = 1) {
         const addToCartUrl = `${Vue.prototype.$_USER_API_URL}/cart`;
+        console.warn("XXXIII", qty);
         return axios.post(addToCartUrl, {
           data: { product_id: productId, qty: qty }
         });

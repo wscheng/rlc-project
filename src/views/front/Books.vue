@@ -201,7 +201,7 @@
                       type="button"
                       title="加入購物車"
                       class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click="addToCart(book.id)"
+                      @click="addToCart({ productId: book.id })"
                     >
                       <font-awesome-icon
                         :icon="['fas', 'shopping-cart']"
@@ -250,7 +250,7 @@
                         <button
                           type="button"
                           class="btn btn-outline-danger btn-sm ml-auto"
-                          @click="addToCart(book.id)"
+                          @click="addToCart({ productId: book.id })"
                         >
                           <i
                             class="fas fa-spinner fa-spin"
@@ -366,8 +366,8 @@ export default {
       this.currentCategory = category;
     },
     ...mapActions("productModule", ["getProducts"]),
-    ...mapActions("cartModule", ["addToCart"]),
-    ...mapActions("favoriteModule", ["toggleFavorite", "getFavorites"])
+    ...mapActions("favoriteModule", ["toggleFavorite"]),
+    ...mapActions("cartModule", ["addToCart"])
   },
   computed: {
     filteredBooks() {
@@ -388,7 +388,6 @@ export default {
     if (categoryIndex != -1) {
       this.currentCategory = this.categories[categoryIndex];
     }
-    this.getFavorites();
     this.getProducts();
   }
 };

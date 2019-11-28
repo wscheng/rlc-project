@@ -4,6 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
+            <!-- breadcrumb start -->
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb bg-light">
                 <li class="breadcrumb-item">
@@ -25,13 +26,20 @@
                 <li class="breadcrumb-item active">
                   {{ product.title }}
                 </li>
-                <li class="breadcrumb-item active" v-if="filterText">
-                  搜尋 {{ filterText }}
-                </li>
               </ol>
             </nav>
+            <!-- breadcrumb end -->
           </div>
+          <!-- product detail -->
           <h1>{{ product.title }}</h1>
+          <select v-model="qty"
+            ><option v-for="num in 10" :key="num" :value="num"
+              >{{ num }} 份</option
+            ></select
+          >
+          <button @click="addToCart({ productId: product.id, qty: qty })">
+            加入購物車
+          </button>
           <img :src="product.imageUrl" />
           <p>{{ product.content }}</p>
           <p>{{ product.description }}</p>
@@ -69,7 +77,8 @@ export default {
       currentCategory: { title: "全部書籍", id: "book-all" },
       status: {
         loadingItem: ""
-      }
+      },
+      qty: 1
     };
   },
   methods: {
