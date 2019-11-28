@@ -7,9 +7,20 @@ import VueAxios from "vue-axios";
 import "bootstrap";
 require("./assets/css/global.css");
 
+// eventbus
+import "./bus";
+
 // filter
 import currencyFilter from "./filters/currency";
 import timestampFilter from "./filters/timestamp";
+
+// loading component
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+// TODO customized loading css
+
+// datepicker component
+import Datepicker from "vuejs-datepicker";
 
 // fontawesome
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -24,7 +35,10 @@ import {
   faBook,
   faMusic,
   faCalendarAlt,
-  faUser
+  faUser,
+  faBoxOpen,
+  faFileAlt,
+  faTicketAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -45,6 +59,10 @@ for (let rule in rules) {
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);
 
+// Loading component
+Vue.component("Loading", Loading);
+Vue.component("Datepicker", Datepicker);
+
 // fontawesome
 library.add(
   faShoppingCart,
@@ -58,21 +76,30 @@ library.add(
   faBook,
   faMusic,
   faCalendarAlt,
-  faUser
+  faUser,
+  faBoxOpen,
+  faFileAlt,
+  faTicketAlt
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
+
+// filters
 Vue.filter("currency", currencyFilter);
 Vue.filter("timestamp", timestampFilter);
-
-Vue.config.productionTip = false;
-Vue.use(VueAxios, axios);
-// moment filter
 Vue.use(require("vue-moment"));
+
+// TODO figure out what this for
+Vue.config.productionTip = false;
+// axios
+Vue.use(VueAxios, axios);
+axios.defaults.withCredentials = true;
 
 Vue.prototype.$_API_SITE = "https://vue-course-api.hexschool.io";
 Vue.prototype.$_USER_API_URL =
   "https://vue-course-api.hexschool.io/api/wscheng";
+Vue.prototype.$_ADMIN_API_URL =
+  "https://vue-course-api.hexschool.io/api/wscheng/admin";
 
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 Vue.prototype.$readFavoritesFromLocalStorage = function() {
@@ -91,3 +118,25 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount("#app");
+
+// TODO solve the situation that user directly open browser and input inner admin page
+// below is only can prevent user already enter other pages and next to requireAuth page
+router.beforeEach((to, from, next) => {
+  console.warn("to", to, "from", from, "next", next);
+  if (to.meta.requiresAuth) {
+    const check_api = `${Vue.prototype.$_API_SITE}/api/user/check`;
+    console.warn("api=", check_api);
+    axios.post(check_api).then(response => {
+      console.warn(response.data);
+      if (response.data.success) {
+        next();
+      } else {
+        next({
+          path: "/admin/login"
+        });
+      }
+    });
+  } else {
+    next();
+  }
+});

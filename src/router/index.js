@@ -6,6 +6,11 @@ import Books from "@/views/front/Books.vue";
 import Book from "@/views/front/Book.vue";
 import Checkout from "@/views/front/Checkout.vue";
 import Orders from "@/views/front/Orders.vue";
+import AdminLogin from "@/views/back/AdminLogin.vue";
+import BackLayout from "@/views/back/BackLayout.vue";
+import ProductManagement from "@/views/back/ProductManagement.vue";
+import OrderManagement from "@/views/back/OrderManagement.vue";
+import CouponManagement from "@/views/back/CouponManagement.vue";
 import Test from "@/views/Test.vue";
 
 Vue.use(VueRouter);
@@ -21,6 +26,41 @@ const routes = [
       { path: "/books", name: "Books", component: Books },
       { path: "/checkout", name: "Checkout", component: Checkout },
       { path: "/orders", name: "Orders", component: Orders }
+    ]
+  },
+  {
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin
+  },
+  {
+    path: "/admin",
+    component: BackLayout,
+    children: [
+      {
+        path: "product",
+        name: "ProductManagement",
+        component: ProductManagement,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "order",
+        name: "OrderManagement",
+        component: OrderManagement,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: "coupon",
+        name: "CouponManagement",
+        component: CouponManagement,
+        meta: {
+          requiresAuth: true
+        }
+      }
     ]
   },
   { path: "/test", name: "Test", component: Test }

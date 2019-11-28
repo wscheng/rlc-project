@@ -69,9 +69,18 @@
           />
         </button>
         <div class="dropdown-menu dropdown-menu-right p-3 text-center">
-          <router-link :to="{ name: 'Orders' }">
-            訂單列表
-          </router-link>
+          <ul>
+            <li>
+              <router-link :to="{ name: 'Orders' }">
+                訂單列表
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'AdminLogin' }">
+                後台管理
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
       <!-- user end -->
