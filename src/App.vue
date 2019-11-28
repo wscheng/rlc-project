@@ -31,4 +31,5 @@ export default {
 //     }
 //   }
 // }
+@import "./assets/all";
 </style>

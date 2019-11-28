@@ -4,7 +4,7 @@
       <div class="container">
         <div class="logo-area">
           <router-link class="navbar-brand" to="/">
-            <img src="../assets/logo.svg" alt />
+            <img src="../../assets/logo.svg" alt />
           </router-link>
         </div>
 
@@ -55,6 +55,93 @@
         </div>
       </div>
 
+      <!-- user start -->
+      <div class="dropdown ml-auto">
+        <button
+          class="btn btn-sm btn-cart"
+          data-toggle="dropdown"
+          data-flip="false"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'user']"
+            size="2x"
+            :style="{ color: '#565656' }"
+          />
+        </button>
+        <div class="dropdown-menu dropdown-menu-right p-3 text-center">
+          <router-link :to="{ name: 'Orders' }">
+            訂單列表
+          </router-link>
+        </div>
+      </div>
+      <!-- user end -->
+      <!-- like start -->
+      <div class="dropdown ml-auto">
+        <button
+          class="btn btn-sm btn-cart"
+          data-toggle="dropdown"
+          data-flip="false"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'heart']"
+            size="2x"
+            :style="{ color: '#565656' }"
+          />
+          <span
+            class="badge badge-pill badge-danger"
+            v-if="favorites.length > 0"
+            >{{ favorites.length }}</span
+          >
+        </button>
+        <div
+          class="dropdown-menu dropdown-menu-right p-3"
+          style="min-width: 300px"
+          data-offset="400"
+        >
+          <h6 class="text-center">追蹤清單</h6>
+          <table class="table table-sm">
+            <template v-if="favorites.length > 0">
+              <thead>
+                <th class="align-middle">商品照片</th>
+                <th class="align-middle">商品名稱</th>
+                <th class="align-middle text-right">折扣</th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr v-for="favorite in favorites" :key="favorite[0]">
+                  <div
+                    class="favorite-image"
+                    :style="{
+                      backgroundImage: `url(${favorite[1].imageUrl})`
+                    }"
+                  />
+                  <td class="align-middle">{{ favorite[1].title }}</td>
+                  <td class="align-middle">
+                    {{ favorite[1].origin_price }} {{ favorite[1].price }}
+                  </td>
+                  <!-- TODO don't hide the drop-down menu after delete button clicked -->
+                  <td class="align-middle text-center">
+                    <a
+                      href="#"
+                      class="text-muted"
+                      @click.prevent="toggleFavorite(favorite[1])"
+                    >
+                      <font-awesome-icon :icon="['fas', 'trash']" />
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+            <template v-else>
+              <tr>
+                <td class="align-middle text-center">沒有追蹤的商品</td>
+              </tr>
+            </template>
+          </table>
+        </div>
+      </div>
+      <!-- like end -->
+      <!-- cart start -->
       <div class="dropdown ml-auto">
         <button
           class="btn btn-sm btn-cart"
@@ -66,7 +153,6 @@
             size="2x"
             :style="{ color: '#565656' }"
           />
-          <i class="fas fa-shopping-cart text-dark fa-2x"></i>
           <span
             class="badge badge-pill badge-danger"
             v-if="totalQtyInCarts > 0"
@@ -129,6 +215,7 @@
           </router-link>
         </div>
       </div>
+      <!-- cart end -->
     </nav>
   </div>
 </template>
@@ -139,14 +226,17 @@ import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   methods: {
+    ...mapActions("favoriteModule", ["getFavorites", "toggleFavorite"]),
     ...mapActions("cartModule", ["getCart", "removeCart"])
   },
   computed: {
     ...mapState("cartModule", ["cart"]),
+    ...mapState("favoriteModule", ["favorites"]),
     ...mapGetters("cartModule", ["totalQtyInCarts"])
   },
   created() {
     this.getCart();
+    this.getFavorites();
     //選單效果
     $(window).on("scroll", function() {
       var scrollValue = $(window).scrollTop();
@@ -170,7 +260,7 @@ export default {
     height: 5vw;
     min-height: 59px;
     background-color: transparent;
-    background-image: url("../assets/logo.svg");
+    background-image: url("../../assets/logo.svg");
     background-size: contain;
     background-repeat: no-repeat;
     width: 100%;
@@ -281,5 +371,12 @@ export default {
   position: absolute;
   top: 1px;
   right: 1px;
+}
+.favorite-image {
+  width: 60px;
+  height: 80px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>

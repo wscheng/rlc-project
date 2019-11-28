@@ -5,17 +5,39 @@ import axios from "axios";
 export default {
   strict: true,
   namespaced: true,
+
   state: {
+    orders: [],
+    pagination: {},
     order: {
       user: {}
     }
   },
   mutations: {
+    SET_ORDERS(state, { orders, pagination }) {
+      state.orders = orders;
+      state.pagination = pagination;
+    },
     setOrder(state, order) {
       state.order = order;
     }
   },
   actions: {
+    getOrders(context, page) {
+      console.warn("SSSS", page);
+      const getOrdersUrl = `${Vue.prototype.$_USER_API_URL}/orders?page=${page}`;
+      axios.get(getOrdersUrl).then(response => {
+        console.warn(response.data);
+        if (response.data.success) {
+          context.commit("SET_ORDERS", {
+            orders: response.data.orders,
+            pagination: response.data.pagination
+          });
+        } else {
+          console.warn("get orders failed", response.data.message);
+        }
+      });
+    },
     getOrder(context, orderId) {
       const getOrderUrl = `${Vue.prototype.$_USER_API_URL}/order/${orderId}`;
       axios.get(getOrderUrl).then(response => {

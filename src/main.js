@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import "bootstrap";
 require("./assets/css/global.css");
 
 // filter
@@ -22,7 +23,8 @@ import {
   faTrash,
   faBook,
   faMusic,
-  faCalendarAlt
+  faCalendarAlt,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -55,7 +57,8 @@ library.add(
   faTrash,
   faBook,
   faMusic,
-  faCalendarAlt
+  faCalendarAlt,
+  faUser
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -64,6 +67,8 @@ Vue.filter("timestamp", timestampFilter);
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+// moment filter
+Vue.use(require("vue-moment"));
 
 Vue.prototype.$_API_SITE = "https://vue-course-api.hexschool.io";
 Vue.prototype.$_USER_API_URL =

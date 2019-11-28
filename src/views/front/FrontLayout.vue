@@ -9,8 +9,8 @@
 
 <script>
 // @ is an alias to /src
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
+import Navbar from "@/components/front/Navbar.vue";
+import Footer from "@/components/front/Footer.vue";
 // loading
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";

@@ -91,7 +91,7 @@
     </div>
     <!-- step 3 -->
     <div class="step3" v-else-if="currentStep == 3">
-      <OrderDetail :order-id="orderId" />
+      <OrderDetail />
       <div class="text-right" v-if="order.is_paid === false">
         <button class="btn btn-danger">確認付款去</button>
       </div>
@@ -138,6 +138,7 @@ export default {
   },
   methods: {
     ...mapMutations(["setLoading"]),
+    ...mapActions("orderModule", ["getOrder"]),
     ...mapActions("cartModule", ["getCart", "removeCart", "applyCoupon"]),
     async submitOrder() {
       const vm = this;
@@ -155,6 +156,8 @@ export default {
         console.warn(response.data);
         if (response.data.success) {
           vm.getCart();
+          // NOTE: getOrder should be placed before router.push
+          vm.getOrder(response.data.orderId);
           // go to third page and
           this.$router.push({
             name: "Checkout",
@@ -185,14 +188,17 @@ export default {
   watch: {
     "$route.query.step": function(step) {
       this.currentStep = Number(step);
+      console.warn("curr Step");
       if (!this.isLegalStep()) {
         this.$router.push({ name: "Home" });
+        return;
       }
     }
   },
   created() {
     this.currentStep = Number(this.$route.query.step);
     this.orderId = this.$route.query.order_id;
+    this.getOrder(this.orderId);
     if (!this.isLegalStep()) {
       this.$router.push({ name: "Home" });
     }

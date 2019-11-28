@@ -60,17 +60,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
-  props: ["orderId"],
   computed: {
     ...mapState("orderModule", ["order"])
   },
-  methods: {
-    ...mapActions("orderModule", ["getOrder", "payOrder"])
-  },
-  created() {
-    this.getOrder(this.orderId);
+  watch: {
+    orderPassedIn(order) {
+      this.order = order;
+    }
   }
 };
 </script>
