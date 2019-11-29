@@ -113,14 +113,9 @@ Vue.prototype.$setFavoritesToLocalStorage = function(favorites) {
   localStorage.setItem("favorites", JSON.stringify(favorites));
 };
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
-
-// TODO solve the situation that user directly open browser and input inner admin page
-// below is only can prevent user already enter other pages and next to requireAuth page
+// NOTE: should place router.beforeEach before Vue.$mount();
+// thus, when we browse the website first time, this function
+// will already work.
 router.beforeEach((to, from, next) => {
   console.warn("to", to, "from", from, "next", next);
   if (to.meta.requiresAuth) {
@@ -140,3 +135,9 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount("#app");
