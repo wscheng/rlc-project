@@ -38,7 +38,11 @@ import {
   faUser,
   faBoxOpen,
   faFileAlt,
-  faTicketAlt
+  faTicketAlt,
+  faSearch,
+  faMapMarkedAlt,
+  faBars, // TODO now not using, for main-menu function
+  faHome
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -79,7 +83,11 @@ library.add(
   faUser,
   faBoxOpen,
   faFileAlt,
-  faTicketAlt
+  faTicketAlt,
+  faSearch,
+  faMapMarkedAlt,
+  faBars,
+  faHome
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
