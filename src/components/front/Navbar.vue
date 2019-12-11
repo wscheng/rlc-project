@@ -316,7 +316,10 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  @media (min-width: 768px) {
+  max-height: none;
+  @media (min-width: 769px) {
+    // while width is 769~793, the height will bigger than 104px
+    max-height: 104px;
     // extract from fixed-top class
     position: fixed;
     top: 0;
