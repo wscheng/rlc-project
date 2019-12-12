@@ -146,7 +146,10 @@
               class="most-popular-description"
             >{{mostPopularBooks.description.substring(0,100).trim()}}</p>
             <p>
-              <a class="btn btn-secondary" href="#" role="button">看更多 &raquo;</a>
+              <router-link
+                class="btn btn-secondary"
+                :to="{ name: 'Book', params: { productId: mostPopularBooks.id } }"
+              >看更多 &raquo;</router-link>
             </p>
           </div>
 
