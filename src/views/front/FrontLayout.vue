@@ -3,6 +3,7 @@
     <Loading :active.sync="isLoading"></Loading>
     <Navbar />
     <router-view></router-view>
+    <BackToTopBtn />
     <Footer />
   </div>
 </template>
@@ -11,13 +12,15 @@
 // @ is an alias to /src
 import Navbar from "@/components/front/Navbar.vue";
 import Footer from "@/components/front/Footer.vue";
+import BackToTopBtn from "@/components/BackToTopBtn.vue";
 
 import { mapState } from "vuex";
 
 export default {
   components: {
     Navbar,
-    Footer
+    Footer,
+    BackToTopBtn
   },
   computed: {
     ...mapState(["isLoading"])

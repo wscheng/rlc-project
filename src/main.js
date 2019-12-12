@@ -43,7 +43,8 @@ import {
   faMapMarkedAlt,
   faBars, // TODO now not using, for main-menu function
   faHome,
-  faEnvelope
+  faEnvelope,
+  faArrowUp
 } from "@fortawesome/free-solid-svg-icons";
 import { faHotjar } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -89,7 +90,8 @@ library.add(
   faMapMarkedAlt,
   faBars,
   faHome,
-  faEnvelope
+  faEnvelope,
+  faArrowUp
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -32,4 +32,7 @@ export default {
 //   }
 // }
 @import "./assets/all";
+html {
+  scroll-behavior: smooth;
+}
 </style>
