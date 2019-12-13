@@ -1,10 +1,10 @@
 <template>
-  <div class="books" style="background-color: #f1ede9;">
-    <div class="page-banner">
-      <h1>書籍 | Books</h1>
+  <div class="books">
+    <div class="opacity-bg-layer page-banner">
+      <h1 style="color:black;">書籍 | Books</h1>
     </div>
 
-    <div class="content">
+    <div class="content" style="background-color: #f1ede9;">
       <div class="container">
         <div class="row">
           <div class="col-lg-3 menu-area">
@@ -16,8 +16,7 @@
                     href="#"
                     @click.prevent="changeCategory(category)"
                     :class="{ active: category == currentCategory }"
-                    >{{ category }}</a
-                  >
+                  >{{ category }}</a>
                 </li>
               </ul>
             </div>
@@ -30,15 +29,9 @@
                     <li class="breadcrumb-item">
                       <router-link to="/">首頁</router-link>
                     </li>
-                    <li class="breadcrumb-item active">
-                      書籍
-                    </li>
-                    <li class="breadcrumb-item active">
-                      {{ currentCategory }}
-                    </li>
-                    <li class="breadcrumb-item active" v-if="filterText">
-                      搜尋 {{ filterText }}
-                    </li>
+                    <li class="breadcrumb-item active">書籍</li>
+                    <li class="breadcrumb-item active">{{ currentCategory }}</li>
+                    <li class="breadcrumb-item active" v-if="filterText">搜尋 {{ filterText }}</li>
                   </ol>
                 </nav>
               </div>
@@ -49,11 +42,7 @@
                   role="toolbar"
                   aria-label="Toolbar with button groups"
                 >
-                  <div
-                    class="btn-group mr-2"
-                    role="group"
-                    aria-label="First group"
-                  >
+                  <div class="btn-group mr-2" role="group" aria-label="First group">
                     <button
                       type="button"
                       class="btn btn-secondary dropdown-toggle"
@@ -87,22 +76,12 @@
                       </button>
                     </div>
                   </div>
-                  <div
-                    class="btn-group btn-group-toggle"
-                    role="group"
-                    data-toggle="buttons"
-                  >
-                    <label
-                      class="btn btn-secondary active"
-                      @click="changeDisplayStyle('grid')"
-                    >
+                  <div class="btn-group btn-group-toggle" role="group" data-toggle="buttons">
+                    <label class="btn btn-secondary active" @click="changeDisplayStyle('grid')">
                       <input type="radio" name="options" checked />
                       <font-awesome-icon :icon="['fas', 'th-large']" />
                     </label>
-                    <label
-                      class="btn btn-secondary"
-                      @click="changeDisplayStyle('list')"
-                    >
+                    <label class="btn btn-secondary" @click="changeDisplayStyle('list')">
                       <input type="radio" name="options" />
                       <font-awesome-icon :icon="['fas', 'list']" />
                     </label>
@@ -180,152 +159,137 @@
               <!-- GridView display -->
               <template v-if="displayStyle == 'grid'">
                 <div
-                  class="col-xl-4 col-lg-4 col-md-4 col-6"
+                  class="col-xl-4 col-lg-4 col-md-4 col-6 grid-card-container"
                   v-for="book in filteredBooks"
                   :key="book.id"
                 >
-                  <div class="hover-card-actions">
-                    <!-- boostrap bug: border-right border-white won't work! -->
-                    <button
-                      type="button"
-                      title="加入我的最愛"
-                      class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click="toggleFavorite(book)"
-                      :style="{
+                  <div class="card border-0 shadow-sm mb-5">
+                    <div class="grid-card-actions">
+                      <!-- boostrap bug: border-right border-white won't work! -->
+                      <button
+                        type="button"
+                        title="加入我的最愛"
+                        class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
+                        @click="toggleFavorite(book)"
+                        :style="{
                         color: book.isFavorite ? 'red' : 'white'
                       }"
-                    >
-                      <font-awesome-icon :icon="['fas', 'heart']" />
-                    </button>
-                    <button
-                      type="button"
-                      title="加入購物車"
-                      class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                      @click="addToCart({ productId: book.id })"
-                    >
-                      <font-awesome-icon
-                        :icon="['fas', 'shopping-cart']"
-                        :style="{ color: 'white' }"
-                      />
-                    </button>
-                  </div>
-                  <router-link
-                    class="card-link"
-                    :to="{ name: 'Book', params: { productId: book.id } }"
-                  >
-                    <div class="card border-0 shadow-sm mb-5">
-                      <div
-                        class="book-cover"
-                        :style="{ backgroundImage: `url(${book.imageUrl})` }"
                       >
-                        <span class="badge badge-warning float-right ml-2">{{
+                        <font-awesome-icon :icon="['fas', 'heart']" />
+                      </button>
+                      <button
+                        type="button"
+                        title="加入購物車"
+                        class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
+                        @click="addToCart({ productId: book.id })"
+                      >
+                        <font-awesome-icon
+                          :icon="['fas', 'shopping-cart']"
+                          :style="{ color: 'white' }"
+                        />
+                      </button>
+                    </div>
+                    <router-link
+                      class="card-link"
+                      :to="{ name: 'Book', params: { productId: book.id } }"
+                    >
+                      <div class="book-cover" :style="{ backgroundImage: `url(${book.imageUrl})` }">
+                        <span class="badge badge-warning float-right ml-2">
+                          {{
                           book.subcategory
-                        }}</span>
+                          }}
+                        </span>
                       </div>
                       <div class="card-body">
-                        <h5 class="card-title">
-                          <a href="#" class="text-dark">{{ book.title }}</a>
-                        </h5>
+                        <p class="product-title">{{ book.title }}</p>
+                        <!-- <h5 class="card-title">{{ book.title }}</h5> -->
                         <div
-                          class="d-flex justify-content-between align-items-baseline"
+                          class="d-flex justify-content-between align-items-baseline product-price"
                         >
-                          <div class="h5" v-if="!book.origin_price">
-                            {{ book.price | currency }} 元
-                          </div>
-                          <del class="h6" v-if="book.origin_price"
-                            >原價 {{ book.origin_price | currency }}</del
-                          >
-                          <div class="h5" v-if="book.origin_price">
-                            特價 {{ book.price | currency }}
+                          <del
+                            class="h6 del-price"
+                            v-if="book.origin_price!= book.price"
+                          >原價 {{ book.origin_price | currency }}</del>
+                          <div class="h5" v-else>{{ book.price | currency }} 元</div>
+                          <div class="h5 special-price" v-if="book.origin_price!= book.price">
+                            <i>特價 {{ book.price | currency }}</i>
                           </div>
                         </div>
                       </div>
                       <!-- TODO display only on mobile device(those can't hover device) -->
-                      <div class="card-footer d-flex">
-                        <router-link
-                          class="btn btn-outline-secondary btn-sm"
-                          :to="'/book/' + book.id"
-                          >查看更多</router-link
-                        >
-                        <button
-                          type="button"
-                          class="btn btn-outline-danger btn-sm ml-auto"
-                          @click="addToCart({ productId: book.id })"
-                        >
-                          <i
-                            class="fas fa-spinner fa-spin"
-                            v-if="book.id === status.loadingItem"
-                          ></i>
-                          加到購物車
-                        </button>
-                      </div>
-                    </div>
-                  </router-link>
+                      <!-- <div class="card-footer d-flex">                       
+                      </div>-->
+                    </router-link>
+                  </div>
                 </div>
               </template>
               <!-- ListView display -->
               <template v-if="displayStyle == 'list'">
                 <div class="col-12 list-group">
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">List group item heading</h5>
-                      <small class="text-muted">3 days ago</small>
-                    </div>
-                    <p class="mb-1">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas
-                      sed diam eget risus varius blandit.
-                    </p>
-                    <small class="text-muted"
-                      >Donec id elit non mi porta.</small
-                    >
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">List group item heading</h5>
-                      <small class="text-muted">3 days ago</small>
-                    </div>
-                    <p class="mb-1">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas
-                      sed diam eget risus varius blandit.
-                    </p>
-                    <small class="text-muted"
-                      >Donec id elit non mi porta.</small
-                    >
-                  </a>
-                  <!-- <div class="card border-0 shadow-sm mb-5">
-                    <div class="book-cover" :style="{backgroundImage: `url(${item.imageUrl})`}">
-                      <span class="badge badge-warning float-right ml-2">{{ item.category }}</span>
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        <a href="#" class="text-dark">{{ item.title }}</a>
-                      </h5>
-                      <div class="d-flex justify-content-between align-items-baseline">
-                        <div class="h5" v-if="!item.origin_price">{{ item.price | currency }} 元</div>
-                        <del
-                          class="h6"
-                          v-if="item.origin_price"
-                        >原XXX {{ item.origin_price | currency }}</del>
-                        <div class="h5" v-if="item.origin_price">特價 {{ item.price | currency }}</div>
-                      </div>
-                    </div>
-                    <div class="card-footer d-flex">
-                      <router-link
-                        class="btn btn-outline-secondary btn-sm"
-                        :to="'/item/'+item.id"
-                      >查看更多</router-link>
+                  <div
+                    class="list-group-item list-card-container"
+                    v-for="book in filteredBooks"
+                    :key="book.id"
+                  >
+                    <div class="list-card-actions ml-sm-4 ml-4">
+                      <!-- boostrap bug: border-right border-white won't work! -->
                       <button
                         type="button"
-                        class="btn btn-outline-danger btn-sm ml-auto"
-                        @click="addtoCart(item.id)"
+                        title="加入我的最愛"
+                        class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
+                        @click="toggleFavorite(book)"
+                        :style="{
+                        color: book.isFavorite ? 'red' : 'white'
+                      }"
                       >
-                        <i class="fas fa-spinner fa-spin" v-if="item.id === status.loadingItem"></i>
-                        加到購物車
+                        <font-awesome-icon :icon="['fas', 'heart']" />
+                      </button>
+                      <button
+                        type="button"
+                        title="加入購物車"
+                        class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
+                        @click="addToCart({ productId: book.id })"
+                      >
+                        <font-awesome-icon
+                          :icon="['fas', 'shopping-cart']"
+                          :style="{ color: 'white' }"
+                        />
                       </button>
                     </div>
-                  </div>-->
+                    <a class="card-link" href="#">
+                      <div class="d-flex w-100 justify-content-start">
+                        <div
+                          class="book-cover"
+                          :style="{ backgroundImage: `url(${book.imageUrl})` }"
+                        >
+                          <span class="badge badge-warning float-left ml-2">
+                            {{
+                            book.subcategory
+                            }}
+                          </span>
+                        </div>
+                        <div class="ml-3">
+                          <div class="mb-1 list-card-title">{{book.title}}</div>
+                          <div
+                            class="d-flex justify-content-start align-items-baseline product-price"
+                          >
+                            <del
+                              class="h6 del-price mr-2"
+                              v-if="book.origin_price!= book.price"
+                            >原價 {{ book.origin_price | currency }}</del>
+                            <div class="h5 mr-1" v-else>{{ book.price | currency }} 元</div>
+                            <div class="h5 special-price" v-if="book.origin_price!= book.price">
+                              <i>特價 {{ book.price | currency }}</i>
+                            </div>
+                          </div>
+                          <p class="list-card-description mb-1">{{book.description}}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </template>
+              <!-- ListView end -->
             </div>
           </div>
         </div>
@@ -415,11 +379,11 @@ export default {
         color: white;
         transition: all 0.2s ease-in;
         &:hover {
-          background-color: red;
+          background-color: #7b2f3d;
           text-decoration: none;
         }
         &.active {
-          background-color: red;
+          background-color: #7b2f3d;
         }
       }
     }
@@ -467,10 +431,33 @@ export default {
     }
   }
 }
+////////
 .page-banner {
-  background-image: url("../../assets/img/banner1.jpg");
-  height: 30vw;
+  position: relative;
+  padding: 104px 76px 30px;
+  @media (max-width: 820px) {
+    padding: 104px 50px 30px;
+  }
+  @media (max-width: 768px) {
+    padding: 20px 10px 30px;
+  }
+  height: 25vh;
 }
+.page-banner::after {
+  content: "";
+  background-image: url("../../assets/img/banner1.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.6;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+///////
 .menu-area {
   position: relative;
   @media (max-width: 576px) {
@@ -485,7 +472,7 @@ export default {
       position: absolute;
       top: 0;
       right: 15px;
-      width: 15vw;
+      width: 5vw;
       height: 100%;
     }
     &::before {
@@ -505,57 +492,201 @@ export default {
 .menu-optional-area {
   position: relative;
 }
-a.card-link:hover {
+
+/// grid card area
+.grid-card-container {
+  .grid-card-actions {
+    z-index: 11;
+    height: 0px;
+    transition: all 0.3s;
+    width: 100%;
+    position: absolute;
+    margin-top: 250px;
+    visibility: hidden;
+    background-color: rgba(19, 19, 19, 0.64);
+    button {
+      // position: relative;
+      // width: 50%;
+      // height: 100%;
+      z-index: 11;
+      position: relative;
+      margin-top: 0px;
+      width: 50%;
+      height: 100%;
+    }
+  }
   .card {
+    transition: all 1s;
     .book-cover {
-      .hover-card-actions {
-        display: block;
-        visibility: visible;
-        height: 15%;
-        button {
-          z-index: 1;
+      position: relative;
+      height: 250px;
+      background-image: url("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+      background-color: transparent;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .card-body {
+      position: relative;
+      background-color: white;
+      z-index: 12;
+      .product-title {
+        color: black;
+        font-size: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-height: 20px;
+      }
+      .product-price {
+        height: 50px;
+        .del-price {
+          color: grey;
+        }
+        .special-price {
+          color: #911400;
         }
       }
     }
   }
 }
+.grid-card-container:hover {
+  .grid-card-actions {
+    display: block;
+    visibility: visible;
+    height: 50px;
+    margin-top: 200px;
+  }
+  .card {
+    background-color: #a6bbc2;
+    transition: all 1s;
 
-.hover-card-actions {
-  z-index: 100;
-  height: 250px;
-  transition: all 0.3s;
-  width: 100%;
-  bottom: 0;
-  visibility: visible;
-  // visibility: hidden;
-  position: absolute;
-  background-color: rgba(19, 19, 19, 0.64);
-  button {
-    width: 50%;
-    height: 50%;
+    .card-body {
+      transition: all 1s;
+      background-color: #414e53;
+      .product-title {
+        color: white;
+      }
+      .special-price {
+        color: red;
+      }
+    }
   }
 }
-.card {
-  transition: all 1s;
+
+/// list card container
+.list-card-container {
+  // .list-card-actions {
+  //   z-index: 11;
+  //   height: 0px;
+  //   transition: all 0.3s;
+  //   width: 100%;
+  //   position: absolute;
+  //   margin-top: 250px;
+  //   visibility: hidden;
+  //   position: absolute;
+  //   background-color: rgba(19, 19, 19, 0.64);
+  //   button {
+  //     // position: relative;
+  //     // width: 50%;
+  //     // height: 100%;
+  //     z-index: 11;
+  //     position: relative;
+  //     margin-top: 0px;
+  //     width: 50%;
+  //     height: 100%;
+  //   }
+  // }
+  // .card {
+  //   transition: all 1s;
   .book-cover {
     position: relative;
-    height: 250px;
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 200px;
+    @media (max-width: 576px) {
+      width: 110px;
+      height: 110px;
+      flex-basis: 110px;
+    }
     background-image: url("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+    background-color: transparent;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
   }
-
-  .card-body {
-    z-index: 12;
-    background-color: white;
-    .card-text {
-      white-space: nowrap;
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: 20px;
+  .list-card-title {
+    color: #1b6180;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    font-size: 1.5rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    @media (max-width: 576px) {
+      font-size: 1.2rem;
     }
   }
+  .del-price {
+    color: grey;
+  }
+  .special-price {
+    color: #911400;
+  }
+  .list-card-description {
+    font-size: 16px;
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    @media (max-width: 576px) {
+      display: none;
+    }
+  }
+  .list-card-actions {
+    position: absolute;
+    bottom: 0;
+    left: 200px;
+    right: 0;
+    background-color: rgba(19, 19, 19, 0.64);
+    button {
+      position: relative;
+      width: 50%;
+    }
+    @media (max-width: 576px) {
+      left: 110px;
+    }
+  }
+}
+.list-card-container:hover {
+  // .list-card-actions {
+  //   display: block;
+  //   visibility: visible;
+  //   height: 50px;
+  //   margin-top: 200px;
+  // }
+  background-color: #a6bbc2;
+  transition: all 1s;
+
+  .list-card-title {
+    color: white;
+  }
+
+  .special-price {
+    color: red;
+  }
+  // .list-card-description {
+  //   font-size: 16px;
+  //   color: black;
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   display: -webkit-box;
+  //   -webkit-box-orient: vertical;
+  //   -webkit-line-clamp: 2;
+  // }
 }
 </style>
