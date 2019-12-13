@@ -62,7 +62,7 @@
           </li>
         </ul>
         <div class="search-area text-center d-md-none">
-          <div class="search-inner-area mx-5">
+          <div class="search-inner-area mx-auto">
             <input class="search-input" type="text" placeholder="想找什麼？" />
             <div class="btn btn-sm search-btn">
               <font-awesome-icon :icon="['fas', 'search']" size="2x" :style="{ color: '#565656' }" />
@@ -566,6 +566,7 @@ export default {
   .search-area {
     .search-inner-area {
       position: relative;
+      width: 200px;
       .search-input {
         font-size: 1rem;
         font-family: "Lato";
