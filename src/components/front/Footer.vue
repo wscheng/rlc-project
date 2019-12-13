@@ -265,11 +265,11 @@ footer[role="banner"] > div > div dl dd > a {
   margin-bottom: 10px;
   line-height: 1;
 }
-::selection {
-  background: #7b2f3d;
-  color: #fff;
-  text-shadow: none;
-}
+// ::selection {
+//   background: #7b2f3d;
+//   color: #fff;
+//   text-shadow: none;
+// }
 *,
 *::before,
 *::after {
