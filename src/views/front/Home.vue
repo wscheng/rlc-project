@@ -394,8 +394,9 @@ shorten to @import "swiper/css/swiper.min.css"; */
   position: absolute;
   top: 0;
   left: 0;
-  background: #d7cec7;
-  opacity: 0.3;
+  // NOTE background-color is no use, if you already set background-image
+  //background-color: #d7cec7;
+  opacity: 0.2;
   width: 100%;
   height: 100%;
 }
@@ -560,7 +561,8 @@ shorten to @import "swiper/css/swiper.min.css"; */
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: green;
+  background-color: white;
+  border: 3px solid gray;
   border-radius: 50%;
 }
 .most-popular-title {
