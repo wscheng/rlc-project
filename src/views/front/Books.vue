@@ -51,28 +51,22 @@
                       aria-expanded="false"
                     >
                       <span>
-                        <font-awesome-icon :icon="['fab', 'hotjar']" />
+                        <font-awesome-icon :icon="sortBy.icon" />
                       </span>
-                      暢銷度
+                      {{sortBy.text}}
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <button class="dropdown-item" type="button">
+                    <div class="dropdown-menu dropdown-menu-right sort-action-group">
+                      <button
+                        class="dropdown-item"
+                        type="button"
+                        @click="changeSortBy(sortByAction)"
+                        v-for="sortByAction in sortByActions"
+                        :key="sortByAction.text"
+                      >
                         <span>
-                          <font-awesome-icon :icon="['fab', 'hotjar']" />
+                          <font-awesome-icon :icon="sortByAction.icon" />
                         </span>
-                        暢銷度
-                      </button>
-                      <button class="dropdown-item" type="button">
-                        <span>
-                          <font-awesome-icon :icon="['fas', 'dollar-sign']" />
-                        </span>
-                        價格(高→低)
-                      </button>
-                      <button class="dropdown-item" type="button">
-                        <span>
-                          <font-awesome-icon :icon="['fas', 'dollar-sign']" />
-                        </span>
-                        價格(低→高)
+                        {{sortByAction.text}}
                       </button>
                     </div>
                   </div>
@@ -312,9 +306,33 @@ export default {
         "電腦資訊",
         "教科書"
       ],
+      sortByActions: [
+        {
+          sortBy: "price",
+          descending: false,
+          icon: ["fab", "hotjar"],
+          text: "暢銷度"
+        },
+        {
+          sortBy: "price",
+          descending: true,
+          icon: ["fas", "dollar-sign"],
+          text: "價格(低→高)"
+        },
+        {
+          sortBy: "price",
+          descending: false,
+          icon: ["fas", "dollar-sign"],
+          text: "價格(高→低)"
+        }
+      ],
       currentCategory: "全部書籍",
-      orderOptions: [],
-      orderBy: "",
+      sortBy: {
+        sortBy: "price",
+        descending: false,
+        icon: ["fab", "hotjar"],
+        text: "暢銷度"
+      },
       displayStyle: "grid",
       filterText: "",
       status: {
@@ -323,6 +341,9 @@ export default {
     };
   },
   methods: {
+    changeSortBy(sortByAction) {
+      this.sortBy = sortByAction;
+    },
     changeDisplayStyle(displayStyle) {
       this.displayStyle = displayStyle;
     },
@@ -336,14 +357,28 @@ export default {
   computed: {
     filteredBooks() {
       const vm = this;
+      let filteredBooks;
       if (vm.currentCategory == "全部書籍") {
-        return vm.products.filter(product => product.category == "書籍");
+        filteredBooks = vm.products.filter(
+          product => product.category == "書籍"
+        );
+      } else {
+        filteredBooks = vm.products.filter(
+          product =>
+            product.category == "書籍" &&
+            product.subcategory == vm.currentCategory
+        );
       }
-      return vm.products.filter(
-        product =>
-          product.category == "書籍" &&
-          product.subcategory == vm.currentCategory
-      );
+      if (vm.sortBy.descending) {
+        filteredBooks.sort(function(a, b) {
+          return a.price - b.price;
+        });
+      } else {
+        filteredBooks.sort(function(a, b) {
+          return b.price - a.price;
+        });
+      }
+      return filteredBooks;
     },
     ...mapState("productModule", ["products"])
   },
