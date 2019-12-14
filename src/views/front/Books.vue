@@ -23,7 +23,7 @@
           </div>
           <div class="col-lg-9">
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col-lg-7">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb bg-light">
                     <li class="breadcrumb-item">
@@ -36,7 +36,7 @@
                 </nav>
               </div>
 
-              <div class="col-lg-4 menu-optional-area mb-2">
+              <div class="col-lg-5 menu-optional-area mx-auto">
                 <div
                   class="btn-toolbar justify-content-end"
                   role="toolbar"
@@ -51,9 +51,9 @@
                       aria-expanded="false"
                     >
                       <span>
-                        <font-awesome-icon :icon="sortBy.icon" />
+                        <font-awesome-icon :icon="currSortByAction.icon" />
                       </span>
-                      {{sortBy.text}}
+                      {{currSortByAction.text}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right sort-action-group">
                       <button
@@ -187,6 +187,7 @@
                       class="card-link"
                       :to="{ name: 'Book', params: { productId: book.id } }"
                     >
+                      <!-- TODO FIX If some book cover is absolutely fit the above card area, the border will be a sharp corner, not rounded. -->
                       <div class="book-cover" :style="{ backgroundImage: `url(${book.imageUrl})` }">
                         <span class="badge badge-warning float-right ml-2">
                           {{
@@ -250,7 +251,10 @@
                         />
                       </button>
                     </div>
-                    <a class="card-link" href="#">
+                    <router-link
+                      class="card-link"
+                      :to="{ name: 'Book', params: { productId: book.id } }"
+                    >
                       <div class="d-flex w-100 justify-content-start">
                         <div
                           class="book-cover"
@@ -279,7 +283,7 @@
                           <p class="list-card-description mb-1">{{book.description}}</p>
                         </div>
                       </div>
-                    </a>
+                    </router-link>
                   </div>
                 </div>
               </template>
@@ -308,7 +312,7 @@ export default {
       ],
       sortByActions: [
         {
-          sortBy: "price",
+          sortBy: "hot",
           descending: false,
           icon: ["fab", "hotjar"],
           text: "暢銷度"
@@ -327,7 +331,7 @@ export default {
         }
       ],
       currentCategory: "全部書籍",
-      sortBy: {
+      currSortByAction: {
         sortBy: "price",
         descending: false,
         icon: ["fab", "hotjar"],
@@ -342,7 +346,7 @@ export default {
   },
   methods: {
     changeSortBy(sortByAction) {
-      this.sortBy = sortByAction;
+      this.currSortByAction = sortByAction;
     },
     changeDisplayStyle(displayStyle) {
       this.displayStyle = displayStyle;
@@ -369,14 +373,16 @@ export default {
             product.subcategory == vm.currentCategory
         );
       }
-      if (vm.sortBy.descending) {
-        filteredBooks.sort(function(a, b) {
-          return a.price - b.price;
-        });
-      } else {
-        filteredBooks.sort(function(a, b) {
-          return b.price - a.price;
-        });
+      if (vm.currSortByAction.sortBy == "price") {
+        if (vm.currSortByAction.descending) {
+          filteredBooks.sort(function(a, b) {
+            return a.price - b.price;
+          });
+        } else {
+          filteredBooks.sort(function(a, b) {
+            return b.price - a.price;
+          });
+        }
       }
       return filteredBooks;
     },
@@ -565,6 +571,8 @@ export default {
     .card-body {
       position: relative;
       background-color: white;
+      border-bottom-left-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
       z-index: 12;
       .product-title {
         color: black;
@@ -611,29 +619,6 @@ export default {
 
 /// list card container
 .list-card-container {
-  // .list-card-actions {
-  //   z-index: 11;
-  //   height: 0px;
-  //   transition: all 0.3s;
-  //   width: 100%;
-  //   position: absolute;
-  //   margin-top: 250px;
-  //   visibility: hidden;
-  //   position: absolute;
-  //   background-color: rgba(19, 19, 19, 0.64);
-  //   button {
-  //     // position: relative;
-  //     // width: 50%;
-  //     // height: 100%;
-  //     z-index: 11;
-  //     position: relative;
-  //     margin-top: 0px;
-  //     width: 50%;
-  //     height: 100%;
-  //   }
-  // }
-  // .card {
-  //   transition: all 1s;
   .book-cover {
     position: relative;
     width: 200px;
@@ -688,6 +673,7 @@ export default {
     left: 200px;
     right: 0;
     background-color: rgba(19, 19, 19, 0.64);
+
     button {
       position: relative;
       width: 50%;
@@ -697,31 +683,17 @@ export default {
     }
   }
 }
+.list-group .list-card-container:last-child .list-card-actions {
+  border-bottom-right-radius: 0.25rem;
+}
 .list-card-container:hover {
-  // .list-card-actions {
-  //   display: block;
-  //   visibility: visible;
-  //   height: 50px;
-  //   margin-top: 200px;
-  // }
   background-color: #a6bbc2;
   transition: all 1s;
-
   .list-card-title {
     color: white;
   }
-
   .special-price {
     color: red;
   }
-  // .list-card-description {
-  //   font-size: 16px;
-  //   color: black;
-  //   overflow: hidden;
-  //   text-overflow: ellipsis;
-  //   display: -webkit-box;
-  //   -webkit-box-orient: vertical;
-  //   -webkit-line-clamp: 2;
-  // }
 }
 </style>
