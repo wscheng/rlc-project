@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="front-orders">
     <table class="table mt-4" v-if="orders.length > 0">
       <thead>
         <tr>
@@ -17,9 +17,10 @@
           <td v-if="item.user">{{ item.user.email }}</td>
           <td v-else>NO EMAIL</td>
           <td>
-            <div v-for="product in item.products" :key="product.id">
-              {{ product.product.title }}: {{ product.qty }}
-            </div>
+            <div
+              v-for="product in item.products"
+              :key="product.id"
+            >{{ product.product.title }}x {{ product.qty }}</div>
           </td>
           <td class="text-right">{{ item.total }}</td>
           <td>
@@ -32,55 +33,29 @@
         </tr>
       </tbody>
     </table>
-    <Pagination
-      :pagination="pagination"
-      @change-page="getOrders"
-      v-if="orders.length > 0"
-    />
+    <Pagination :pagination="pagination" @change-page="getOrders" v-if="orders.length > 0" />
 
     <!-- modal start -->
-    <div
-      class="modal fade"
-      id="detailModal"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <OrderDetail
-              :need-loading="false"
-              :order-passed-in="selectedOrder"
-            />
+            <OrderDetail :need-loading="false" :order-passed-in="selectedOrder" />
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              data-dismiss="modal"
-            >
-              關閉
-            </button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
             <button
               type="button"
               class="btn btn-danger"
               @click="payOrderAndUpdateOrders(selectedOrder.id)"
               v-if="!selectedOrder.is_paid"
-            >
-              確認已經付款
-            </button>
+            >確認已經付款</button>
           </div>
         </div>
       </div>
@@ -128,3 +103,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.front-orders {
+  padding: 104px 50px 0px 50px;
+  @media (max-width: 820px) {
+    padding: 104px 50px 30px;
+  }
+  @media (max-width: 768px) {
+    padding: 20px 10px 30px;
+  }
+}
+</style>
