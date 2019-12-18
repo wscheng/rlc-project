@@ -1,103 +1,115 @@
 <template>
-  <div>
-    <div>
-      CurrentSteps
-    </div>
+  <div class="checkout" style="background-color: #f1ede9;">
+    <div class="content">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=1 }">
+            <h4 class="text-center">
+              步驟一
+              <br />確認購物車內容
+            </h4>
+          </div>
+          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=2 }">
+            <h3 class="text-center">
+              步驟二
+              <br />填寫訂購資訊
+            </h3>
+          </div>
+          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=3 }">
+            <h3 class="text-center">
+              步驟三
+              <br />付款/完成訂單
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="step1" v-if="currentStep == 1">
+              <h6 class="text-center">購物車清單</h6>
+              <BackToShopBtn />
 
-    <div class="step1" v-if="currentStep == 1">
-      <h1>確認訂單</h1>
-      <h6 class="text-center">購物車清單</h6>
-      <BackToShopBtn />
-
-      <template v-if="totalQtyInCarts > 0">
-        <table class="table table-sm">
-          <thead>
-            <th class="align-middle">商品名稱</th>
-            <th class="align-middle">數量</th>
-            <th class="align-middle text-right">金額</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr v-for="cart in cart.carts" :key="cart.id">
-              <td class="align-middle">{{ cart.product.title }}</td>
-              <td class="align-middle">
-                {{ cart.qty }} {{ cart.product.unit }}
-              </td>
-              <td class="align-middle text-right">
-                {{ cart.total | currency }}
-              </td>
-              <td class="align-middle text-center">
-                <a
-                  href="#"
-                  class="text-muted"
-                  @click.prevent="removeCart(cart.id)"
-                >
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                </a>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3" class="text-right">總計</td>
-              <td class="text-right">{{ cart.total }}</td>
-            </tr>
-            <tr v-if="cart.total != cart.final_total">
-              <td colspan="3" class="text-right text-success">折扣價</td>
-              <td class="text-right text-success">{{ cart.final_total }}</td>
-            </tr>
-          </tfoot>
-          <div
-            class="input-group mb-3 input-group-sm"
-            v-if="cart.carts && cart.carts.length > 0"
-          >
-            <input
-              v-model="couponCode"
-              type="text"
-              class="form-control"
-              placeholder="請輸入優惠碼"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                @click="applyCoupon"
-              >
-                套用優惠碼
-              </button>
+              <template v-if="totalQtyInCarts > 0">
+                <table class="table table-sm">
+                  <thead>
+                    <th class="align-middle">商品名稱</th>
+                    <th class="align-middle">數量</th>
+                    <th class="align-middle text-right">金額</th>
+                    <th></th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="cart in cart.carts" :key="cart.id">
+                      <td class="align-middle">{{ cart.product.title }}</td>
+                      <td class="align-middle">{{ cart.qty }} {{ cart.product.unit }}</td>
+                      <td class="align-middle text-right">{{ cart.total | currency }}</td>
+                      <td class="align-middle text-center">
+                        <a href="#" class="text-muted" @click.prevent="removeCart(cart.id)">
+                          <font-awesome-icon :icon="['fas', 'trash']" />
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3" class="text-right">總計</td>
+                      <td class="text-right">{{ cart.total }}</td>
+                    </tr>
+                    <tr v-if="cart.total != cart.final_total">
+                      <td colspan="3" class="text-right text-success">折扣價</td>
+                      <td class="text-right text-success">{{ cart.final_total }}</td>
+                    </tr>
+                  </tfoot>
+                  <div
+                    class="input-group mb-3 input-group-sm"
+                    v-if="cart.carts && cart.carts.length > 0"
+                  >
+                    <input
+                      v-model="couponCode"
+                      type="text"
+                      class="form-control"
+                      placeholder="請輸入優惠碼"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        @click="applyCoupon"
+                      >套用優惠碼</button>
+                    </div>
+                  </div>
+                </table>
+                <router-link
+                  class="btn btn-primary"
+                  :to="{ name: 'Checkout', query: { step: 2 } }"
+                >下一步，填寫訂單資訊</router-link>
+              </template>
+            </div>
+            <!-- step 2 -->
+            <div class="step2" v-else-if="currentStep == 2">
+              <UserDataInput :form-data="userData" ref="userDataForm" />
+              <router-link
+                class="btn btn-primary"
+                :to="{ name: 'Checkout', query: { step: 1 } }"
+              >回上一步</router-link>
+              <button @click="submitOrder">送出訂單</button>
+            </div>
+            <!-- step 3 -->
+            <div class="step3" v-else-if="currentStep == 3">
+              <OrderDetail />
+              <div class="text-right" v-if="order.is_paid === false">
+                <button class="btn btn-danger" @click="payOrderAndUpdateOrder(order.id)">確認付款去</button>
+              </div>
+              <div class="text-right" v-else>
+                <span class="text-success">付款完成</span>
+              </div>
+            </div>
+            <!-- other ambiguous input -->
+            <div class="step3" v-else>
+              <BackToShopBtn />
             </div>
           </div>
-        </table>
-        <router-link
-          class="btn btn-primary"
-          :to="{ name: 'Checkout', query: { step: 2 } }"
-        >
-          下一步，填寫訂單資訊
-        </router-link>
-      </template>
-    </div>
-    <!-- step 2 -->
-    <div class="step2" v-else-if="currentStep == 2">
-      <UserDataInput :form-data="userData" ref="userDataForm" />
-      <router-link
-        class="btn btn-primary"
-        :to="{ name: 'Checkout', query: { step: 1 } }"
-      >
-        回上一步
-      </router-link>
-      <button @click="submitOrder">
-        送出訂單
-      </button>
-    </div>
-    <!-- step 3 -->
-    <div class="step3" v-else-if="currentStep == 3">
-      <OrderDetail />
-      <div class="text-right" v-if="order.is_paid === false">
-        <button class="btn btn-danger">確認付款去</button>
+        </div>
       </div>
     </div>
-    <!-- other ambiguous input -->
-    <div class="step3" v-else><BackToShopBtn /></div>
   </div>
 </template>
 
@@ -138,7 +150,7 @@ export default {
   },
   methods: {
     ...mapMutations(["setLoading"]),
-    ...mapActions("orderModule", ["getOrder"]),
+    ...mapActions("orderModule", ["getOrder", "payOrder"]),
     ...mapActions("cartModule", ["getCart", "removeCart", "applyCoupon"]),
     async submitOrder() {
       const vm = this;
@@ -182,6 +194,11 @@ export default {
           break;
       }
       return true;
+    },
+    payOrderAndUpdateOrder(orderId) {
+      const vm = this;
+      vm.payOrder(orderId);
+      vm.getOrder(orderId);
     }
   },
 
@@ -207,4 +224,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.checkout {
+  margin-top: 104px;
+  padding: 30px 50px 30px 50px;
+  @media (max-width: 820px) {
+    padding: 30px 50px 30px;
+  }
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    padding: 30px 10px 30px;
+  }
+}
+</style>
