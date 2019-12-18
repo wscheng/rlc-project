@@ -7,7 +7,7 @@
     <div class="content" style="background-color: #f1ede9;">
       <div class="container">
         <div class="row">
-          <div class="col-lg-3 menu-area">
+          <div class="col-lg-3 menu-area sticky-top clear-fix">
             <div class="menu">
               <h3>商品分類</h3>
               <ul>
@@ -152,75 +152,82 @@
 
               <!-- GridView display -->
               <template v-if="displayStyle == 'grid'">
-                <div
-                  class="col-xl-4 col-lg-4 col-md-4 col-6 grid-card-container"
-                  v-for="book in filteredBooks"
-                  :key="book.id"
-                >
-                  <div class="card border-0 shadow-sm mb-5">
-                    <div class="grid-card-actions">
-                      <!-- boostrap bug: border-right border-white won't work! -->
-                      <button
-                        type="button"
-                        title="加入我的最愛"
-                        class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
-                        @click="toggleFavorite(book)"
-                        :style="{
+                <div class="col-12 mt-3 mt-lg-0">
+                  <div class="row">
+                    <div
+                      class="col-xl-4 col-lg-4 col-md-4 col-6 grid-card-container"
+                      v-for="book in filteredBooks"
+                      :key="book.id"
+                    >
+                      <div class="card border-0 shadow-sm mb-5">
+                        <div class="grid-card-actions">
+                          <!-- boostrap bug: border-right border-white won't work! -->
+                          <button
+                            type="button"
+                            title="加入我的最愛"
+                            class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
+                            @click="toggleFavorite(book)"
+                            :style="{
                         color: book.isFavorite ? 'red' : 'white'
                       }"
-                      >
-                        <font-awesome-icon :icon="['fas', 'heart']" />
-                      </button>
-                      <button
-                        type="button"
-                        title="加入購物車"
-                        class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
-                        @click="addToCart({ productId: book.id })"
-                      >
-                        <font-awesome-icon
-                          :icon="['fas', 'shopping-cart']"
-                          :style="{ color: 'white' }"
-                        />
-                      </button>
-                    </div>
-                    <router-link
-                      class="card-link"
-                      :to="{ name: 'Book', params: { productId: book.id } }"
-                    >
-                      <!-- TODO FIX If some book cover is absolutely fit the above card area, the border will be a sharp corner, not rounded. -->
-                      <div class="book-cover" :style="{ backgroundImage: `url(${book.imageUrl})` }">
-                        <span class="badge badge-warning float-right ml-2">
-                          {{
-                          book.subcategory
-                          }}
-                        </span>
-                      </div>
-                      <div class="card-body">
-                        <p class="product-title">{{ book.title }}</p>
-                        <!-- <h5 class="card-title">{{ book.title }}</h5> -->
-                        <div
-                          class="d-flex justify-content-between align-items-baseline product-price"
-                        >
-                          <del
-                            class="h6 del-price"
-                            v-if="book.origin_price!= book.price"
-                          >原價 {{ book.origin_price | currency }}</del>
-                          <div class="h5" v-else>{{ book.price | currency }} 元</div>
-                          <div class="h5 special-price" v-if="book.origin_price!= book.price">
-                            <i>特價 {{ book.price | currency }}</i>
-                          </div>
+                          >
+                            <font-awesome-icon :icon="['fas', 'heart']" />
+                          </button>
+                          <button
+                            type="button"
+                            title="加入購物車"
+                            class="btn border-right-0 border-top-0 border-bottom-0 border-white rounded-0"
+                            @click="addToCart({ productId: book.id })"
+                          >
+                            <font-awesome-icon
+                              :icon="['fas', 'shopping-cart']"
+                              :style="{ color: 'white' }"
+                            />
+                          </button>
                         </div>
+                        <router-link
+                          class="card-link"
+                          :to="{ name: 'Book', params: { productId: book.id } }"
+                        >
+                          <!-- TODO FIX If some book cover is absolutely fit the above card area, the border will be a sharp corner, not rounded. -->
+                          <div
+                            class="book-cover"
+                            :style="{ backgroundImage: `url(${book.imageUrl})` }"
+                          >
+                            <span class="badge badge-warning float-right ml-2">
+                              {{
+                              book.subcategory
+                              }}
+                            </span>
+                          </div>
+                          <div class="card-body">
+                            <p class="product-title">{{ book.title }}</p>
+                            <!-- <h5 class="card-title">{{ book.title }}</h5> -->
+                            <div
+                              class="d-flex justify-content-between align-items-baseline product-price"
+                            >
+                              <del
+                                class="h6 del-price"
+                                v-if="book.origin_price!= book.price"
+                              >原價 {{ book.origin_price | currency }}</del>
+                              <div class="h5" v-else>{{ book.price | currency }} 元</div>
+                              <div class="h5 special-price" v-if="book.origin_price!= book.price">
+                                <i>特價 {{ book.price | currency }}</i>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- TODO display only on mobile device(those can't hover device) -->
+                          <!-- <div class="card-footer d-flex">                       
+                          </div>-->
+                        </router-link>
                       </div>
-                      <!-- TODO display only on mobile device(those can't hover device) -->
-                      <!-- <div class="card-footer d-flex">                       
-                      </div>-->
-                    </router-link>
+                    </div>
                   </div>
                 </div>
               </template>
               <!-- ListView display -->
               <template v-if="displayStyle == 'list'">
-                <div class="col-12 list-group">
+                <div class="col-12 list-group mt-3 mt-lg-0">
                   <div
                     class="list-group-item list-card-container"
                     v-for="book in filteredBooks"
@@ -501,6 +508,7 @@ export default {
 ///////
 .menu-area {
   position: relative;
+  //padding-top: 220px;
   @media (max-width: 576px) {
     &::after,
     &::before {
