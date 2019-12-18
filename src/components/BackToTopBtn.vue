@@ -69,7 +69,8 @@ export default {
   line-height: 50px;
   color: white;
   font-size: 22px;
-  z-index: 99;
+  // should bigger than 1020, because the z-index of sticky-top class is 1020
+  z-index: 1021;
   transition: all 0.5s;
   :hover {
     background: #646464;

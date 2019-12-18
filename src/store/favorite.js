@@ -12,9 +12,27 @@ export default {
     }
   },
   actions: {
+    toggleFavoriteWithoutUpdateProducts(context, product) {
+      let favoriteMap = new Map(context.state.favorites);
+      let newProduct = JSON.parse(JSON.stringify(product));
+      let currentTimestamp = new Date().getTime();
+      console.warn("currentTimestamp", currentTimestamp);
+      newProduct.addedToFavoriteTime = currentTimestamp;
+      if (product.isFavorite) {
+        favoriteMap.delete(product.id);
+        newProduct.isFavorite = false;
+      } else {
+        favoriteMap.set(product.id, product);
+        newProduct.isFavorite = true;
+      }
+
+      context.commit("setFavorites", [...favoriteMap]);
+      Vue.prototype.$setFavoritesToLocalStorage(context.state.favorites);
+    },
+    // side effect will affect product.js
     toggleFavorite(context, product) {
       const products = context.rootState.productModule.products;
-      console.warn("B", products[0]);
+      console.warn("B", products[0], products);
       let favoriteMap = new Map(context.state.favorites);
       let newProduct = JSON.parse(JSON.stringify(product));
       let currentTimestamp = new Date().getTime();
@@ -29,6 +47,7 @@ export default {
         newProduct.isFavorite = true;
       }
 
+      // update product in product.js
       for (let i = 0; i < products.length; i++) {
         if (products[i].id == product.id) {
           console.warn("BUP", products[i], newProduct);

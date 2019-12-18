@@ -379,6 +379,10 @@ export default {
   }
 }
 
+#navbarSupportedContent {
+  min-width: 270px;
+}
+
 .navbar-nav {
   font-size: 16px;
   .nav-link {
@@ -571,6 +575,8 @@ export default {
         font-size: 1rem;
         font-family: "Lato";
         font-weight: 100;
+        // width 100% to fix firefox overflow
+        width: 100%;
         height: 40px;
         border: none;
         outline: none;

@@ -19,30 +19,97 @@
                       path: '/books',
                       query: { category: product.subcategory }
                     }"
-                    >{{ product.subcategory }}</router-link
-                  >
+                  >{{ product.subcategory }}</router-link>
                 </li>
 
-                <li class="breadcrumb-item active">
-                  {{ product.title }}
-                </li>
+                <li class="breadcrumb-item active">{{ product.title }}</li>
               </ol>
             </nav>
-            <!-- breadcrumb end -->
           </div>
-          <!-- product detail -->
-          <h1>{{ product.title }}</h1>
-          <select v-model="qty"
-            ><option v-for="num in 10" :key="num" :value="num"
-              >{{ num }} 份</option
-            ></select
-          >
-          <button @click="addToCart({ productId: product.id, qty: qty })">
-            加入購物車
-          </button>
-          <img :src="product.imageUrl" />
-          <p>{{ product.content }}</p>
-          <p>{{ product.description }}</p>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <!-- breadcrumb end -->
+            <!-- product detail -->
+            <div class="sticky-top clear-fix text-center">
+              <h3 class="product-title">{{ product.title }}</h3>
+
+              <div class="d-flex flex-column" v-if="product.unit">
+                <div class="text-center">
+                  <img class="book-cover" :src="product.imageUrl" />
+                </div>
+                <dl class="text-left mx-auto">
+                  <dt>作者：</dt>
+                  <dd>test</dd>
+                  <dt>出版社：</dt>
+                  <dd>test</dd>
+                  <dt>出版日期：</dt>
+                  <dd>2019/01/01</dd>
+                  <dt>定價：</dt>
+                  <dd>
+                    <del v-if="product.price!=product.origin_price">{{product.price|currency}}</del>
+                    <span v-else>{{product.origin_price|currency}}</span>
+                  </dd>
+                  <dt>售價：</dt>
+                  <dd>
+                    <template v-if="product.price!=product.origin_price">
+                      <span
+                        class="special-price"
+                      >{{(product.price / product.origin_price).toFixed(1)}}</span>折
+                      <span class="special-price">{{product.price | currency}}</span>
+                    </template>
+                    <template v-else>{{product.price | currency}}</template>
+                  </dd>
+                  <!-- </dl> -->
+                  <dt>
+                    <label>數量：</label>
+                  </dt>
+                  <dd>
+                    <form class="form-inline">
+                      <select
+                        class="custom-select"
+                        style="white-space: nowrap; display: inline-block"
+                        v-model="qty"
+                      >
+                        <option v-for="num in 10" :key="num" :value="num">{{ num }} {{product.unit}}</option>
+                      </select>
+                    </form>
+                  </dd>
+                </dl>
+                <!-- </div> -->
+                <div class="text-center">
+                  <button
+                    class="btn btn-primary mt-2"
+                    @click="addToCart({ productId: product.id, qty: qty })"
+                  >
+                    <font-awesome-icon
+                      :icon="['fas', 'shopping-cart']"
+                      :style="{ color: 'white' }"
+                    />
+                    {{"加入購物車"}}
+                  </button>
+                  <br />
+                  <button class="btn btn-secondary mt-2" @click="toggleFavorite(product)">
+                    <font-awesome-icon
+                      :style="{
+                        'color': product.isFavorite ? 'red' : 'white'
+                      }"
+                      :icon="['fas', 'heart']"
+                    />
+                    {{ product.isFavorite? "取消收藏":"加到收藏"}}
+                  </button>
+                </div>
+              </div>
+              <hr class="d-md-none" />
+            </div>
+          </div>
+
+          <div class="col-md-8 mt-md-0 mt-5">
+            <h4>內容簡介</h4>
+            <pre class="product-description">{{ product.description }}</pre>
+            <h4>本書內容</h4>
+            <pre class="product-description">{{ product.content }}</pre>
+          </div>
         </div>
       </div>
     </div>
@@ -51,7 +118,7 @@
 
 <script>
 import Vue from "vue";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import axios from "axios";
 
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
@@ -92,183 +159,99 @@ export default {
         if (response.data.success) {
           console.warn(response.data.product);
           vm.product = response.data.product;
+          vm.$set(vm.product, "isFavorite", false);
+          console.warn(vm.favorites);
+          vm.favorites.forEach(favorite => {
+            if (favorite[1].id == productId) {
+              vm.product.isFavorite = true;
+            }
+          });
         } else {
           console.error("cant get products! reason: ", response.data.message);
         }
         vm.setLoading(false);
       });
     },
+    toggleFavorite(book) {
+      this.$store.dispatch(
+        "favoriteModule/toggleFavoriteWithoutUpdateProducts",
+        book
+      );
+      this.product.isFavorite = !book.isFavorite;
+    },
     ...mapActions("cartModule", ["addToCart"])
   },
-  computed: {},
+  computed: {
+    ...mapState("favoriteModule", ["favorites"])
+  },
   created() {
     this.productId = this.$route.params.productId;
     this.getProduct(this.productId);
+    // check if book is in favorites
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
-  padding: 20px 0;
-  .menu {
-    h3 {
-      color: #a6bbc2;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: center;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      li a {
-        background-color: #a6bbc2;
-        display: block;
-        text-align: center;
-        margin-bottom: 8px;
-        padding: 10px;
-        color: white;
-        transition: all 0.2s ease-in;
-        &:hover {
-          background-color: red;
-          text-decoration: none;
-        }
-        &.active {
-          background-color: red;
-        }
-      }
-    }
-    @media (max-width: 992px) {
-      ul {
-        display: flex;
-        justify-content: space-between;
-        li {
-          width: 20%;
-          margin: 0 5px;
-          &:nth-child(1) {
-            margin: 0 5px 0 0;
-          }
-          &:last-child {
-            margin: 0 0 0 5px;
-          }
-        }
-      }
-    }
-    @media (max-width: 576px) {
-      width: 100%;
-      overflow: overlay;
-      h3 {
-        display: none;
-      }
-      ul {
-        width: max-content;
-        li {
-          width: 22vw;
-          // when scroll to the 1st child & the last child
-          // the element won't have the gradient effect
-          &:nth-child(1),
-          &:last-child {
-            position: relative;
-            z-index: 1;
-          }
-        }
-      }
-    }
-    @media (max-width: 372px) {
-      ul li {
-        width: 65px;
-        height: 65px;
-      }
-    }
-  }
-}
-.page-banner {
-  //background-image: url("@/assets/img/banner1.jpg");
-  height: 30vw;
-}
-.menu-area {
   position: relative;
-  @media (max-width: 576px) {
-    &::after,
-    &::before {
-      content: "";
-      background: linear-gradient(
-        to left,
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 0)
-      );
-      position: absolute;
-      top: 0;
-      right: 15px;
-      width: 15vw;
-      height: 100%;
-    }
-    &::before {
-      background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 0)
-      );
-      right: auto;
-      left: 15px;
-    }
+  padding: 104px 76px 30px;
+  @media (max-width: 820px) {
+    padding: 104px 50px 30px;
+  }
+  @media (max-width: 768px) {
+    padding: 20px 10px 30px;
   }
 }
+
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
 }
-.menu-optional-area {
-  position: relative;
-}
-a.card-link:hover {
-  .card {
-    .book-cover {
-      .hover-card-actions {
-        display: block;
-        visibility: visible;
-        height: 15%;
-        button {
-          z-index: 1;
-        }
-      }
-    }
+
+.sticky-top {
+  top: 80px;
+  // navbar will be highter when under 878px
+  @media (max-width: 878px) {
+    top: 100px;
   }
 }
-.card {
-  transition: all 1s;
-  .book-cover {
-    position: relative;
-    height: 250px;
-    background-image: url("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
 
-    .hover-card-actions {
-      transition: all 0.3s;
-      width: 100%;
-      height: 0%;
-      bottom: 0;
-      visibility: hidden;
-      position: absolute;
-      background-color: rgba(19, 19, 19, 0.64);
-      button {
-        width: 50%;
-        height: 100%;
-      }
-    }
+.product-title {
+  max-height: 100px;
+  overflow: auto;
+  @media (max-width: 767px) {
+    max-width: none;
+    overflow: inherit;
   }
+}
 
-  .card-body {
-    z-index: 12;
-    background-color: white;
-    .card-text {
-      white-space: nowrap;
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-height: 20px;
-    }
-  }
+.book-cover {
+  width: 192px;
+}
+
+.product-description {
+  font-size: 15px;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+.special-price {
+  color: #911400;
+}
+
+dl dt {
+  float: left;
+  font-weight: bold;
+  margin-right: 10px;
+  padding: 5px;
+  width: 100px;
+}
+
+dl dd {
+  margin: 1px 0;
+  padding: 5px 0;
+  width: 200px;
 }
 </style>
