@@ -109,16 +109,16 @@
             </button>
             <div
               class="dropdown-menu dropdown-menu-right p-3"
-              style="min-width: 300px"
+              style="min-width: 300px; max-height: 600px; overflow:auto;"
               data-offset="400"
             >
               <h6 class="text-center">追蹤清單</h6>
               <table class="table table-sm">
                 <template v-if="favorites.length > 0">
                   <thead>
-                    <th class="align-middle">商品照片</th>
+                    <th class="align-middle text-center" style="min-width: 80px">商品照片</th>
                     <th class="align-middle">商品名稱</th>
-                    <th class="align-middle text-right">折扣</th>
+                    <th class="align-middle text-right" style="min-width: 45px">折扣</th>
                     <th></th>
                   </thead>
                   <tbody>
@@ -130,9 +130,19 @@
                     }"
                       />
                       <td class="align-middle">{{ favorite[1].title }}</td>
-                      <td
-                        class="align-middle"
-                      >{{ favorite[1].origin_price }} {{ favorite[1].price }}</td>
+                      <td class="align-middle">
+                        <del
+                          class="del-price"
+                          v-if="favorite[1].origin_price!= favorite[1].price"
+                        >{{ favorite[1].origin_price | currency }}</del>
+                        <div v-else>{{ favorite[1].price | currency }} 元</div>
+                        <div
+                          class="special-price"
+                          v-if="favorite[1].origin_price!= favorite[1].price"
+                        >
+                          <i>{{ favorite[1].price | currency }}</i>
+                        </div>
+                      </td>
                       <!-- TODO don't hide the drop-down menu after delete button clicked -->
                       <td class="align-middle text-center">
                         <a href="#" class="text-muted" @click.prevent="toggleFavorite(favorite[1])">
@@ -166,7 +176,7 @@
             </button>
             <div
               class="dropdown-menu dropdown-menu-right p-3"
-              style="min-width: 300px"
+              style="min-width: 300px; max-height: 600px; overflow:auto;"
               data-offset="400"
             >
               <h6 class="text-center">購物車清單</h6>
@@ -174,14 +184,17 @@
                 <template v-if="totalQtyInCarts > 0">
                   <thead>
                     <th class="align-middle">商品名稱</th>
-                    <th class="align-middle">數量</th>
+                    <th class="align-middle" style="min-width">數量</th>
                     <th class="align-middle text-right">金額</th>
                     <th></th>
                   </thead>
                   <tbody>
                     <tr v-for="cartItem in cart.carts" :key="cartItem.id">
                       <td class="align-middle">{{ cartItem.product.title }}</td>
-                      <td class="align-middle">{{ cartItem.qty }} {{ cartItem.product.unit }}</td>
+                      <td
+                        class="align-middle text-center"
+                        style="min-width: 45px"
+                      >{{ cartItem.qty }} {{ cartItem.product.unit }}</td>
                       <td class="align-middle text-right">{{ cartItem.total | currency }}</td>
                       <td class="align-middle text-center">
                         <a href="#" class="text-muted" @click.prevent="removeCart(cartItem.id)">
@@ -462,6 +475,13 @@ export default {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.del-price {
+  color: grey;
+}
+.special-price {
+  color: #911400;
 }
 
 .footer-action-area {
