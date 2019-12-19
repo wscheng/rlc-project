@@ -1,5 +1,5 @@
 <template>
-  <div class="front-orders">
+  <div class="front-orders" style="background-color: #f1ede9;">
     <table class="table mt-4" v-if="orders.length > 0">
       <thead>
         <tr>
@@ -106,12 +106,14 @@ export default {
 
 <style lang="scss" scoped>
 .front-orders {
-  padding: 104px 50px 0px 50px;
+  margin-top: 104px;
+  padding: 20px 50px 20px 50px;
   @media (max-width: 820px) {
-    padding: 104px 50px 30px;
+    padding: 20px 50px 20px;
   }
   @media (max-width: 768px) {
-    padding: 20px 10px 30px;
+    margin-top: 104px;
+    padding: 20px 10px 20px;
   }
 }
 </style>
