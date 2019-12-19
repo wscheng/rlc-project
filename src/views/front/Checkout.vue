@@ -3,23 +3,32 @@
     <div class="content">
       <div class="container">
         <div class="row mb-4">
-          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=1 }">
-            <h4 class="text-center">
+          <div
+            class="col-sm-4 text-center"
+            :class="{ 'd-sm-block d-none other-step': currentStep!=1, 'current-step': currentStep==1 }"
+          >
+            <h5 class="text-center mt-2">
               步驟一
               <br />確認購物車內容
-            </h4>
+            </h5>
           </div>
-          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=2 }">
-            <h3 class="text-center">
+          <div
+            class="col-sm-4 text-center"
+            :class="{ 'd-sm-block d-none other-step': currentStep!=2, 'current-step': currentStep==2 }"
+          >
+            <h5 class="text-center mt-2">
               步驟二
               <br />填寫訂購資訊
-            </h3>
+            </h5>
           </div>
-          <div class="col-sm-4" :class="{ 'd-sm-block': currentStep!=3, 'd-none': currentStep!=3 }">
-            <h3 class="text-center">
+          <div
+            class="col-sm-4 text-center"
+            :class="{ 'd-sm-block d-none other-step': currentStep!=3, 'current-step': currentStep==3 }"
+          >
+            <h5 class="text-center mt-2">
               步驟三
               <br />付款/完成訂單
-            </h3>
+            </h5>
           </div>
         </div>
         <div class="row">
@@ -29,58 +38,68 @@
               <BackToShopBtn />
 
               <template v-if="totalQtyInCarts > 0">
-                <table class="table table-sm">
-                  <thead>
-                    <th class="align-middle">商品名稱</th>
-                    <th class="align-middle">數量</th>
-                    <th class="align-middle text-right">金額</th>
-                    <th></th>
-                  </thead>
-                  <tbody>
-                    <tr v-for="cart in cart.carts" :key="cart.id">
-                      <td class="align-middle">{{ cart.product.title }}</td>
-                      <td class="align-middle">{{ cart.qty }} {{ cart.product.unit }}</td>
-                      <td class="align-middle text-right">{{ cart.total | currency }}</td>
-                      <td class="align-middle text-center">
-                        <a href="#" class="text-muted" @click.prevent="removeCart(cart.id)">
-                          <font-awesome-icon :icon="['fas', 'trash']" />
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="3" class="text-right">總計</td>
-                      <td class="text-right">{{ cart.total }}</td>
-                    </tr>
-                    <tr v-if="cart.total != cart.final_total">
-                      <td colspan="3" class="text-right text-success">折扣價</td>
-                      <td class="text-right text-success">{{ cart.final_total }}</td>
-                    </tr>
-                  </tfoot>
-                  <div
-                    class="input-group mb-3 input-group-sm"
-                    v-if="cart.carts && cart.carts.length > 0"
-                  >
-                    <input
-                      v-model="couponCode"
-                      type="text"
-                      class="form-control"
-                      placeholder="請輸入優惠碼"
-                    />
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-outline-secondary"
-                        type="button"
-                        @click="applyCoupon"
-                      >套用優惠碼</button>
-                    </div>
+                <div class="cotainer-fluid">
+                  <div class="row justify-content-center">
+                    <table class="table table-sm">
+                      <thead>
+                        <th class="align-middle text-center">商品照片</th>
+                        <th class="align-middle">商品名稱</th>
+                        <th class="align-middle">數量</th>
+                        <th class="align-middle text-right">金額</th>
+                        <th></th>
+                      </thead>
+                      <tbody>
+                        <tr v-for="cart in cart.carts" :key="cart.id">
+                          <td class="align-middle">
+                            <div
+                              class="favorite-image mx-auto"
+                              :style="{
+                      backgroundImage: `url(${cart.product.imageUrl})`
+                    }"
+                            />
+                          </td>
+                          <td class="align-middle">{{ cart.product.title }}</td>
+                          <td class="align-middle">{{ cart.qty }} {{ cart.product.unit }}</td>
+                          <td class="align-middle text-right">{{ cart.total | currency }}</td>
+                          <td class="align-middle text-center">
+                            <a href="#" class="text-muted" @click.prevent="removeCart(cart.id)">
+                              <font-awesome-icon :icon="['fas', 'trash']" />
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="3" class="text-right">總計</td>
+                          <td class="text-right">{{ cart.total | currency }}</td>
+                        </tr>
+                        <tr v-if="cart.total != cart.final_total">
+                          <td colspan="3" class="text-right text-success">折扣價</td>
+                          <td class="text-right text-success">{{ cart.final_total }}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
-                </table>
-                <router-link
-                  class="btn btn-primary"
-                  :to="{ name: 'Checkout', query: { step: 2 } }"
-                >下一步，填寫訂單資訊</router-link>
+                </div>
+                <div
+                  class="input-group mb-3 input-group-sm"
+                  v-if="cart.carts && cart.carts.length > 0"
+                >
+                  <input v-model="couponCode" type="text" class="form-control" placeholder="請輸入優惠碼" />
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-success btn-outline-secondary text-white"
+                      type="button"
+                      @click="applyCoupon"
+                    >套用優惠碼</button>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <router-link
+                    class="btn btn-danger"
+                    :to="{ name: 'Checkout', query: { step: 2 } }"
+                  >下一步，填寫訂單資訊</router-link>
+                </div>
               </template>
             </div>
             <!-- step 2 -->
@@ -90,16 +109,13 @@
                 class="btn btn-primary"
                 :to="{ name: 'Checkout', query: { step: 1 } }"
               >回上一步</router-link>
-              <button @click="submitOrder">送出訂單</button>
+              <button class="btn btn-danger" style="float:right;" @click="submitOrder">送出訂單</button>
             </div>
             <!-- step 3 -->
             <div class="step3" v-else-if="currentStep == 3">
               <OrderDetail />
               <div class="text-right" v-if="order.is_paid === false">
                 <button class="btn btn-danger" @click="payOrderAndUpdateOrder(order.id)">確認付款去</button>
-              </div>
-              <div class="text-right" v-else>
-                <span class="text-success">付款完成</span>
               </div>
             </div>
             <!-- other ambiguous input -->
@@ -235,5 +251,22 @@ export default {
     margin-top: 20px;
     padding: 30px 10px 30px;
   }
+}
+.favorite-image {
+  width: 60px;
+  height: 80px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.current-step {
+  color: white;
+  background: #7b2f3d;
+  border: 3px solid #f1ede9;
+}
+.other-step {
+  color: white;
+  background: #a6bbc2;
+  border: 3px solid #f1ede9;
 }
 </style>
