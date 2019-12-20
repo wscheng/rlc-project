@@ -205,7 +205,7 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'Home'}">
+          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'MemberCenter'}">
             <font-awesome-icon :icon="['fas', 'user']" size="2x" :style="{ color: '#565656' }" />
             <div>會員中心</div>
           </router-link>
