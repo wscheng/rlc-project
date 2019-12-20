@@ -113,51 +113,7 @@
               data-offset="400"
             >
               <h6 class="text-center">追蹤清單</h6>
-              <table class="table table-sm">
-                <template v-if="favorites.length > 0">
-                  <thead>
-                    <th class="align-middle text-center" style="min-width: 80px">商品照片</th>
-                    <th class="align-middle">商品名稱</th>
-                    <th class="align-middle text-right" style="min-width: 45px">折扣</th>
-                    <th></th>
-                  </thead>
-                  <tbody>
-                    <tr v-for="favorite in favorites" :key="favorite[0]">
-                      <div
-                        class="favorite-image"
-                        :style="{
-                      backgroundImage: `url(${favorite[1].imageUrl})`
-                    }"
-                      />
-                      <td class="align-middle">{{ favorite[1].title }}</td>
-                      <td class="align-middle">
-                        <del
-                          class="del-price"
-                          v-if="favorite[1].origin_price!= favorite[1].price"
-                        >{{ favorite[1].origin_price | currency }}</del>
-                        <div v-else>{{ favorite[1].price | currency }} 元</div>
-                        <div
-                          class="special-price"
-                          v-if="favorite[1].origin_price!= favorite[1].price"
-                        >
-                          <i>{{ favorite[1].price | currency }}</i>
-                        </div>
-                      </td>
-                      <!-- TODO don't hide the drop-down menu after delete button clicked -->
-                      <td class="align-middle text-center">
-                        <a href="#" class="text-muted" @click.prevent="toggleFavorite(favorite[1])">
-                          <font-awesome-icon :icon="['fas', 'trash']" />
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </template>
-                <template v-else>
-                  <tr>
-                    <td class="align-middle text-center">沒有追蹤的商品</td>
-                  </tr>
-                </template>
-              </table>
+              <FavoriteList @remove-favorite="toggleFavorite" />
             </div>
           </div>
           <!-- like end -->
@@ -255,7 +211,7 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'Home'}">
+          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'Favorites'}">
             <div class="action-pic-area">
               <font-awesome-icon :icon="['fas', 'heart']" size="2x" :style="{ color: '#565656' }" />
               <span
@@ -263,7 +219,7 @@
                 v-if="favorites.length > 0"
               >{{ favorites.length }}</span>
             </div>
-            <div>追蹤清單</div>
+            <div>我的收藏</div>
           </router-link>
         </li>
         <li class="nav-item">
@@ -293,8 +249,13 @@
 <script>
 import $ from "jquery";
 import { mapActions, mapState, mapGetters } from "vuex";
+import FavoriteList from "@/components/front/FavoriteList.vue";
 
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 export default {
+  components: {
+    FavoriteList
+  },
   methods: {
     ...mapActions("favoriteModule", ["getFavorites", "toggleFavorite"]),
     ...mapActions("cartModule", ["getCart", "removeCart"])
@@ -467,21 +428,6 @@ export default {
       }
     }
   }
-}
-
-.favorite-image {
-  width: 60px;
-  height: 80px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.del-price {
-  color: grey;
-}
-.special-price {
-  color: #911400;
 }
 
 .footer-action-area {

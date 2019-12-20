@@ -6,6 +6,7 @@ import Books from "@/views/front/Books.vue";
 import Book from "@/views/front/Book.vue";
 import Checkout from "@/views/front/Checkout.vue";
 import Orders from "@/views/front/Orders.vue";
+import Favorites from "@/views/front/Favorites.vue";
 import AdminLogin from "@/views/back/AdminLogin.vue";
 import BackLayout from "@/views/back/BackLayout.vue";
 import ProductManagement from "@/views/back/ProductManagement.vue";
@@ -25,7 +26,8 @@ const routes = [
       { path: "/book/:productId", name: "Book", component: Book },
       { path: "/books", name: "Books", component: Books },
       { path: "/checkout", name: "Checkout", component: Checkout },
-      { path: "/orders", name: "Orders", component: Orders }
+      { path: "/orders", name: "Orders", component: Orders },
+      { path: "/favorites", name: "Favorites", component: Favorites }
     ]
   },
   {

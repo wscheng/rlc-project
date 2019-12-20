@@ -1,5 +1,8 @@
 <template>
   <div class="front-orders" style="background-color: #f1ede9;">
+    <div class="orders-title-block text-center">
+      <h5 class="py-2">訂單列表</h5>
+    </div>
     <table class="table mt-4" v-if="orders.length > 0">
       <thead>
         <tr>
@@ -115,5 +118,10 @@ export default {
     margin-top: 104px;
     padding: 20px 10px 20px;
   }
+}
+
+.orders-title-block {
+  color: white;
+  background: #7b2f3d;
 }
 </style>

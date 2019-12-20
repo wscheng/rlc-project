@@ -11,18 +11,18 @@
                   <router-link to="/">首頁</router-link>
                 </li>
                 <li class="breadcrumb-item">
-                  <router-link to="/books">{{ product.category }}</router-link>
+                  <router-link to="/books">{{ current_product.category }}</router-link>
                 </li>
                 <li class="breadcrumb-item">
                   <router-link
                     :to="{
                       path: '/books',
-                      query: { category: product.subcategory }
+                      query: { category: current_product.subcategory }
                     }"
-                  >{{ product.subcategory }}</router-link>
+                  >{{ current_product.subcategory }}</router-link>
                 </li>
 
-                <li class="breadcrumb-item active">{{ product.title }}</li>
+                <li class="breadcrumb-item active">{{ current_product.title }}</li>
               </ol>
             </nav>
           </div>
@@ -30,13 +30,13 @@
         <div class="row">
           <div class="col-md-4">
             <!-- breadcrumb end -->
-            <!-- product detail -->
+            <!-- current_product detail -->
             <div class="sticky-top clear-fix text-center">
-              <h3 class="product-title">{{ product.title }}</h3>
+              <h3 class="product-title">{{ current_product.title }}</h3>
 
-              <div class="d-flex flex-column" v-if="product.unit">
+              <div class="d-flex flex-column" v-if="current_product.unit">
                 <div class="text-center">
-                  <img class="book-cover" :src="product.imageUrl" />
+                  <img class="book-cover" :src="current_product.imageUrl" />
                 </div>
                 <dl class="text-left mx-auto">
                   <dt>作者：</dt>
@@ -47,18 +47,20 @@
                   <dd>2019/01/01</dd>
                   <dt>定價：</dt>
                   <dd>
-                    <del v-if="product.price!=product.origin_price">{{product.price|currency}}</del>
-                    <span v-else>{{product.origin_price|currency}}</span>
+                    <del
+                      v-if="current_product.price!=current_product.origin_price"
+                    >{{current_product.price|currency}}</del>
+                    <span v-else>{{current_product.origin_price|currency}}</span>
                   </dd>
                   <dt>售價：</dt>
                   <dd>
-                    <template v-if="product.price!=product.origin_price">
+                    <template v-if="current_product.price!=current_product.origin_price">
                       <span
                         class="special-price"
-                      >{{(product.price / product.origin_price).toFixed(1)}}</span>折
-                      <span class="special-price">{{product.price | currency}}</span>
+                      >{{(current_product.price / current_product.origin_price).toFixed(1)}}</span>折
+                      <span class="special-price">{{current_product.price | currency}}</span>
                     </template>
-                    <template v-else>{{product.price | currency}}</template>
+                    <template v-else>{{current_product.price | currency}}</template>
                   </dd>
                   <!-- </dl> -->
                   <dt>
@@ -71,7 +73,11 @@
                         style="white-space: nowrap; display: inline-block"
                         v-model="qty"
                       >
-                        <option v-for="num in 10" :key="num" :value="num">{{ num }} {{product.unit}}</option>
+                        <option
+                          v-for="num in 10"
+                          :key="num"
+                          :value="num"
+                        >{{ num }} {{current_product.unit}}</option>
                       </select>
                     </form>
                   </dd>
@@ -80,7 +86,7 @@
                 <div class="text-center">
                   <button
                     class="btn btn-primary mt-2"
-                    @click="addToCart({ productId: product.id, qty: qty })"
+                    @click="addToCart({ productId: current_product.id, qty: qty })"
                   >
                     <font-awesome-icon
                       :icon="['fas', 'shopping-cart']"
@@ -89,14 +95,14 @@
                     {{"加入購物車"}}
                   </button>
                   <br />
-                  <button class="btn btn-secondary mt-2" @click="toggleFavorite(product)">
+                  <button class="btn btn-secondary mt-2" @click="toggleFavorite(current_product)">
                     <font-awesome-icon
                       :style="{
-                        'color': product.isFavorite ? 'red' : 'white'
+                        'color': current_product.isFavorite ? 'red' : 'white'
                       }"
                       :icon="['fas', 'heart']"
                     />
-                    {{ product.isFavorite? "取消收藏":"加到收藏"}}
+                    {{ current_product.isFavorite? "取消收藏":"加到收藏"}}
                   </button>
                 </div>
               </div>
@@ -106,9 +112,9 @@
 
           <div class="col-md-8 mt-md-0 mt-5">
             <h4>內容簡介</h4>
-            <pre class="product-description">{{ product.description }}</pre>
+            <pre class="product-description">{{ current_product.description }}</pre>
             <h4>本書內容</h4>
-            <pre class="product-description">{{ product.content }}</pre>
+            <pre class="product-description">{{ current_product.content }}</pre>
           </div>
         </div>
       </div>
@@ -117,16 +123,13 @@
 </template>
 
 <script>
-import Vue from "vue";
 import { mapActions, mapMutations, mapState } from "vuex";
-import axios from "axios";
 
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 export default {
   data() {
     return {
       productId: "",
-      product: {},
       categories: [
         { title: "全部書籍", id: "book-all" },
         { title: "文學小說", id: "book-literalNovel" },
@@ -150,44 +153,19 @@ export default {
   },
   methods: {
     ...mapMutations(["setLoading"]),
-    getProduct(productId) {
-      const vm = this;
-      const singleProductUrl = `${Vue.prototype.$_USER_API_URL}/product/${productId}`;
-      console.warn("url", singleProductUrl);
-      vm.setLoading(true);
-      axios.get(singleProductUrl).then(response => {
-        if (response.data.success) {
-          console.warn(response.data.product);
-          vm.product = response.data.product;
-          vm.$set(vm.product, "isFavorite", false);
-          console.warn(vm.favorites);
-          vm.favorites.forEach(favorite => {
-            if (favorite[1].id == productId) {
-              vm.product.isFavorite = true;
-            }
-          });
-        } else {
-          console.error("cant get products! reason: ", response.data.message);
-        }
-        vm.setLoading(false);
-      });
+    toggleFavorite() {
+      this.$store.dispatch("favoriteModule/toggleFavoriteWithCurrProduct");
     },
-    toggleFavorite(book) {
-      this.$store.dispatch(
-        "favoriteModule/toggleFavoriteWithoutUpdateProducts",
-        book
-      );
-      this.product.isFavorite = !book.isFavorite;
-    },
-    ...mapActions("cartModule", ["addToCart"])
+    ...mapActions("cartModule", ["addToCart"]),
+    ...mapActions("productModule", ["getCurrProduct"])
   },
   computed: {
+    ...mapState("productModule", ["current_product"]),
     ...mapState("favoriteModule", ["favorites"])
   },
   created() {
     this.productId = this.$route.params.productId;
-    this.getProduct(this.productId);
-    // check if book is in favorites
+    this.getCurrProduct(this.productId);
   }
 };
 </script>

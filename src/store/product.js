@@ -6,13 +6,14 @@ export default {
   strict: true,
   namespaced: true,
   state: {
-    products: []
+    products: [],
+    current_product: {}
   },
   mutations: {
     setProducts(state, products) {
       state.products = products;
     },
-    updateFavoriteProduct(state, { index, product }) {
+    updateFavoriteInProducts(state, { index, product }) {
       console.warn("UP", index, state.products[index], product);
       state.products[index].isFavorite = product.isFavorite;
       if (product.isFavorite) {
@@ -21,6 +22,9 @@ export default {
         state.products[index].addedToFavoriteTime = 0;
       }
       console.warn("AUP", index, state.products[index], product);
+    },
+    updateCurrProduct(state, product) {
+      state.current_product = product;
     }
   },
   actions: {
@@ -52,6 +56,32 @@ export default {
           context.commit("setProducts", response.data.products);
         } else {
           console.error("cant get products");
+        }
+        context.commit("setLoading", false, { root: true });
+      });
+    },
+    getCurrProduct(context, productId) {
+      const singleProductUrl = `${Vue.prototype.$_USER_API_URL}/product/${productId}`;
+      console.warn("url", singleProductUrl);
+      context.commit("setLoading", true, { root: true });
+      axios.get(singleProductUrl).then(response => {
+        if (response.data.success) {
+          let product = response.data.product;
+          const favoritesMap = new Map(
+            context.rootState.favoriteModule.favorites
+          );
+          if (favoritesMap.has(productId)) {
+            product.isFavorite = true;
+            product.addedToFavoriteTime = favoritesMap.get(
+              product.id
+            ).addedToFavoriteTime;
+          } else {
+            product.isFavorite = false;
+            product.addedToFavoriteTime = 0;
+          }
+          context.commit("updateCurrProduct", product);
+        } else {
+          console.error("cant get products! reason: ", response.data.message);
         }
         context.commit("setLoading", false, { root: true });
       });
