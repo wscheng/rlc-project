@@ -35,7 +35,6 @@
           <div class="col-12">
             <div class="step1" v-if="currentStep == 1">
               <h6 class="text-center">購物車清單</h6>
-              <BackToShopBtn />
 
               <template v-if="totalQtyInCarts > 0">
                 <div class="cotainer-fluid">
@@ -99,6 +98,14 @@
                     class="btn btn-danger"
                     :to="{ name: 'Checkout', query: { step: 2 } }"
                   >下一步，填寫訂單資訊</router-link>
+                </div>
+              </template>
+              <template v-else>
+                <div class="text-center h7">
+                  <br />購物車沒有東西
+                  <br />
+                  <br />
+                  <BackToShopBtn />
                 </div>
               </template>
             </div>
