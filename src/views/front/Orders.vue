@@ -115,7 +115,7 @@ export default {
     padding: 20px 50px 20px;
   }
   @media (max-width: 768px) {
-    margin-top: 104px;
+    margin-top: 0px;
     padding: 20px 10px 20px;
   }
 }
