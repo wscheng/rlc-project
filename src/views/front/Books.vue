@@ -31,7 +31,7 @@
                     </li>
                     <li class="breadcrumb-item active">書籍</li>
                     <li class="breadcrumb-item active">{{ currentCategory }}</li>
-                    <li class="breadcrumb-item active" v-if="filterText">搜尋 {{ filterText }}</li>
+                    <li class="breadcrumb-item active" v-if="filterText">搜尋 "{{ filterText }}"</li>
                   </ol>
                 </nav>
               </div>
@@ -371,13 +371,15 @@ export default {
       let filteredBooks;
       if (vm.currentCategory == "全部書籍") {
         filteredBooks = vm.products.filter(
-          product => product.category == "書籍"
+          product =>
+            product.category == "書籍" && product.title.includes(vm.filterText)
         );
       } else {
         filteredBooks = vm.products.filter(
           product =>
             product.category == "書籍" &&
-            product.subcategory == vm.currentCategory
+            product.subcategory == vm.currentCategory &&
+            product.title.includes(vm.filterText)
         );
       }
       if (vm.currSortByAction.sortBy == "price") {
@@ -395,11 +397,19 @@ export default {
     },
     ...mapState("productModule", ["products"])
   },
+  watch: {
+    "$route.query.search": function(search) {
+      this.filterText = search;
+    }
+  },
   created() {
+    this.filterText = this.$route.query.search ? this.$route.query.search : "";
+    // make the category query by vue-route parameter
     let categoryIndex = this.categories.indexOf(this.$route.query.category);
     if (categoryIndex != -1) {
       this.currentCategory = this.categories[categoryIndex];
     }
+    this.$store.commit("productModule/updateCurrProduct", {});
     this.getProducts();
   }
 };

@@ -63,8 +63,8 @@
         </ul>
         <div class="search-area text-center d-md-none">
           <div class="search-inner-area mx-auto">
-            <input class="search-input" type="text" placeholder="想找什麼？" />
-            <div class="btn btn-sm search-btn">
+            <input class="search-input" type="text" placeholder="想找什麼？" v-model.trim="searchInput" />
+            <div class="btn btn-sm search-btn" @click="redirectToSearchPage">
               <font-awesome-icon :icon="['fas', 'search']" size="2x" :style="{ color: '#565656' }" />
             </div>
           </div>
@@ -75,16 +75,22 @@
         <ul class="navbar-nav">
           <li class="nav-item mx-auto">
             <div class="search-area">
-              <!-- <form action autocomplete="on"> -->
-              <input class="search-input" type="text" placeholder="想找什麼？" />
-              <div class="btn btn-sm search-btn">
-                <font-awesome-icon
-                  :icon="['fas', 'search']"
-                  size="2x"
-                  :style="{ color: '#565656' }"
+              <form @submit.prevent="redirectToSearchPage">
+                <input
+                  class="search-input"
+                  type="text"
+                  placeholder="想找什麼？"
+                  v-model.trim="searchInput"
                 />
-              </div>
-              <!-- </form> -->
+                <!-- NOTE: click won't work here, because mouseup event can't be detected -->
+                <div class="btn btn-sm search-btn" @mousedown="redirectToSearchPage">
+                  <font-awesome-icon
+                    :icon="['fas', 'search']"
+                    size="2x"
+                    :style="{ color: '#565656' }"
+                  />
+                </div>
+              </form>
             </div>
           </li>
           <!-- user start -->
@@ -253,12 +259,27 @@ import FavoriteList from "@/components/front/FavoriteList.vue";
 
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 export default {
+  data() {
+    return {
+      searchInput: ""
+    };
+  },
   components: {
     FavoriteList
   },
   methods: {
     ...mapActions("favoriteModule", ["getFavorites", "toggleFavorite"]),
-    ...mapActions("cartModule", ["getCart", "removeCart"])
+    ...mapActions("cartModule", ["getCart", "removeCart"]),
+    redirectToSearchPage() {
+      if (this.searchInput.length == 0) {
+        return;
+      }
+      this.$router.push({
+        name: "Books",
+        query: { search: this.searchInput }
+      });
+      this.searchInput = "";
+    }
   },
   computed: {
     ...mapState("cartModule", ["cart"]),
@@ -480,6 +501,9 @@ export default {
 @import url("https://raw.github.com/FortAwesome/Font-Awesome/master/docs/assets/css/font-awesome.min.css");
 // search area when above md screen size
 .header-action-area {
+  .search-area:focus-within {
+    z-index: 1;
+  }
   .search-area {
     width: 150px;
     height: 100%;
@@ -504,8 +528,12 @@ export default {
       cursor: pointer;
     }
 
-    .search-input:focus:hover {
-      border-bottom: 1px solid #565656;
+    // .search-input:focus:hover {
+    //   border-bottom: 1px solid red;
+    // }
+    .search-input::placeholder {
+      color: black;
+      opacity: 0.8;
     }
 
     .search-input:focus {
