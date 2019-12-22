@@ -46,8 +46,11 @@
                 <tr>
                   <th>付款狀態</th>
                   <td>
-                    <span v-if="!order.is_paid">尚未付款</span>
-                    <span v-else class="text-success">付款完成</span>
+                    <span v-if="!order.is_paid" class="text-danger">尚未付款</span>
+                    <span v-else class="text-success">
+                      {{ order.paid_date| moment("YYYY-MM-DD HH:mm:ss")}}
+                      <br />付款完成
+                    </span>
                   </td>
                 </tr>
               </tbody>

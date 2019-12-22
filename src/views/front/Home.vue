@@ -72,7 +72,7 @@
               <blockquote style="display:none;"></blockquote>
               <blockquote>
                 <p>
-                  <q>留神細聽所有的民歌，因為它們是最優美的鏇律的寶庫。它們會打開你的眼界，使你注意到各種不同的民族性格。</q>
+                  <q>留神細聽所有的民歌，因為它們是最優美的旋律的寶庫。它們會打開你的眼界，使你注意到各種不同的民族性格。</q>
                 </p>
                 <footer>舒曼</footer>
               </blockquote>

@@ -24,8 +24,8 @@ export default {
   },
   actions: {
     getOrders(context, page) {
-      console.warn("SSSS", page);
       const getOrdersUrl = `${Vue.prototype.$_USER_API_URL}/orders?page=${page}`;
+      context.commit("setLoading", true, { root: true });
       axios.get(getOrdersUrl).then(response => {
         console.warn(response.data);
         if (response.data.success) {
@@ -36,6 +36,7 @@ export default {
         } else {
           console.warn("get orders failed", response.data.message);
         }
+        context.commit("setLoading", false, { root: true });
       });
     },
     getOrder(context, orderId) {

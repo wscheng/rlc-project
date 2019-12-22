@@ -118,7 +118,7 @@
               style="min-width: 300px; max-height: 600px; overflow:auto;"
               data-offset="400"
             >
-              <h6 class="text-center">追蹤清單</h6>
+              <h6 class="text-center">我的收藏</h6>
               <FavoriteList @remove-favorite="toggleFavorite" />
             </div>
           </div>
