@@ -57,9 +57,23 @@
                     }"
                             />
                           </td>
-                          <td class="align-middle">{{ cart.product.title }}</td>
+                          <td class="align-middle">
+                            {{ cart.product.title }}
+                            <div
+                              class="text-success"
+                              v-if="cart.coupon"
+                            >已套用{{ cart.coupon.title }}折價券 - [{{cart.coupon.code}}]</div>
+                          </td>
                           <td class="align-middle">{{ cart.qty }} {{ cart.product.unit }}</td>
-                          <td class="align-middle text-right">{{ cart.total | currency }}</td>
+                          <td class="align-middle text-right">
+                            <template
+                              v-if="cart.total == cart.final_total"
+                            >{{ cart.total | currency }}</template>
+                            <template v-else>
+                              <del>{{ cart.total | currency }}</del>
+                              <div class="text-success">{{ cart.final_total | currency }}</div>
+                            </template>
+                          </td>
                           <td class="align-middle text-center">
                             <a href="#" class="text-muted" @click.prevent="removeCart(cart.id)">
                               <font-awesome-icon :icon="['fas', 'trash']" />
@@ -70,11 +84,17 @@
                       <tfoot>
                         <tr>
                           <td colspan="3" class="text-right">總計</td>
-                          <td class="text-right">{{ cart.total | currency }}</td>
+                          <td
+                            class="text-right"
+                            v-if="cart.total==cart.final_total"
+                          >{{ cart.total | currency }}</td>
+                          <td class="text-right" v-else>
+                            <del>{{ cart.total | currency }}</del>
+                          </td>
                         </tr>
                         <tr v-if="cart.total != cart.final_total">
                           <td colspan="3" class="text-right text-success">折扣價</td>
-                          <td class="text-right text-success">{{ cart.final_total }}</td>
+                          <td class="text-right text-success">{{ cart.final_total | currency }}</td>
                         </tr>
                       </tfoot>
                     </table>
@@ -89,7 +109,7 @@
                     <button
                       class="btn btn-success btn-outline-secondary text-white"
                       type="button"
-                      @click="applyCoupon"
+                      @click="applyCoupon(couponCode)"
                     >套用優惠碼</button>
                   </div>
                 </div>
@@ -120,7 +140,7 @@
             </div>
             <!-- step 3 -->
             <div class="step3" v-else-if="currentStep == 3">
-              <OrderDetail />
+              <OrderDetail :order="order" />
               <div class="text-right" v-if="order.is_paid === false">
                 <button class="btn btn-danger" @click="payOrderAndUpdateOrder(order.id)">確認付款去</button>
               </div>
@@ -193,6 +213,7 @@ export default {
           vm.getCart();
           // NOTE: getOrder should be placed before router.push
           vm.getOrder(response.data.orderId);
+          console.warn("ORDER", vm.order, response.data);
           // go to third page and
           this.$router.push({
             name: "Checkout",

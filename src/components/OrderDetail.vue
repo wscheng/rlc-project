@@ -29,7 +29,7 @@
               <tbody>
                 <tr>
                   <th>Email</th>
-                  <td>{{ order.user.email }}</td>
+                  <td class="user-email">{{ order.user.email }}</td>
                 </tr>
                 <tr>
                   <th>姓名</th>
@@ -65,15 +65,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState("orderModule", ["order"])
-  },
-  watch: {
-    orderPassedIn(order) {
-      this.order = order;
-    }
-  }
+  props: ["order"]
 };
 </script>
+
+<style lang="scss" scoped>
+.user-email {
+  word-break: break-all;
+}
+</style>

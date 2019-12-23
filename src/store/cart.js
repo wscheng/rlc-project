@@ -54,7 +54,6 @@ export default {
       }
       function axiosAddToCart(productId, qty = 1) {
         const addToCartUrl = `${Vue.prototype.$_USER_API_URL}/cart`;
-        console.warn("XXXIII", qty);
         return axios.post(addToCartUrl, {
           data: { product_id: productId, qty: qty }
         });
@@ -107,6 +106,7 @@ export default {
       axios
         .post(applyCouponUrl, { data: { code: couponCode } })
         .then(response => {
+          console.warn("apply coupon success", couponCode);
           if (response.data.success) {
             context.dispatch("getCart");
           } else {

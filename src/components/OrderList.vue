@@ -48,7 +48,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <OrderDetail :need-loading="false" :order-passed-in="selectedOrder" />
+            <OrderDetail :order="selectedOrder" />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>

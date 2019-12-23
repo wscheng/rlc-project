@@ -30,7 +30,7 @@ export default {
         console.warn(response.data);
         if (response.data.success) {
           context.commit("SET_ORDERS", {
-            orders: response.data.orders,
+            orders: response.data.orders.filter(order => "id" in order),
             pagination: response.data.pagination
           });
         } else {
@@ -42,7 +42,7 @@ export default {
     getOrder(context, orderId) {
       const getOrderUrl = `${Vue.prototype.$_USER_API_URL}/order/${orderId}`;
       axios.get(getOrderUrl).then(response => {
-        console.warn(response.data);
+        console.warn("getOrder", response.data);
         if (response.data.success) {
           context.commit("setOrder", response.data.order);
         } else {
