@@ -2,53 +2,45 @@
   <div>
     <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click.prevent="openModal(true)">
-        Add a new coupon
-      </button>
+      <button class="btn btn-primary" @click.prevent="openModal(true)">Add a new coupon</button>
     </div>
     <table class="table mt-4" v-if="coupons.length > 0">
       <thead>
         <tr>
-          <th width="120">Category</th>
-          <th>Name</th>
+          <th width="120">標題</th>
+          <th width="120">折扣碼</th>
           <th width="120">折扣</th>
           <th width="120">是否啟用</th>
+          <th width="120">有效期限</th>
           <th width="120">編輯</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in coupons" :key="item.id">
           <td>{{ item.title }}</td>
-          <td class="text-right">{{ item.percent }}</td>
+          <td>{{ item.code }}</td>
+          <td>{{ item.percent }}</td>
           <td>
             <span v-if="item.is_enabled == 1" class="text-success">enable</span>
             <span v-else class="text-success text-danger">disabled</span>
           </td>
-          <td class="text-right">{{ item.dueDate | moment("YYYY-MM-DD") }}</td>
+          <td>{{ item.dueDate | moment("YYYY-MM-DD") }}</td>
           <td>
             <div class="btn-group">
               <button
                 class="btn btn-outline-primary btn-sm"
                 @click.prevent="openModal(false, item)"
-              >
-                edit
-              </button>
+              >edit</button>
               <button
                 class="btn btn-outline-danger btn-sm"
                 @click.prevent="openDeleteModal(item)"
-              >
-                delete
-              </button>
+              >delete</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <Pagination
-      :pagination="pagination"
-      @change-page="getCoupons"
-      v-if="coupons.length > 0"
-    />
+    <Pagination :pagination="pagination" @change-page="getCoupons" v-if="coupons.length > 0" />
     <!-- Modal -->
     <div
       class="modal fade"
@@ -64,12 +56,7 @@
             <h5 class="modal-title" id="exampleModalLabel">
               <span>新增優惠券</span>
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -98,10 +85,7 @@
                 </div>
                 <div class="form-group">
                   <label for="percent">到期日</label>
-                  <datepicker
-                    v-model="dueDate"
-                    :format="'yyyy-MM-dd'"
-                  ></datepicker>
+                  <datepicker v-model="dueDate" :format="'yyyy-MM-dd'"></datepicker>
                 </div>
                 <div class="form-group">
                   <label for="code">折扣代碼</label>
@@ -123,32 +107,15 @@
                       :true-value="1"
                       :false-value="''"
                     />
-                    <label
-                      class="form-check-label"
-                      for="is_enabled"
-                      :format="'YYYY-MM-DD'"
-                      >是否啟用</label
-                    >
+                    <label class="form-check-label" for="is_enabled" :format="'YYYY-MM-DD'">是否啟用</label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              data-dismiss="modal"
-            >
-              取消
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              @click="confirmCoupon"
-            >
-              確認
-            </button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="confirmCoupon">確認</button>
           </div>
         </div>
       </div>
@@ -167,12 +134,7 @@
             <h5 class="modal-title" id="exampleModalLabel">
               <span>刪除產品</span>
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -182,20 +144,8 @@
             商品(刪除後將無法恢復)。
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              data-dismiss="modal"
-            >
-              取消
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              @click="delCoupon(tempCoupon)"
-            >
-              確認刪除
-            </button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" @click="delCoupon(tempCoupon)">確認刪除</button>
           </div>
         </div>
       </div>

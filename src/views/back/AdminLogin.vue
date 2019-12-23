@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="admin-login text-center" style="background-color: #f1ede9;">
     <form class="form-signin" @submit.prevent="signin">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">管理者登入</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input
         type="email"
@@ -21,15 +21,17 @@
         required
         v-model="user.password"
       />
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me" /> Remember me
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Sign in
-      </button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+      <button class="btn btn-lg btn-block btn-primary" type="submit">登入</button>
+      <router-link
+        :to="{ name: 'Home'}"
+        style="background-color: #a6bbc2"
+        class="btn btn-lg btn-info btn-block"
+      >回到前台</router-link>
+      <p class="mt-5 mb-3 text-muted">
+        &copy; Copyright
+        2019- RLC
+        <a href="mailto:maxmaman@gmail.com">wscheng</a>
+      </p>
     </form>
   </div>
 </template>
@@ -78,7 +80,10 @@ body {
   padding-bottom: 40px;
   background-color: #f5f5f5;
 }
-
+.admin-login {
+  height: 100vh;
+  padding-top: 10vh;
+}
 .form-signin {
   width: 100%;
   max-width: 330px;
