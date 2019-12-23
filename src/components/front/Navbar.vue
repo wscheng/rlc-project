@@ -7,9 +7,17 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </nav>-->
-    <nav class="navbar navbar-expand-md transparent navbar-inverse navbar-light">
+    <nav
+      class="navbar navbar-expand-md transparent navbar-inverse navbar-light"
+    >
       <router-link class="navbar-brand" to="/">
-        <img src="../../assets/logo.svg" width="54" height="54" class="d-inline-block" alt />
+        <img
+          src="../../assets/logo.svg"
+          width="54"
+          height="54"
+          class="d-inline-block"
+          alt
+        />
         <span class="align-bottom">
           <i>ReaListiC Store</i>
         </span>
@@ -47,7 +55,9 @@
         </ul>
         <!-- display left navbar part above md screen end -->
         <!-- display navbar part under md screen start -->
-        <ul class="nav mr-auto mt-2 mt-lg-0 ml-lg-3 d-md-none justify-content-center">
+        <ul
+          class="nav mr-auto mt-2 mt-lg-0 ml-lg-3 d-md-none justify-content-center"
+        >
           <li class="nav-item">
             <router-link class="nav-link" to="/">首頁</router-link>
           </li>
@@ -63,9 +73,18 @@
         </ul>
         <div class="search-area text-center d-md-none">
           <div class="search-inner-area mx-auto">
-            <input class="search-input" type="text" placeholder="想找什麼？" v-model.trim="searchInput" />
+            <input
+              class="search-input"
+              type="text"
+              placeholder="想找什麼？"
+              v-model.trim="searchInput"
+            />
             <div class="btn btn-sm search-btn" @click="redirectToSearchPage">
-              <font-awesome-icon :icon="['fas', 'search']" size="2x" :style="{ color: '#565656' }" />
+              <font-awesome-icon
+                :icon="['fas', 'search']"
+                size="2x"
+                :style="{ color: '#565656' }"
+              />
             </div>
           </div>
         </div>
@@ -83,7 +102,10 @@
                   v-model.trim="searchInput"
                 />
                 <!-- NOTE: click won't work here, because mouseup event can't be detected -->
-                <div class="btn btn-sm search-btn" @mousedown="redirectToSearchPage">
+                <div
+                  class="btn btn-sm search-btn"
+                  @mousedown="redirectToSearchPage"
+                >
                   <font-awesome-icon
                     :icon="['fas', 'search']"
                     size="2x"
@@ -96,22 +118,39 @@
           <!-- user start -->
           <li class="nav-item dropdown mx-auto">
             <button class="btn btn-sm" data-toggle="dropdown" data-flip="false">
-              <font-awesome-icon :icon="['fas', 'user']" size="2x" :style="{ color: '#565656' }" />
+              <font-awesome-icon
+                :icon="['fas', 'user']"
+                size="2x"
+                :style="{ color: '#565656' }"
+              />
             </button>
             <div class="dropdown-menu dropdown-menu-right p-3">
-              <router-link class="dropdown-item" :to="{ name: 'Orders' }">訂單列表</router-link>
-              <router-link class="dropdown-item" :to="{ name: 'AdminLogin' }">後台管理</router-link>
+              <router-link class="dropdown-item" :to="{ name: 'Orders' }"
+                >訂單列表</router-link
+              >
+              <router-link class="dropdown-item" :to="{ name: 'AdminLogin' }"
+                >後台管理</router-link
+              >
             </div>
           </li>
           <!-- user end -->
           <!-- like start -->
           <div class="dropdown ml-auto">
-            <button class="btn action-btn btn-sm" data-toggle="dropdown" data-flip="false">
-              <font-awesome-icon :icon="['fas', 'heart']" size="2x" :style="{ color: '#565656' }" />
+            <button
+              class="btn action-btn btn-sm"
+              data-toggle="dropdown"
+              data-flip="false"
+            >
+              <font-awesome-icon
+                :icon="['fas', 'heart']"
+                size="2x"
+                :style="{ color: '#565656' }"
+              />
               <span
                 class="badge badge-pill badge-danger"
                 v-if="favorites.length > 0"
-              >{{ favorites.length }}</span>
+                >{{ favorites.length }}</span
+              >
             </button>
             <div
               class="dropdown-menu dropdown-menu-right p-3"
@@ -125,7 +164,11 @@
           <!-- like end -->
           <!-- cart start -->
           <div class="dropdown ml-auto">
-            <button class="btn btn-sm action-btn" data-toggle="dropdown" data-flip="false">
+            <button
+              class="btn btn-sm action-btn"
+              data-toggle="dropdown"
+              data-flip="false"
+            >
               <font-awesome-icon
                 :icon="['fas', 'shopping-cart']"
                 size="2x"
@@ -134,7 +177,8 @@
               <span
                 class="badge badge-pill badge-danger"
                 v-if="totalQtyInCarts > 0"
-              >{{ totalQtyInCarts }}</span>
+                >{{ totalQtyInCarts }}</span
+              >
             </button>
             <div
               class="dropdown-menu dropdown-menu-right p-3"
@@ -156,10 +200,18 @@
                       <td
                         class="align-middle text-center"
                         style="min-width: 45px"
-                      >{{ cartItem.qty }} {{ cartItem.product.unit }}</td>
-                      <td class="align-middle text-right">{{ cartItem.total | currency }}</td>
+                      >
+                        {{ cartItem.qty }} {{ cartItem.product.unit }}
+                      </td>
+                      <td class="align-middle text-right">
+                        {{ cartItem.total | currency }}
+                      </td>
                       <td class="align-middle text-center">
-                        <a href="#" class="text-muted" @click.prevent="removeCart(cartItem.id)">
+                        <a
+                          href="#"
+                          class="text-muted"
+                          @click.prevent="removeCart(cartItem.id)"
+                        >
                           <font-awesome-icon :icon="['fas', 'trash']" />
                         </a>
                       </td>
@@ -182,7 +234,8 @@
                 :to="{ name: 'Checkout', query: { step: 1 } }"
                 class="btn btn-primary btn-block"
                 v-if="totalQtyInCarts > 0"
-              >結帳去</router-link>
+                >結帳去</router-link
+              >
             </div>
           </div>
           <!-- cart end -->
@@ -196,12 +249,19 @@
       <ul class="nav footer-action-area d-flex justify-content-between">
         <li class="nav-item">
           <router-link class="btn btn-sm text-center" :to="{ name: 'Home' }">
-            <font-awesome-icon :icon="['fas', 'home']" size="2x" :style="{ color: '#565656' }" />
+            <font-awesome-icon
+              :icon="['fas', 'home']"
+              size="2x"
+              :style="{ color: '#565656' }"
+            />
             <div>首頁</div>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'Home'}">
+          <router-link
+            class="btn btn-sm action-btn text-center"
+            :to="{ name: 'Home' }"
+          >
             <font-awesome-icon
               :icon="['fas', 'map-marked-alt']"
               size="2x"
@@ -211,19 +271,34 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'MemberCenter'}">
-            <font-awesome-icon :icon="['fas', 'user']" size="2x" :style="{ color: '#565656' }" />
+          <router-link
+            class="btn btn-sm action-btn text-center"
+            :to="{ name: 'MemberCenter' }"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'user']"
+              size="2x"
+              :style="{ color: '#565656' }"
+            />
             <div>會員中心</div>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="btn btn-sm action-btn text-center" :to="{ name: 'Favorites'}">
+          <router-link
+            class="btn btn-sm action-btn text-center"
+            :to="{ name: 'Favorites' }"
+          >
             <div class="action-pic-area">
-              <font-awesome-icon :icon="['fas', 'heart']" size="2x" :style="{ color: '#565656' }" />
+              <font-awesome-icon
+                :icon="['fas', 'heart']"
+                size="2x"
+                :style="{ color: '#565656' }"
+              />
               <span
                 class="badge badge-pill badge-danger"
                 v-if="favorites.length > 0"
-              >{{ favorites.length }}</span>
+                >{{ favorites.length }}</span
+              >
             </div>
             <div>我的收藏</div>
           </router-link>
@@ -242,7 +317,8 @@
               <span
                 class="badge badge-pill badge-danger"
                 v-if="totalQtyInCarts > 0"
-              >{{ totalQtyInCarts }}</span>
+                >{{ totalQtyInCarts }}</span
+              >
             </div>
             <div>購物車</div>
           </router-link>

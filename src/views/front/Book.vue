@@ -11,7 +11,9 @@
                   <router-link to="/">首頁</router-link>
                 </li>
                 <li class="breadcrumb-item">
-                  <router-link to="/books">{{ current_product.category }}</router-link>
+                  <router-link to="/books">{{
+                    current_product.category
+                  }}</router-link>
                 </li>
                 <li class="breadcrumb-item">
                   <router-link
@@ -19,10 +21,13 @@
                       path: '/books',
                       query: { category: current_product.subcategory }
                     }"
-                  >{{ current_product.subcategory }}</router-link>
+                    >{{ current_product.subcategory }}</router-link
+                  >
                 </li>
 
-                <li class="breadcrumb-item active">{{ current_product.title }}</li>
+                <li class="breadcrumb-item active">
+                  {{ current_product.title }}
+                </li>
               </ol>
             </nav>
           </div>
@@ -48,19 +53,35 @@
                   <dt>定價：</dt>
                   <dd>
                     <del
-                      v-if="current_product.price!=current_product.origin_price"
-                    >{{current_product.price|currency}}</del>
-                    <span v-else>{{current_product.origin_price|currency}}</span>
+                      v-if="
+                        current_product.price != current_product.origin_price
+                      "
+                      >{{ current_product.price | currency }}</del
+                    >
+                    <span v-else>{{
+                      current_product.origin_price | currency
+                    }}</span>
                   </dd>
                   <dt>售價：</dt>
                   <dd>
-                    <template v-if="current_product.price!=current_product.origin_price">
-                      <span
-                        class="special-price"
-                      >{{(current_product.price / current_product.origin_price).toFixed(1)}}</span>折
-                      <span class="special-price">{{current_product.price | currency}}</span>
+                    <template
+                      v-if="
+                        current_product.price != current_product.origin_price
+                      "
+                    >
+                      <span class="special-price">{{
+                        (
+                          current_product.price / current_product.origin_price
+                        ).toFixed(1)
+                      }}</span
+                      >折
+                      <span class="special-price">{{
+                        current_product.price | currency
+                      }}</span>
                     </template>
-                    <template v-else>{{current_product.price | currency}}</template>
+                    <template v-else>{{
+                      current_product.price | currency
+                    }}</template>
                   </dd>
                   <!-- </dl> -->
                   <dt>
@@ -73,11 +94,9 @@
                         style="white-space: nowrap; display: inline-block"
                         v-model="qty"
                       >
-                        <option
-                          v-for="num in 10"
-                          :key="num"
-                          :value="num"
-                        >{{ num }} {{current_product.unit}}</option>
+                        <option v-for="num in 10" :key="num" :value="num"
+                          >{{ num }} {{ current_product.unit }}</option
+                        >
                       </select>
                     </form>
                   </dd>
@@ -86,23 +105,28 @@
                 <div class="text-center">
                   <button
                     class="btn btn-primary mt-2"
-                    @click="addToCart({ productId: current_product.id, qty: qty })"
+                    @click="
+                      addToCart({ productId: current_product.id, qty: qty })
+                    "
                   >
                     <font-awesome-icon
                       :icon="['fas', 'shopping-cart']"
                       :style="{ color: 'white' }"
                     />
-                    {{"加入購物車"}}
+                    {{ "加入購物車" }}
                   </button>
                   <br />
-                  <button class="btn btn-secondary mt-2" @click="toggleFavorite(current_product)">
+                  <button
+                    class="btn btn-secondary mt-2"
+                    @click="toggleFavorite(current_product)"
+                  >
                     <font-awesome-icon
                       :style="{
-                        'color': current_product.isFavorite ? 'red' : 'white'
+                        color: current_product.isFavorite ? 'red' : 'white'
                       }"
                       :icon="['fas', 'heart']"
                     />
-                    {{ current_product.isFavorite? "取消收藏":"加到收藏"}}
+                    {{ current_product.isFavorite ? "取消收藏" : "加到收藏" }}
                   </button>
                 </div>
               </div>
@@ -112,7 +136,9 @@
 
           <div class="col-md-8 mt-md-0 mt-5">
             <h4>內容簡介</h4>
-            <pre class="product-description">{{ current_product.description }}</pre>
+            <pre class="product-description">{{
+              current_product.description
+            }}</pre>
             <h4>本書內容</h4>
             <pre class="product-description">{{ current_product.content }}</pre>
           </div>

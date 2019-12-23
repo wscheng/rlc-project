@@ -17,33 +17,49 @@
           <td class="user-email" v-if="item.user">{{ item.user.email }}</td>
           <td v-else>NO EMAIL</td>
           <td>
-            <div
-              v-for="product in item.products"
-              :key="product.id"
-            >{{ product.product.title }}x {{ product.qty }}</div>
+            <div v-for="product in item.products" :key="product.id">
+              {{ product.product.title }}x {{ product.qty }}
+            </div>
           </td>
-          <td class="text-md-right">{{ item.total | currency}}</td>
+          <td class="text-md-right">{{ item.total | currency }}</td>
           <td>
             <span v-if="!item.is_paid" class="text-danger">尚未付款</span>
             <span v-else class="text-success">
-              {{ item.paid_date| moment("YYYY-MM-DD HH:mm:ss")}}
+              {{ item.paid_date | moment("YYYY-MM-DD HH:mm:ss") }}
               <br />付款完成
             </span>
           </td>
           <td>
-            <button class="btn btn-primary" @click="openModal(item)">訂單明細</button>
+            <button class="btn btn-primary" @click="openModal(item)">
+              訂單明細
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
-    <Pagination :pagination="pagination" @change-page="getOrders" v-if="orders.length > 0" />
+    <Pagination
+      :pagination="pagination"
+      @change-page="getOrders"
+      v-if="orders.length > 0"
+    />
     <!-- modal start -->
-    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="detailModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">訂單明細</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -51,13 +67,21 @@
             <OrderDetail :order="selectedOrder" />
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-dismiss="modal"
+            >
+              關閉
+            </button>
             <button
               type="button"
               class="btn btn-danger"
               @click="payOrderAndUpdateOrders(selectedOrder.id)"
               v-if="!selectedOrder.is_paid"
-            >確認已經付款</button>
+            >
+              確認已經付款
+            </button>
           </div>
         </div>
       </div>
@@ -106,7 +130,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .front-orders {

@@ -10,28 +10,46 @@
               <h1>書店</h1>
               <blockquote>
                 <p>
-                  <q>開書店的人都有點瘋瘋的，那是一種gentle madness，溫文儒雅的瘋狂。</q>
+                  <q
+                    >開書店的人都有點瘋瘋的，那是一種gentle
+                    madness，溫文儒雅的瘋狂。</q
+                  >
                 </p>
                 <footer>楊照</footer>
               </blockquote>
-              <router-link class="btn btn-primary" to="/books">找書</router-link>
+              <router-link class="btn btn-primary" to="/books"
+                >找書</router-link
+              >
             </div>
             <div class="latest-swiper-products-block h-100 text-center">
               <h2>最新書籍</h2>
               <!-- 4 latest product card start -->
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-3 col-sm-3 col-6" v-for="book in latestBooks" :key="book.id">
+                  <div
+                    class="col-md-3 col-sm-3 col-6"
+                    v-for="book in latestBooks"
+                    :key="book.id"
+                  >
                     <router-link
                       class="text-dark"
                       :to="{ name: 'Book', params: { productId: book.id } }"
                     >
-                      <div class="card border-0 shadow-sm mb-5 latest-product-card">
-                        <div class="latest-product-header">{{ book.subcategory }}</div>
-                        <div>
-                          <img class="latest-product-img" :src="book.imageUrl" />
+                      <div
+                        class="card border-0 shadow-sm mb-5 latest-product-card"
+                      >
+                        <div class="latest-product-header">
+                          {{ book.subcategory }}
                         </div>
-                        <div class="card-footer latest-product-footer">{{ book.title }}</div>
+                        <div>
+                          <img
+                            class="latest-product-img"
+                            :src="book.imageUrl"
+                          />
+                        </div>
+                        <div class="card-footer latest-product-footer">
+                          {{ book.title }}
+                        </div>
                       </div>
                     </router-link>
                   </div>
@@ -49,17 +67,30 @@
               <!-- 4 latest product card start -->
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-3 col-sm-3 col-6" v-for="book in latestBooks" :key="book.id">
+                  <div
+                    class="col-md-3 col-sm-3 col-6"
+                    v-for="book in latestBooks"
+                    :key="book.id"
+                  >
                     <router-link
                       class="text-dark"
                       :to="{ name: 'Book', params: { productId: book.id } }"
                     >
-                      <div class="card border-0 shadow-sm mb-5 latest-product-card">
-                        <div class="latest-product-header">{{ book.subcategory }}</div>
-                        <div>
-                          <img class="latest-product-img" :src="book.imageUrl" />
+                      <div
+                        class="card border-0 shadow-sm mb-5 latest-product-card"
+                      >
+                        <div class="latest-product-header">
+                          {{ book.subcategory }}
                         </div>
-                        <div class="card-footer latest-product-footer">{{ book.title }}</div>
+                        <div>
+                          <img
+                            class="latest-product-img"
+                            :src="book.imageUrl"
+                          />
+                        </div>
+                        <div class="card-footer latest-product-footer">
+                          {{ book.title }}
+                        </div>
                       </div>
                     </router-link>
                   </div>
@@ -67,16 +98,22 @@
               </div>
               <!-- 4 latest product card end -->
             </div>
-            <div class="d-none d-lg-block latest-swiper-description text-right ml-3">
+            <div
+              class="d-none d-lg-block latest-swiper-description text-right ml-3"
+            >
               <h1>唱片館</h1>
               <blockquote style="display:none;"></blockquote>
               <blockquote>
                 <p>
-                  <q>留神細聽所有的民歌，因為它們是最優美的旋律的寶庫。它們會打開你的眼界，使你注意到各種不同的民族性格。</q>
+                  <q
+                    >留神細聽所有的民歌，因為它們是最優美的旋律的寶庫。它們會打開你的眼界，使你注意到各種不同的民族性格。</q
+                  >
                 </p>
                 <footer>舒曼</footer>
               </blockquote>
-              <router-link class="btn btn-primary" to="/books">找唱片</router-link>
+              <router-link class="btn btn-primary" to="/books"
+                >找唱片</router-link
+              >
             </div>
           </div>
         </div>
@@ -87,28 +124,45 @@
               <h1>聚會</h1>
               <blockquote>
                 <p>
-                  <q>與人交談一次，往往比多年閉門勞作更能啟發心智。思想必定是在與人交往中產生，而在孤獨中進行加工和表達。</q>
+                  <q
+                    >與人交談一次，往往比多年閉門勞作更能啟發心智。思想必定是在與人交往中產生，而在孤獨中進行加工和表達。</q
+                  >
                 </p>
                 <footer>列夫·托爾斯泰</footer>
               </blockquote>
-              <router-link class="btn btn-primary" to="/books">找活動</router-link>
+              <router-link class="btn btn-primary" to="/books"
+                >找活動</router-link
+              >
             </div>
             <div class="latest-swiper-products-block h-100 text-center">
               <h2>最新活動</h2>
               <!-- 4 latest product card start -->
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-3 col-sm-3 col-6" v-for="book in latestBooks" :key="book.id">
+                  <div
+                    class="col-md-3 col-sm-3 col-6"
+                    v-for="book in latestBooks"
+                    :key="book.id"
+                  >
                     <router-link
                       class="text-dark"
                       :to="{ name: 'Book', params: { productId: book.id } }"
                     >
-                      <div class="card border-0 shadow-sm mb-5 latest-product-card">
-                        <div class="latest-product-header">{{ book.subcategory }}</div>
-                        <div>
-                          <img class="latest-product-img" :src="book.imageUrl" />
+                      <div
+                        class="card border-0 shadow-sm mb-5 latest-product-card"
+                      >
+                        <div class="latest-product-header">
+                          {{ book.subcategory }}
                         </div>
-                        <div class="card-footer latest-product-footer">{{ book.title }}</div>
+                        <div>
+                          <img
+                            class="latest-product-img"
+                            :src="book.imageUrl"
+                          />
+                        </div>
+                        <div class="card-footer latest-product-footer">
+                          {{ book.title }}
+                        </div>
                       </div>
                     </router-link>
                   </div>
@@ -129,7 +183,9 @@
       <div class="container">
         <div class="row">
           <div class="col-12 text-center">
-            <h2 class="featurette-heading py-5" style="margin-top:0px;">暢銷榜</h2>
+            <h2 class="featurette-heading py-5" style="margin-top:0px;">
+              暢銷榜
+            </h2>
           </div>
           <!-- /.col-md-4 -->
           <div class="col-md-4" v-if="mostPopularBooks">
@@ -141,15 +197,19 @@
               <rect width="100%" height="100%" fill="#777" />
               <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
             </div>
-            <h4 class="most-popular-title">{{mostPopularBooks.title}}</h4>
-            <p
-              class="most-popular-description"
-            >{{mostPopularBooks.description.substring(0,100).trim()}}</p>
+            <h4 class="most-popular-title">{{ mostPopularBooks.title }}</h4>
+            <p class="most-popular-description">
+              {{ mostPopularBooks.description.substring(0, 100).trim() }}
+            </p>
             <p>
               <router-link
                 class="btn btn-secondary"
-                :to="{ name: 'Book', params: { productId: mostPopularBooks.id } }"
-              >看更多 &raquo;</router-link>
+                :to="{
+                  name: 'Book',
+                  params: { productId: mostPopularBooks.id }
+                }"
+                >看更多 &raquo;</router-link
+              >
             </p>
           </div>
 
@@ -163,12 +223,14 @@
               <rect width="100%" height="100%" fill="#777" />
               <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
             </div>
-            <h4 class="most-popular-title">{{mostPopularAlbums.title}}</h4>
-            <p
-              class="most-popular-description"
-            >{{mostPopularAlbums.description.substring(0,100).trim()}}</p>
+            <h4 class="most-popular-title">{{ mostPopularAlbums.title }}</h4>
+            <p class="most-popular-description">
+              {{ mostPopularAlbums.description.substring(0, 100).trim() }}
+            </p>
             <p>
-              <a class="btn btn-secondary" href="#" role="button">看更多 &raquo;</a>
+              <a class="btn btn-secondary" href="#" role="button"
+                >看更多 &raquo;</a
+              >
             </p>
           </div>
           <!-- /.col-md-4 -->
@@ -181,12 +243,14 @@
               <rect width="100%" height="100%" fill="#777" />
               <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
             </div>
-            <h4 class="most-popular-title">{{mostPopularEvents.title}}</h4>
-            <p
-              class="most-popular-description"
-            >{{mostPopularEvents.description.substring(0,100).trim()}}</p>
+            <h4 class="most-popular-title">{{ mostPopularEvents.title }}</h4>
+            <p class="most-popular-description">
+              {{ mostPopularEvents.description.substring(0, 100).trim() }}
+            </p>
             <p>
-              <a class="btn btn-secondary" href="#" role="button">看更多 &raquo;</a>
+              <a class="btn btn-secondary" href="#" role="button"
+                >看更多 &raquo;</a
+              >
             </p>
           </div>
           <!-- /.col-md-4 -->
@@ -203,11 +267,15 @@
           <div class="col-md-7">
             <h2 class="featurette-heading">
               獻給阿爾吉儂的花束
-              <span class="text-muted">不同卻有時如同我們的人生一般，一起路過查理的人生</span>
+              <span class="text-muted"
+                >不同卻有時如同我們的人生一般，一起路過查理的人生</span
+              >
             </h2>
-            <p
-              class="lead"
-            >如果那些歧視變得可以理解，如果愛情不是不可能，如果過往的記憶漸趨鮮明……真的會比較幸福嗎？ 《24個比利》作者最膾炙人口的經典代表作！ 45週年紀念版全新完整譯本 在這部一鳴驚人的處女作中，丹尼爾‧凱斯藉由查理‧高登的蛻變日記，細膩又寫實地反映出心智障礙者置身現實世界的模糊定位與艱難處境，字裡行間更展現了他對自私人性的犀利控訴！無可取代的題材、扣人心弦的文筆和發人深思的意涵，即使在經過多年之後，依然是絕對不能錯過的必讀經典！</p>
+            <p class="lead">
+              如果那些歧視變得可以理解，如果愛情不是不可能，如果過往的記憶漸趨鮮明……真的會比較幸福嗎？
+              《24個比利》作者最膾炙人口的經典代表作！ 45週年紀念版全新完整譯本
+              在這部一鳴驚人的處女作中，丹尼爾‧凱斯藉由查理‧高登的蛻變日記，細膩又寫實地反映出心智障礙者置身現實世界的模糊定位與艱難處境，字裡行間更展現了他對自私人性的犀利控訴！無可取代的題材、扣人心弦的文筆和發人深思的意涵，即使在經過多年之後，依然是絕對不能錯過的必讀經典！
+            </p>
           </div>
           <div class="col-md-5">
             <img
@@ -227,9 +295,9 @@
               魏如萱 / 末路狂花
               <span class="text-muted">為自己 快逃！</span>
             </h2>
-            <p
-              class="lead"
-            >魏如萱以〔末路狂花〕為這張專輯的概念，想要表達的並非公路電影般的一場小旅行，而是在人生前進的道路上，勇敢為自己做出和大多數人不一樣的選擇。在充斥復刻和盲目追隨的現象裡，能抽身喊停！</p>
+            <p class="lead">
+              魏如萱以〔末路狂花〕為這張專輯的概念，想要表達的並非公路電影般的一場小旅行，而是在人生前進的道路上，勇敢為自己做出和大多數人不一樣的選擇。在充斥復刻和盲目追隨的現象裡，能抽身喊停！
+            </p>
           </div>
           <div class="col-md-5 order-md-1">
             <img
@@ -248,9 +316,9 @@
               啓動臺灣感性系列講座
               <span class="text-muted">突破美感教育窄巷</span>
             </h2>
-            <p
-              class="lead"
-            >如果說「美感」是無法重複運算的事物，是每一次當下的變動性產物，那麼得重新理解「美感」的動因：感覺能力。在臺灣各個階段的藝術教育現場，基本的問題並不是「美」的缺席，而是現有機制讓「美」已成為指令——感覺教育的解嚴尚未到來。當教師在教學現場畏懼獨特性，從而以律令來篩檢「美感」，感覺社群的多樣化就無從展開。我們是否有能力讓各種感覺活動的交錯成為生活自然的日常姿態？在依然規格化的「美感教育」窄巷中，又該如何讓叉路成為選項？讓異樣風景顯露？這就是「感性力量」閘道全面開放的技術。</p>
+            <p class="lead">
+              如果說「美感」是無法重複運算的事物，是每一次當下的變動性產物，那麼得重新理解「美感」的動因：感覺能力。在臺灣各個階段的藝術教育現場，基本的問題並不是「美」的缺席，而是現有機制讓「美」已成為指令——感覺教育的解嚴尚未到來。當教師在教學現場畏懼獨特性，從而以律令來篩檢「美感」，感覺社群的多樣化就無從展開。我們是否有能力讓各種感覺活動的交錯成為生活自然的日常姿態？在依然規格化的「美感教育」窄巷中，又該如何讓叉路成為選項？讓異樣風景顯露？這就是「感性力量」閘道全面開放的技術。
+            </p>
           </div>
           <div class="col-md-5">
             <img
@@ -525,11 +593,11 @@ shorten to @import "swiper/css/swiper.min.css"; */
   @media (min-width: 768px) {
     content: url("../../assets/img/prev.png");
     margin-left: 30px;
-    opacity: 75%;
+    opacity: 0.75;
   }
 }
 .swiper-button-prev:hover:after {
-  opacity: 100%;
+  opacity: 1;
 }
 
 .swiper-button-next:after {
@@ -542,11 +610,11 @@ shorten to @import "swiper/css/swiper.min.css"; */
   @media (min-width: 768px) {
     content: url("../../assets/img/next.png");
     margin-right: 30px;
-    opacity: 75%;
+    opacity: 0.75;
   }
 }
 .swiper-button-next:hover:after {
-  opacity: 100%;
+  opacity: 1;
 }
 .swiper-pagination >>> .swiper-pagination-bullet-active {
   background-color: #76323f;

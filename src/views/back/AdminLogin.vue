@@ -21,15 +21,17 @@
         required
         v-model="user.password"
       />
-      <button class="btn btn-lg btn-block btn-primary" type="submit">登入</button>
+      <button class="btn btn-lg btn-block btn-primary" type="submit">
+        登入
+      </button>
       <router-link
-        :to="{ name: 'Home'}"
+        :to="{ name: 'Home' }"
         style="background-color: #a6bbc2"
         class="btn btn-lg btn-info btn-block"
-      >回到前台</router-link>
+        >回到前台</router-link
+      >
       <p class="mt-5 mb-3 text-muted">
-        &copy; Copyright
-        2019- RLC
+        &copy; Copyright 2019- RLC
         <a href="mailto:maxmaman@gmail.com">wscheng</a>
       </p>
     </form>

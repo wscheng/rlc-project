@@ -47,17 +47,26 @@
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <img src="../../assets/img/facebook.svg" class="social-img" />
+                    <img
+                      src="../../assets/img/facebook.svg"
+                      class="social-img"
+                    />
                   </a>
                 </li>
                 <li>
                   <a href="#">
-                    <img src="../../assets/img/youtube.svg" class="social-img" />
+                    <img
+                      src="../../assets/img/youtube.svg"
+                      class="social-img"
+                    />
                   </a>
                 </li>
                 <li>
                   <a href="#">
-                    <img src="../../assets/img/instagram.svg" class="social-img" />
+                    <img
+                      src="../../assets/img/instagram.svg"
+                      class="social-img"
+                    />
                   </a>
                 </li>
                 <li>
@@ -67,11 +76,18 @@
                     rel="noopener noreferrer"
                   >
                     <!-- TODO image should be updated -->
-                    <img src="../../assets/img/linkedin.svg" class="social-img" />
+                    <img
+                      src="../../assets/img/linkedin.svg"
+                      class="social-img"
+                    />
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/wscheng" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://github.com/wscheng"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <!-- TODO image should be updated -->
                     <img src="../../assets/img/github.svg" class="social-img" />
                   </a>
@@ -91,7 +107,10 @@
             <dd>
               <form class="subscription-form">
                 <button class="email-icon-btn" disabled>
-                  <font-awesome-icon :icon="['fas', 'envelope']" :style="{ color: '#565656' }" />
+                  <font-awesome-icon
+                    :icon="['fas', 'envelope']"
+                    :style="{ color: '#565656' }"
+                  />
                 </button>
                 <input
                   class="input-group-field"

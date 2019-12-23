@@ -4,12 +4,17 @@
       <h5 class="py-2">會員中心</h5>
     </div>
     <div class="list-group text-center">
-      <router-link class="list-group-item list-group-item-action" to="/orders">訂單列表</router-link>
-      <router-link class="list-group-item list-group-item-action" to="/admin/login">後台管理</router-link>
+      <router-link class="list-group-item list-group-item-action" to="/orders"
+        >訂單列表</router-link
+      >
+      <router-link
+        class="list-group-item list-group-item-action"
+        to="/admin/login"
+        >後台管理</router-link
+      >
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .member-center {

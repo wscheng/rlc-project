@@ -3,7 +3,9 @@
     <table class="table table-sm">
       <template v-if="favorites.length > 0">
         <thead>
-          <th class="align-middle text-center" style="min-width: 80px">商品照片</th>
+          <th class="align-middle text-center" style="min-width: 80px">
+            商品照片
+          </th>
           <th class="align-middle">商品名稱</th>
           <th class="align-middle text-right" style="min-width: 45px">折扣</th>
           <th></th>
@@ -13,23 +15,31 @@
             <div
               class="favorite-image mx-auto"
               :style="{
-                      backgroundImage: `url(${favorite[1].imageUrl})`
-                    }"
+                backgroundImage: `url(${favorite[1].imageUrl})`
+              }"
             />
             <td class="align-middle">{{ favorite[1].title }}</td>
             <td class="align-middle">
               <del
                 class="del-price"
-                v-if="favorite[1].origin_price!= favorite[1].price"
-              >{{ favorite[1].origin_price | currency }}</del>
+                v-if="favorite[1].origin_price != favorite[1].price"
+                >{{ favorite[1].origin_price | currency }}</del
+              >
               <div v-else>{{ favorite[1].price | currency }} 元</div>
-              <div class="special-price" v-if="favorite[1].origin_price!= favorite[1].price">
+              <div
+                class="special-price"
+                v-if="favorite[1].origin_price != favorite[1].price"
+              >
                 <i>{{ favorite[1].price | currency }}</i>
               </div>
             </td>
             <!-- TODO don't hide the drop-down menu after delete button clicked -->
             <td class="align-middle text-center">
-              <a href="#" class="text-muted" @click.prevent="removeFavorite(favorite[1])">
+              <a
+                href="#"
+                class="text-muted"
+                @click.prevent="removeFavorite(favorite[1])"
+              >
                 <font-awesome-icon :icon="['fas', 'trash']" />
               </a>
             </td>

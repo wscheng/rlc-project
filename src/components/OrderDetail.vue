@@ -13,14 +13,18 @@
               <tbody>
                 <tr v-for="item in order.products" :key="item.id">
                   <td class="align-middle">{{ item.product.title }}</td>
-                  <td class="align-middle text-right">{{ item.qty }}/{{ item.product.unit }}</td>
-                  <td class="align-middle text-right">{{ item.final_total | currency }}</td>
+                  <td class="align-middle text-right">
+                    {{ item.qty }}/{{ item.product.unit }}
+                  </td>
+                  <td class="align-middle text-right">
+                    {{ item.final_total | currency }}
+                  </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="2" class="text-right">總計</td>
-                  <td class="text-right">{{ order.total | currency}}</td>
+                  <td class="text-right">{{ order.total | currency }}</td>
                 </tr>
               </tfoot>
             </table>
@@ -46,9 +50,11 @@
                 <tr>
                   <th>付款狀態</th>
                   <td>
-                    <span v-if="!order.is_paid" class="text-danger">尚未付款</span>
+                    <span v-if="!order.is_paid" class="text-danger"
+                      >尚未付款</span
+                    >
                     <span v-else class="text-success">
-                      {{ order.paid_date| moment("YYYY-MM-DD HH:mm:ss")}}
+                      {{ order.paid_date | moment("YYYY-MM-DD HH:mm:ss") }}
                       <br />付款完成
                     </span>
                   </td>
@@ -57,7 +63,9 @@
             </table>
           </template>
           <!-- TODO make a better UI -->
-          <template v-else>Loading...</template>
+          <template v-else
+            >Loading...</template
+          >
         </div>
       </div>
     </div>

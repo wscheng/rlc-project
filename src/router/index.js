@@ -13,7 +13,6 @@ import BackLayout from "@/views/back/BackLayout.vue";
 import ProductManagement from "@/views/back/ProductManagement.vue";
 import OrderManagement from "@/views/back/OrderManagement.vue";
 import CouponManagement from "@/views/back/CouponManagement.vue";
-import Test from "@/views/Test.vue";
 
 Vue.use(VueRouter);
 
@@ -66,8 +65,7 @@ const routes = [
         }
       }
     ]
-  },
-  { path: "/test", name: "Test", component: Test }
+  }
   // {
   //   path: "/about",
   //   name: "about",

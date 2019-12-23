@@ -5,7 +5,10 @@
         <div class="row mb-4">
           <div
             class="col-sm-4 text-center"
-            :class="{ 'd-sm-block d-none other-step': currentStep!=1, 'current-step': currentStep==1 }"
+            :class="{
+              'd-sm-block d-none other-step': currentStep != 1,
+              'current-step': currentStep == 1
+            }"
           >
             <h5 class="text-center mt-2">
               步驟一
@@ -14,7 +17,10 @@
           </div>
           <div
             class="col-sm-4 text-center"
-            :class="{ 'd-sm-block d-none other-step': currentStep!=2, 'current-step': currentStep==2 }"
+            :class="{
+              'd-sm-block d-none other-step': currentStep != 2,
+              'current-step': currentStep == 2
+            }"
           >
             <h5 class="text-center mt-2">
               步驟二
@@ -23,7 +29,10 @@
           </div>
           <div
             class="col-sm-4 text-center"
-            :class="{ 'd-sm-block d-none other-step': currentStep!=3, 'current-step': currentStep==3 }"
+            :class="{
+              'd-sm-block d-none other-step': currentStep != 3,
+              'current-step': currentStep == 3
+            }"
           >
             <h5 class="text-center mt-2">
               步驟三
@@ -53,29 +62,38 @@
                             <div
                               class="favorite-image mx-auto"
                               :style="{
-                      backgroundImage: `url(${cart.product.imageUrl})`
-                    }"
+                                backgroundImage: `url(${cart.product.imageUrl})`
+                              }"
                             />
                           </td>
                           <td class="align-middle">
                             {{ cart.product.title }}
-                            <div
-                              class="text-success"
-                              v-if="cart.coupon"
-                            >已套用{{ cart.coupon.title }}折價券 - [{{cart.coupon.code}}]</div>
+                            <div class="text-success" v-if="cart.coupon">
+                              已套用{{ cart.coupon.title }}折價券 - [{{
+                                cart.coupon.code
+                              }}]
+                            </div>
                           </td>
-                          <td class="align-middle">{{ cart.qty }} {{ cart.product.unit }}</td>
+                          <td class="align-middle">
+                            {{ cart.qty }} {{ cart.product.unit }}
+                          </td>
                           <td class="align-middle text-right">
-                            <template
-                              v-if="cart.total == cart.final_total"
-                            >{{ cart.total | currency }}</template>
+                            <template v-if="cart.total == cart.final_total">{{
+                              cart.total | currency
+                            }}</template>
                             <template v-else>
                               <del>{{ cart.total | currency }}</del>
-                              <div class="text-success">{{ cart.final_total | currency }}</div>
+                              <div class="text-success">
+                                {{ cart.final_total | currency }}
+                              </div>
                             </template>
                           </td>
                           <td class="align-middle text-center">
-                            <a href="#" class="text-muted" @click.prevent="removeCart(cart.id)">
+                            <a
+                              href="#"
+                              class="text-muted"
+                              @click.prevent="removeCart(cart.id)"
+                            >
                               <font-awesome-icon :icon="['fas', 'trash']" />
                             </a>
                           </td>
@@ -86,15 +104,21 @@
                           <td colspan="3" class="text-right">總計</td>
                           <td
                             class="text-right"
-                            v-if="cart.total==cart.final_total"
-                          >{{ cart.total | currency }}</td>
+                            v-if="cart.total == cart.final_total"
+                          >
+                            {{ cart.total | currency }}
+                          </td>
                           <td class="text-right" v-else>
                             <del>{{ cart.total | currency }}</del>
                           </td>
                         </tr>
                         <tr v-if="cart.total != cart.final_total">
-                          <td colspan="3" class="text-right text-success">折扣價</td>
-                          <td class="text-right text-success">{{ cart.final_total | currency }}</td>
+                          <td colspan="3" class="text-right text-success">
+                            折扣價
+                          </td>
+                          <td class="text-right text-success">
+                            {{ cart.final_total | currency }}
+                          </td>
                         </tr>
                       </tfoot>
                     </table>
@@ -104,20 +128,28 @@
                   class="input-group mb-3 input-group-sm"
                   v-if="cart.carts && cart.carts.length > 0"
                 >
-                  <input v-model="couponCode" type="text" class="form-control" placeholder="請輸入優惠碼" />
+                  <input
+                    v-model="couponCode"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入優惠碼"
+                  />
                   <div class="input-group-append">
                     <button
                       class="btn btn-success btn-outline-secondary text-white"
                       type="button"
                       @click="applyCoupon(couponCode)"
-                    >套用優惠碼</button>
+                    >
+                      套用優惠碼
+                    </button>
                   </div>
                 </div>
                 <div class="text-right">
                   <router-link
                     class="btn btn-danger"
                     :to="{ name: 'Checkout', query: { step: 2 } }"
-                  >下一步，填寫訂單資訊</router-link>
+                    >下一步，填寫訂單資訊</router-link
+                  >
                 </div>
               </template>
               <template v-else>
@@ -135,14 +167,26 @@
               <router-link
                 class="btn btn-primary"
                 :to="{ name: 'Checkout', query: { step: 1 } }"
-              >回上一步</router-link>
-              <button class="btn btn-danger" style="float:right;" @click="submitOrder">送出訂單</button>
+                >回上一步</router-link
+              >
+              <button
+                class="btn btn-danger"
+                style="float:right;"
+                @click="submitOrder"
+              >
+                送出訂單
+              </button>
             </div>
             <!-- step 3 -->
             <div class="step3" v-else-if="currentStep == 3">
               <OrderDetail :order="order" />
               <div class="text-right" v-if="order.is_paid === false">
-                <button class="btn btn-danger" @click="payOrderAndUpdateOrder(order.id)">確認付款去</button>
+                <button
+                  class="btn btn-danger"
+                  @click="payOrderAndUpdateOrder(order.id)"
+                >
+                  確認付款去
+                </button>
               </div>
             </div>
             <!-- other ambiguous input -->

@@ -16,7 +16,8 @@
                     href="#"
                     @click.prevent="changeCategory(category)"
                     :class="{ active: category == currentCategory }"
-                  >{{ category }}</a>
+                    >{{ category }}</a
+                  >
                 </li>
               </ul>
             </div>
@@ -30,8 +31,12 @@
                       <router-link to="/">首頁</router-link>
                     </li>
                     <li class="breadcrumb-item active">書籍</li>
-                    <li class="breadcrumb-item active">{{ currentCategory }}</li>
-                    <li class="breadcrumb-item active" v-if="filterText">搜尋 "{{ filterText }}"</li>
+                    <li class="breadcrumb-item active">
+                      {{ currentCategory }}
+                    </li>
+                    <li class="breadcrumb-item active" v-if="filterText">
+                      搜尋 "{{ filterText }}"
+                    </li>
                   </ol>
                 </nav>
               </div>
@@ -42,7 +47,11 @@
                   role="toolbar"
                   aria-label="Toolbar with button groups"
                 >
-                  <div class="btn-group mr-2" role="group" aria-label="First group">
+                  <div
+                    class="btn-group mr-2"
+                    role="group"
+                    aria-label="First group"
+                  >
                     <button
                       type="button"
                       class="btn btn-secondary dropdown-toggle"
@@ -53,9 +62,11 @@
                       <span>
                         <font-awesome-icon :icon="currSortByAction.icon" />
                       </span>
-                      {{currSortByAction.text}}
+                      {{ currSortByAction.text }}
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right sort-action-group">
+                    <div
+                      class="dropdown-menu dropdown-menu-right sort-action-group"
+                    >
                       <button
                         class="dropdown-item"
                         type="button"
@@ -66,16 +77,26 @@
                         <span>
                           <font-awesome-icon :icon="sortByAction.icon" />
                         </span>
-                        {{sortByAction.text}}
+                        {{ sortByAction.text }}
                       </button>
                     </div>
                   </div>
-                  <div class="btn-group btn-group-toggle" role="group" data-toggle="buttons">
-                    <label class="btn btn-secondary active" @click="changeDisplayStyle('grid')">
+                  <div
+                    class="btn-group btn-group-toggle"
+                    role="group"
+                    data-toggle="buttons"
+                  >
+                    <label
+                      class="btn btn-secondary active"
+                      @click="changeDisplayStyle('grid')"
+                    >
                       <input type="radio" name="options" checked />
                       <font-awesome-icon :icon="['fas', 'th-large']" />
                     </label>
-                    <label class="btn btn-secondary" @click="changeDisplayStyle('list')">
+                    <label
+                      class="btn btn-secondary"
+                      @click="changeDisplayStyle('list')"
+                    >
                       <input type="radio" name="options" />
                       <font-awesome-icon :icon="['fas', 'list']" />
                     </label>
@@ -168,8 +189,8 @@
                             class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
                             @click="toggleFavorite(book)"
                             :style="{
-                        color: book.isFavorite ? 'red' : 'white'
-                      }"
+                              color: book.isFavorite ? 'red' : 'white'
+                            }"
                           >
                             <font-awesome-icon :icon="['fas', 'heart']" />
                           </button>
@@ -192,12 +213,12 @@
                           <!-- TODO FIX If some book cover is absolutely fit the above card area, the border will be a sharp corner, not rounded. -->
                           <div
                             class="book-cover"
-                            :style="{ backgroundImage: `url(${book.imageUrl})` }"
+                            :style="{
+                              backgroundImage: `url(${book.imageUrl})`
+                            }"
                           >
                             <span class="badge badge-warning float-right ml-2">
-                              {{
-                              book.subcategory
-                              }}
+                              {{ book.subcategory }}
                             </span>
                           </div>
                           <div class="card-body">
@@ -208,10 +229,16 @@
                             >
                               <del
                                 class="h6 del-price"
-                                v-if="book.origin_price!= book.price"
-                              >原價 {{ book.origin_price | currency }}</del>
-                              <div class="h5" v-else>{{ book.price | currency }} 元</div>
-                              <div class="h5 special-price" v-if="book.origin_price!= book.price">
+                                v-if="book.origin_price != book.price"
+                                >原價 {{ book.origin_price | currency }}</del
+                              >
+                              <div class="h5" v-else>
+                                {{ book.price | currency }} 元
+                              </div>
+                              <div
+                                class="h5 special-price"
+                                v-if="book.origin_price != book.price"
+                              >
                                 <i>特價 {{ book.price | currency }}</i>
                               </div>
                             </div>
@@ -241,8 +268,8 @@
                         class="btn border-left-0 border-top-0 border-bottom-0 border-white rounded-0"
                         @click="toggleFavorite(book)"
                         :style="{
-                        color: book.isFavorite ? 'red' : 'white'
-                      }"
+                          color: book.isFavorite ? 'red' : 'white'
+                        }"
                       >
                         <font-awesome-icon :icon="['fas', 'heart']" />
                       </button>
@@ -268,26 +295,34 @@
                           :style="{ backgroundImage: `url(${book.imageUrl})` }"
                         >
                           <span class="badge badge-warning float-left ml-2">
-                            {{
-                            book.subcategory
-                            }}
+                            {{ book.subcategory }}
                           </span>
                         </div>
                         <div class="ml-3">
-                          <div class="mb-1 list-card-title">{{book.title}}</div>
+                          <div class="mb-1 list-card-title">
+                            {{ book.title }}
+                          </div>
                           <div
                             class="d-flex justify-content-start align-items-baseline product-price"
                           >
                             <del
                               class="h6 del-price mr-2"
-                              v-if="book.origin_price!= book.price"
-                            >原價 {{ book.origin_price | currency }}</del>
-                            <div class="h5 mr-1" v-else>{{ book.price | currency }} 元</div>
-                            <div class="h5 special-price" v-if="book.origin_price!= book.price">
+                              v-if="book.origin_price != book.price"
+                              >原價 {{ book.origin_price | currency }}</del
+                            >
+                            <div class="h5 mr-1" v-else>
+                              {{ book.price | currency }} 元
+                            </div>
+                            <div
+                              class="h5 special-price"
+                              v-if="book.origin_price != book.price"
+                            >
                               <i>特價 {{ book.price | currency }}</i>
                             </div>
                           </div>
-                          <p class="list-card-description mb-1">{{book.description}}</p>
+                          <p class="list-card-description mb-1">
+                            {{ book.description }}
+                          </p>
                         </div>
                       </div>
                     </router-link>
