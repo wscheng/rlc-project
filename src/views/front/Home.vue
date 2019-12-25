@@ -278,10 +278,17 @@
             </p>
           </div>
           <div class="col-md-5">
-            <img
-              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-              src="https://storage.googleapis.com/vue-course-api.appspot.com/wscheng%2F1575524669878.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=CS%2Bcx%2FPnW%2BDe5YXvN9LUbzEDrmjihZeGdhJQYF90MAtoXGJpK1Rjf464UifTaZkWBqW4%2Ft8u9zqN62YUvd1ocXMVUJd5mJtDNaPTVKJwL%2Bb2977yMSor8mIhtgmmrJGPyrVKisyoGqYq7gfK%2B2wcCOqgdhqgmK2M3M7D8pqA9eGNLxrVO0XAkgAFSONzubGTSS0TKHU8Gzn6bshV8iaNno9sYZlYNko%2FHvdmfDcaLwXUUWGVz16QPlqjO56hUKnebQyWD3w00%2B0DicXjC4y6hbNOeKHKHgYJq%2FJAwvlyZ%2BRjn6h8%2FUHH3Eyn66r6FSoRlzzd85AF3BxgZZ90sIp%2ByQ%3D%3D"
-            />
+            <router-link
+              :to="{
+                name: 'Book',
+                params: { productId: columnBookId }
+              }"
+            >
+              <img
+                class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                src="https://storage.googleapis.com/vue-course-api.appspot.com/wscheng%2F1575524669878.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=CS%2Bcx%2FPnW%2BDe5YXvN9LUbzEDrmjihZeGdhJQYF90MAtoXGJpK1Rjf464UifTaZkWBqW4%2Ft8u9zqN62YUvd1ocXMVUJd5mJtDNaPTVKJwL%2Bb2977yMSor8mIhtgmmrJGPyrVKisyoGqYq7gfK%2B2wcCOqgdhqgmK2M3M7D8pqA9eGNLxrVO0XAkgAFSONzubGTSS0TKHU8Gzn6bshV8iaNno9sYZlYNko%2FHvdmfDcaLwXUUWGVz16QPlqjO56hUKnebQyWD3w00%2B0DicXjC4y6hbNOeKHKHgYJq%2FJAwvlyZ%2BRjn6h8%2FUHH3Eyn66r6FSoRlzzd85AF3BxgZZ90sIp%2ByQ%3D%3D"
+              />
+            </router-link>
           </div>
         </div>
       </div>
@@ -344,14 +351,11 @@ import { mapState, mapActions } from "vuex";
 let swiperAsync = import("swiper");
 export default {
   name: "home",
-  // mounted() {
-  //   var swiper = new Swiper(".swiper-container", {
-  //     scrollbar: {
-  //       el: ".swiper-scrollbar",
-  //       hide: true
-  //     }
-  //   });
-  // }
+  data: function() {
+    return {
+      columnBookId: "-LtU46Khwa9vgtSVbq-X"
+    };
+  },
   computed: {
     ...mapState("productModule", ["products"]),
     latestBooks() {
