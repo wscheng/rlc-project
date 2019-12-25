@@ -178,7 +178,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setLoading"]),
+    ...mapMutations(["SET_LOADING"]),
     toggleFavorite() {
       this.$store.dispatch("favoriteModule/toggleFavoriteWithCurrProduct");
     },

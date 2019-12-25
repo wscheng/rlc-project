@@ -10,10 +10,10 @@ export default {
     current_product: {}
   },
   mutations: {
-    setProducts(state, products) {
+    SET_PRODUCTS(state, products) {
       state.products = products;
     },
-    updateFavoriteInProducts(state, { index, product }) {
+    UPDATE_FAVORITE_IN_PRODUCTS(state, { index, product }) {
       console.warn("UP", index, state.products[index], product);
       state.products[index].isFavorite = product.isFavorite;
       if (product.isFavorite) {
@@ -23,7 +23,7 @@ export default {
       }
       console.warn("AUP", index, state.products[index], product);
     },
-    updateCurrProduct(state, product) {
+    SET_CURR_PRODUCT(state, product) {
       state.current_product = product;
     }
   },
@@ -32,7 +32,7 @@ export default {
     //  favorite in products array
     getProducts(context) {
       const allProductUrl = `${Vue.prototype.$_USER_API_URL}/products/all`;
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       // TODO implement axios error function
       axios.get(allProductUrl).then(response => {
         if (response.data.success) {
@@ -53,17 +53,17 @@ export default {
               product.addedToFavoriteTime = 0;
             }
           });
-          context.commit("setProducts", response.data.products);
+          context.commit("SET_PRODUCTS", response.data.products);
         } else {
           console.error("cant get products");
         }
-        context.commit("setLoading", false, { root: true });
+        context.commit("SET_LOADING", false, { root: true });
       });
     },
     getCurrProduct(context, productId) {
       const singleProductUrl = `${Vue.prototype.$_USER_API_URL}/product/${productId}`;
       console.warn("url", singleProductUrl);
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       axios.get(singleProductUrl).then(response => {
         if (response.data.success) {
           let product = response.data.product;
@@ -79,11 +79,11 @@ export default {
             product.isFavorite = false;
             product.addedToFavoriteTime = 0;
           }
-          context.commit("updateCurrProduct", product);
+          context.commit("SET_CURR_PRODUCT", product);
         } else {
           console.error("cant get products! reason: ", response.data.message);
         }
-        context.commit("setLoading", false, { root: true });
+        context.commit("SET_LOADING", false, { root: true });
       });
     }
   }

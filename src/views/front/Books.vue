@@ -444,7 +444,7 @@ export default {
     if (categoryIndex != -1) {
       this.currentCategory = this.categories[categoryIndex];
     }
-    this.$store.commit("productModule/updateCurrProduct", {});
+    this.$store.commit("productModule/SET_CURR_PRODUCT", {});
     this.getProducts();
   }
 };

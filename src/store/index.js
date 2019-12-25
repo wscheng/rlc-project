@@ -17,7 +17,7 @@ export default new Vuex.Store({
     isLoading: false
   },
   mutations: {
-    setLoading(state, isLoading) {
+    SET_LOADING(state, isLoading) {
       state.isLoading = isLoading;
     }
   },

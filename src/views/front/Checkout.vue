@@ -236,7 +236,7 @@ export default {
     ...mapGetters("cartModule", ["totalQtyInCarts"])
   },
   methods: {
-    ...mapMutations(["setLoading"]),
+    ...mapMutations(["SET_LOADING"]),
     ...mapActions("orderModule", ["getOrder", "payOrder"]),
     ...mapActions("cartModule", ["getCart", "removeCart", "applyCoupon"]),
     async submitOrder() {
@@ -249,7 +249,7 @@ export default {
         return;
       }
       const postOrderUrl = `${Vue.prototype.$_USER_API_URL}/order`;
-      vm.setLoading(true);
+      vm.SET_LOADING(true);
       console.warn("vm.userData=", vm.userData);
       vm.$http.post(postOrderUrl, { data: vm.userData }).then(response => {
         console.warn(response.data);
@@ -266,7 +266,7 @@ export default {
         } else {
           console.warn("post order failed", response.data.message);
         }
-        vm.setLoading(false);
+        vm.SET_LOADING(false);
       });
     },
     isLegalStep() {

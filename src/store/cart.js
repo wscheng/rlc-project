@@ -9,7 +9,7 @@ export default {
     cart: {}
   },
   mutations: {
-    setCart(state, cart) {
+    SET_CART(state, cart) {
       state.cart = cart;
     }
   },
@@ -18,8 +18,8 @@ export default {
       const getCartUrl = `${Vue.prototype.$_USER_API_URL}/cart`;
       axios.get(getCartUrl).then(response => {
         if (response.data.success) {
-          console.warn("setCart response", response.data);
-          context.commit("setCart", response.data.data);
+          console.warn("SET_CART response", response.data);
+          context.commit("SET_CART", response.data.data);
         } else {
           console.error("cant get carts", response.data.message);
         }
@@ -27,7 +27,7 @@ export default {
     },
     addToCart(context, { productId, qty = 1 }) {
       console.warn(" QTY", qty);
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       let productQtyInCart = 0;
       let productCartId = "";
       console.warn(
@@ -65,7 +65,7 @@ export default {
         } else {
           console.error("failed to add to cart", response.data.message);
         }
-        context.commit("setLoading", false, { root: true });
+        context.commit("SET_LOADING", false, { root: true });
       }
       console.warn("PRODUCT QTY", productQtyInCart);
       if (productQtyInCart == 0) {
@@ -81,7 +81,7 @@ export default {
               return axiosAddToCart(productId, productQtyInCart + qty);
             } else {
               console.error("deleteCart failed", response.data.message);
-              context.commit("setLoading", false, { root: true });
+              context.commit("SET_LOADING", false, { root: true });
             }
           })
           .then(addToCartNoException);
@@ -89,7 +89,7 @@ export default {
     },
     removeCart(context, cartId) {
       const deleteCartUrl = `${Vue.prototype.$_USER_API_URL}/cart/${cartId}`;
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       axios.delete(deleteCartUrl).then(response => {
         if (response.data.success) {
           console.warn("deleteCart success");
@@ -97,12 +97,12 @@ export default {
         } else {
           console.error("cant delete cart", response.data.message);
         }
-        context.commit("setLoading", false, { root: true });
+        context.commit("SET_LOADING", false, { root: true });
       });
     },
     applyCoupon(context, couponCode) {
       const applyCouponUrl = `${Vue.prototype.$_USER_API_URL}/coupon`;
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       axios
         .post(applyCouponUrl, { data: { code: couponCode } })
         .then(response => {
@@ -112,7 +112,7 @@ export default {
           } else {
             console.error("apply coupon failed", response.data.message);
           }
-          context.commit("setLoading", false, { root: true });
+          context.commit("SET_LOADING", false, { root: true });
         });
     }
   },

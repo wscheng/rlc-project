@@ -7,7 +7,7 @@ export default {
     favorites: []
   },
   mutations: {
-    setFavorites(state, favorites) {
+    SET_FAVORITES(state, favorites) {
       state.favorites = favorites;
     }
   },
@@ -15,7 +15,7 @@ export default {
     removeFavorite(context, product) {
       let favoriteMap = new Map(context.state.favorites);
       favoriteMap.delete(product.id);
-      context.commit("setFavorites", [...favoriteMap]);
+      context.commit("SET_FAVORITES", [...favoriteMap]);
       Vue.prototype.$setFavoritesToLocalStorage(context.state.favorites);
     },
     toggleFavoriteWithCurrProduct(context) {
@@ -37,10 +37,10 @@ export default {
         newObjOfCurrProduct.isFavorite = true;
         favoriteMap.set(currProduct.id, newObjOfCurrProduct);
       }
-      context.commit("productModule/updateCurrProduct", newObjOfCurrProduct, {
+      context.commit("productModule/SET_CURR_PRODUCT", newObjOfCurrProduct, {
         root: true
       });
-      context.commit("setFavorites", [...favoriteMap]);
+      context.commit("SET_FAVORITES", [...favoriteMap]);
       Vue.prototype.$setFavoritesToLocalStorage(context.state.favorites);
     },
     // side effect will affect product.js
@@ -65,7 +65,7 @@ export default {
       // update current_product in product.js
       if (currentProduct.id && currentProduct.id == product.id) {
         context.commit(
-          "productModule/updateCurrProduct",
+          "productModule/SET_CURR_PRODUCT",
           newObjOfSelectedProduct,
           {
             root: true
@@ -77,7 +77,7 @@ export default {
         if (products[i].id == product.id) {
           console.warn("BUP", products[i], newObjOfSelectedProduct);
           context.commit(
-            "productModule/updateFavoriteInProducts",
+            "productModule/UPDATE_FAVORITE_IN_PRODUCTS",
             { index: i, product: newObjOfSelectedProduct },
             { root: true }
           );
@@ -85,12 +85,12 @@ export default {
         }
       }
       console.warn("favorties", [...favoriteMap]);
-      context.commit("setFavorites", [...favoriteMap]);
+      context.commit("SET_FAVORITES", [...favoriteMap]);
       Vue.prototype.$setFavoritesToLocalStorage(context.state.favorites);
     },
     getFavorites(context) {
       const favorites = Vue.prototype.$readFavoritesFromLocalStorage() || [];
-      context.commit("setFavorites", favorites);
+      context.commit("SET_FAVORITES", favorites);
     }
   }
 };

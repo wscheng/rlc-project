@@ -18,14 +18,14 @@ export default {
       state.orders = orders;
       state.pagination = pagination;
     },
-    setOrder(state, order) {
+    SET_ORDER(state, order) {
       state.order = order;
     }
   },
   actions: {
     getOrders(context, page) {
       const getOrdersUrl = `${Vue.prototype.$_USER_API_URL}/orders?page=${page}`;
-      context.commit("setLoading", true, { root: true });
+      context.commit("SET_LOADING", true, { root: true });
       axios.get(getOrdersUrl).then(response => {
         console.warn(response.data);
         if (response.data.success) {
@@ -36,7 +36,7 @@ export default {
         } else {
           console.warn("get orders failed", response.data.message);
         }
-        context.commit("setLoading", false, { root: true });
+        context.commit("SET_LOADING", false, { root: true });
       });
     },
     getOrder(context, orderId) {
@@ -44,7 +44,7 @@ export default {
       axios.get(getOrderUrl).then(response => {
         console.warn("getOrder", response.data);
         if (response.data.success) {
-          context.commit("setOrder", response.data.order);
+          context.commit("SET_ORDER", response.data.order);
         } else {
           console.warn("get order failed", response.data.message);
         }
