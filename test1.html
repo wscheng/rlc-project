@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      // function foo() { console.log(this.a) }
+      // var obj ={a:1, foo:foo}
+      // var a=2
+
+      // obj.foo()
+      // setTimeout(obj.foo, 0)
+
+      let message = "aaa";
+
+      function log() {
+        console.log(message);
+        let message = "CCC";
+        console.log(message);
+      }
+
+      log();
+    </script>
+  </head>
+  <body></body>
+</html>
