@@ -244,43 +244,49 @@
       <!-- display right navbar part above md screen end -->
     </nav>
 
-    <!-- temp start -->
+    <!-- display right navbar(action buttons) part under md screen start -->
     <div class="container d-md-none">
       <ul class="nav footer-action-area d-flex justify-content-between">
         <li class="nav-item">
-          <router-link class="btn btn-sm text-center" :to="{ name: 'Home' }">
+          <router-link
+            class="btn btn-sm text-center"
+            exact
+            :to="{ name: 'Home' }"
+          >
             <font-awesome-icon
               :icon="['fas', 'home']"
               size="2x"
-              :style="{ color: '#565656' }"
+              class="action-icon"
             />
-            <div>首頁</div>
+            <div class="action-title">首頁</div>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link
             class="btn btn-sm action-btn text-center"
+            exact
             :to="{ name: 'Home' }"
           >
             <font-awesome-icon
               :icon="['fas', 'map-marked-alt']"
               size="2x"
-              :style="{ color: '#565656' }"
+              class="action-icon"
             />
-            <div>店鋪資訊</div>
+            <div class="action-title">店鋪資訊</div>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link
             class="btn btn-sm action-btn text-center"
+            exact
             :to="{ name: 'MemberCenter' }"
           >
             <font-awesome-icon
               :icon="['fas', 'user']"
               size="2x"
-              :style="{ color: '#565656' }"
+              class="action-icon"
             />
-            <div>會員中心</div>
+            <div class="action-title">會員中心</div>
           </router-link>
         </li>
         <li class="nav-item">
@@ -292,7 +298,7 @@
               <font-awesome-icon
                 :icon="['fas', 'heart']"
                 size="2x"
-                :style="{ color: '#565656' }"
+                class="action-icon"
               />
               <span
                 class="badge badge-pill badge-danger"
@@ -300,7 +306,7 @@
                 >{{ favorites.length }}</span
               >
             </div>
-            <div>我的收藏</div>
+            <div class="action-title">我的收藏</div>
           </router-link>
         </li>
         <li class="nav-item">
@@ -312,7 +318,7 @@
               <font-awesome-icon
                 :icon="['fas', 'shopping-cart']"
                 size="2x"
-                :style="{ color: '#565656' }"
+                class="action-icon"
               />
               <span
                 class="badge badge-pill badge-danger"
@@ -320,11 +326,12 @@
                 >{{ totalQtyInCarts }}</span
               >
             </div>
-            <div>購物車</div>
+            <div class="action-title">購物車</div>
           </router-link>
         </li>
       </ul>
     </div>
+    <!-- display right navbar(action buttons) part under md screen end -->
   </div>
 </template>
 
@@ -545,6 +552,21 @@ export default {
       // this font-size is for font-awesome-icon
       font-size: 0.75rem;
       width: 100%;
+    }
+    .action-icon {
+      color: #808080;
+    }
+    .action-title {
+      color: #808080;
+      //color: #565656;
+    }
+    .router-link-active {
+      .action-icon {
+        color: white;
+      }
+      .action-title {
+        color: white;
+      }
     }
   }
 
